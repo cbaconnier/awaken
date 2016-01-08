@@ -109,15 +109,15 @@ Ken.prototype.create = function () {
     this.spriteAttack = this.game.add.sprite(this.x, this.y, 'attack');
     this.smoothed = false;
 
-
     /** physics **/
-        //this.game.physics.arcade.enable([this.sprite]);
-    this.game.physics.p2.enable(this);
+    this.enableBody = true;
+    this.physicsBodyType = Phaser.Physics.P2JS;
+    this.game.physics.p2.enable(this, false);
     this.body.fixedRotation = true;
 
     /** collisions **/
     this.body.setCircle(28);
-    this.body.collideWorldBounds = true;
+    //this.body.collideWorldBounds = true;
     this.body.setCollisionGroup(this.game.entitiesCollisions);
     this.body.collides(this.game.entitiesCollisions);
 
@@ -402,6 +402,15 @@ Ken.prototype.checkOverlap = function (body1, body2) {
 
 Ken.prototype.disco = function () {
     if (this.isFunky) this.tint = Math.random() * 0xfffff;
+};
+
+
+Ken.prototype.resetCollisions = function (){
+    //this.game.physics.p2.enable(this);
+    this.body.setCircle(28);
+    this.body.setCollisionGroup(this.game.entitiesCollisions);
+    this.body.collides(this.game.entitiesCollisions);
+    console.log("testff");
 };
 
 Ken.prototype.debugCollisions = function () {

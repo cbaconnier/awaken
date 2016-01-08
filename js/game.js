@@ -14,32 +14,53 @@
         },
 
         create: function () {
+
+            //bug fix with the fullscreen... When chrome (also others nav?) quit the fullscreen mode, we have to trigger manually the event to make it work
+            if (document.addEventListener)
+            {
+                var self = this;
+                document.addEventListener('webkitfullscreenchange', function(){
+                    self.exitHandler();
+                }, false);
+                document.addEventListener('mozfullscreenchange', function(){
+                    self.exitHandler();
+                }, false);
+                document.addEventListener('fullscreenchange', function(){
+                    self.exitHandler();
+                }, false);
+                document.addEventListener('MSFullscreenChange', function(){
+                    self.exitHandler();
+                }, false);
+            }
+
+
             this.input.keyboard.addKey(Phaser.Keyboard.ESC).onDown.add(this.onInputDown, this);
-            this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
             this.input.keyboard.addKey(Phaser.Keyboard.F).onDown.add(this.goFullscreen, this);
 
 
             this.game.stage.backgroundColor = '#333';
-            //this.game.stage.backgroundColor = '#fff';
 
             this.game.physics.startSystem(Phaser.Physics.P2JS);
-            this.game.physics.p2.restitution = 0.8;
             this.game.physics.p2.setImpactEvents(true);
-            this.game.world.setBounds(0,12,800, 595);
-            this.game.physics.p2.setBoundsToWorld(true, true, true, true, true); //set borders(left/right/up/down) collidable
+            this.game.physics.p2.restitution = 0.8;
+            this.game.world.setBounds(0,12,800, 595);//set borders(left/right/up/down) collidable
+            //this.game.physics.p2.setBoundsToWorld(true, true, true, true, true);
 
+
+
+            this.game.entitiesCollisions = this.game.physics.p2.createCollisionGroup();
+            this.game.physics.p2.updateBoundsCollisionGroup();
+
+            this.game.debugCollisions = false;
 
             this.enemiesTimer = this.game.time.create(false);
             this.enemiesTimer.start();
 
 
-            this.game.entitiesCollisions = this.game.physics.p2.createCollisionGroup();
-            this.game.debugCollisions = false;
-
-
             this.game.enemyFactory = new ns.EnemyFactory();
             this.game.effects = this.game.add.group();
             this.game.entities = this.game.add.group();
+
             this.game.effects.z = 0;
             this.game.entities.z = 5;
 
@@ -60,6 +81,7 @@
             this.game.ui.update();
             this.game.entities.sort();
             this.nextLevel();
+
         },
 
         render: function (){
@@ -136,16 +158,36 @@
         },
 
         goFullscreen: function(){
-
+           // this.game.paused = true;
             if (this.game.scale.isFullScreen)
             {
+                console.log(this.game.ken);
                 this.game.scale.stopFullScreen();
+
+                //this.game.scale.fullScreenChange();
+
+
             }
             else
             {
+                console.log(this.game.physics.p2);
+                this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
                 this.game.scale.startFullScreen(false);
             }
-        }
+            //this.game.paused = false;
+        },
+
+        exitHandler: function(){
+            if (document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement !== null)
+            {
+                /* Run code on exit */
+                this.game.world.setBounds(0,12,800, 595,true,true,true,true,false);//set borders(left/right/up/down) collidable
+                this.game.physics.p2.updateBoundsCollisionGroup();
+
+                this.game.entitiesCollisions = this.game.physics.p2.createCollisionGroup();
+                this.game.entities.callAll("resetCollisions");
+            }
+        },
 
 
     };

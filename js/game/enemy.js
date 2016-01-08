@@ -11,7 +11,6 @@ var WorstEnemyEver = function (game, x, y, parameters, type) {
     //this.game = game;
     this.factor = Math.round(Math.random() * (4-1)+1);
     this.init(parameters[type]);
-    console.log(parameters[type]);
     this.create();
 };
 
@@ -44,12 +43,16 @@ WorstEnemyEver.prototype.create = function(difficultyFactor){
 
 
     /** physics **/
-    this.game.physics.p2.enable(this);
-    this.body.collideWorldBounds = true;
-    this.body.fixedRotation = true;
+   // this.game.physics.p2.enable(this);
+   // this.body.collideWorldBounds = true;
+   //
 
     /** collisions **/
-    this.body.setCircle(4*(this.factor));
+    this.enableBody = true;
+    this.physicsBodyType = Phaser.Physics.P2JS;
+    this.game.physics.p2.enable(this, false);
+    this.body.setRectangle(4*(this.factor));
+    this.body.fixedRotation = true;
     this.body.setCollisionGroup(this.game.entitiesCollisions);
     this.body.collides(this.game.entitiesCollisions);
 
@@ -303,6 +306,10 @@ WorstEnemyEver.prototype.objectsDistance = function(object, destination){
     return dist
 };
 
+WorstEnemyEver.prototype.resetCollisions = function (){
+    this.body.setCollisionGroup(this.game.entitiesCollisions);
+    this.body.collides(this.game.entitiesCollisions);
+};
 
 WorstEnemyEver.prototype.debugCollisions = function(){
     if(this.game.debugCollisions){
