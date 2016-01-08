@@ -86,11 +86,9 @@
 
             var location = this.popLocation();
             var enemy = this.game.entities.getFirstDead();
+
             if(this.game.entities.length < this.level.maxEnemies) {
-                var enemies = Object.keys(this.level.enemyParameters);
-                enemy = this.pickRandEnemy(enemies, location.x, location.y);
-                if(enemy !== null && enemy !== undefined)
-                    this.game.entities.add(enemy);
+                 this.createRandomEnemy(Object.keys(this.level.enemyParameters), location.x, location.y);
             }else{
                 if(enemy !== null && this.game.entities.countLiving() < enemy.maxEnemy){
                     enemy.reset(location.x,location.y);
@@ -102,32 +100,32 @@
 
         },
 
-        pickRandEnemy: function(enemies, x, y){
+        createRandomEnemy: function(enemies, x, y){
             if(enemies.length < 1) return null;
 
-            var enemy = enemies[ enemies.length * Math.random() << 0];
+            //pick random enemy
+            var enemy = enemies[ enemies.length * Math.random() << 0 ];
 
-            var nbAlive = 0;
+            var nbAlive = 0; //number of enemy alive: A type of enemies can have a limit
             this.game.entities.forEachAlive(function(e){
                 if(e.type == enemy) nbAlive++;
             });
 
             if (nbAlive < this.level.enemyParameters[enemy].maxEnemy){
-                return this.game.enemyFactory.getEnemy(enemy, this.game, x, y, this.level.enemyParameters);
+                //add a new enemy to the entities
+                this.game.entities.add(this.game.enemyFactory.getEnemy(enemy, this.game, x, y, this.level.enemyParameters));
             }else{
-
+                //In case, we have reach the limit of the picked one, we to look for an another one
                 var index = enemies.indexOf(enemy);
                 if (index > -1) {
                     enemies.splice(index, 1);
                 }
-                this.pickRandEnemy(enemies, x, y);
+                this.createRandomEnemy(enemies, x, y);
             }
         },
 
         popLocation: function(){
-
             var x = Math.random() * (this.game.world.width * 3) - this.game.world.width;
-
             var y = (x < 0 || x > this.game.world.height) ?
             Math.random()* (this.game.world.height) :  // X is outside of the screen -> random on the Y axe
                 Math.random() > 0.5 ? // X is inside of the screen -> we need to be above the top or below the bottom
