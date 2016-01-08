@@ -1,8 +1,42 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Phaser App">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1,  target-densitydpi=device-dpi" />
     <title>awaken</title>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+            background: #000;
+        }
+
+        #container{
+        }
+
+        #awaken-game{
+            padding: 0;
+            margin: auto;
+            display: block;
+            width: 1900px;
+            height: 940px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    </style>
 
     <!-- build:css main.min.css -->
     <link rel="stylesheet" href="css/main.css">
@@ -10,9 +44,9 @@
 </head>
 
 <body>
-
-<div id="awaken-game" class="game"></div>
-
+<div id="container">
+    <div id="awaken-game" class="game"></div>
+</div>
 
 <!-- build:js phaser.min.js-->
 <script src="phaser/phaser.min.js"></script>
