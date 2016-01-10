@@ -8,7 +8,7 @@ var Ken = function (game, parameters) {
     this.name = "Ken";
     this.game = game;
     this.parameters = parameters;
-    this.tint = '#FF00FF';
+    //this.tint = '#FF00FF';
     this.create();
 
 
@@ -71,7 +71,7 @@ Ken.prototype.create = function () {
         "DO YOU REQUIRE AID HUMAN?",
         "MAYBE YOU SHOULD LEARN TO PLAY",
         "JUDGE ME BY MY SIZE, DO YOU?",
-        "TELL TO THE DEV THAT THIS FUCKING GAME IS BUGGED",
+        "SAY TO THE DEV THAT THIS FUCKING GAME IS BUGGED",
         "DON'T YOU KNOW HOW TO PLAY?",
         "LET'S GET PISSED!",
         "ALL I EVER WANTED WAS TO STUDY",
@@ -188,6 +188,15 @@ Ken.prototype.create = function () {
 
     /*** Timers ***/
     this.game.time.events.loop(1000, this.setMessageAvailable, this); //Messages
+
+    /*** Audio ***/
+
+    this.fxHit = this.game.add.audio('fx_hit');
+    this.fxHit.allowMultiple = false;
+    this.fxHit.volume = 0.4;
+    this.fxAttack = this.game.add.audio('fx_attack');
+    this.fxAttack.allowMultiple = false;
+    this.fxAttack.volume = 0.4;
 
 
 };
@@ -351,14 +360,19 @@ Ken.prototype.animate = function () {
             }
 
             var self = this;
+            var hit = false;
             this.game.entities.forEachAlive(function (enemy) {
                 if (self.checkOverlap(self.spriteAttack, enemy) && enemy != self) {
                     //if(self.game.physics.arcade.overlap(self.spriteAttack, enemy.sprite)){
+                    self.fxHit.play();
+                    hit = true;
                     enemy.hit(Math.round(Math.random() * (self.maxDamage - self.minDamage) + self.minDamage));
                     self.score += enemy.scoreGiven;
                 }
             });
-
+            if(!hit){
+                this.fxAttack.play();
+            }
 
             this.animating = false;
             this.attacking = true;

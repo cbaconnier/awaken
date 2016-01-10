@@ -25,7 +25,7 @@
                         "Suspendisse malesuada ante sem, at ultrices nunc pellentesque quis. ",
                         "Vestibulum suscipit accumsan lorem, sit amet pharetra sem. Vivamus sed elementum risus"],
 
-                    enemiesToKill: 10,
+                    enemiesToKill: 25,
                     maxEnemies: 10,
                     minSpawnDelay: 250,
                     maxSpawnDelay: 500,
@@ -61,7 +61,7 @@
                 level_2: {
                     title: "Level 2",
                     description: ["blablabla"],
-                    enemiesToKill: 10,
+                    enemiesToKill: 25,
                     maxEnemies: 100,
                     minSpawnDelay: 250,
                     maxSpawnDelay: 500,
@@ -78,8 +78,8 @@
 
                     enemyParameters: {
                         spider:{
-                            maxEnemy: 100,
-                            health: 200,
+                            maxEnemy: 10,
+                            health: 20,
                             dmg: 50,
                             score: 200
                         }
@@ -108,7 +108,7 @@
                     enemyParameters: {
                         worm: {
                             maxEnemy: 100,
-                            health: 500,
+                            health: 1000,
                             dmg: 50,
                             score: 200
                         }
@@ -119,6 +119,9 @@
             };
 
         }
+
+
+
     };
 
     window['awaken'] = window['awaken'] || {};

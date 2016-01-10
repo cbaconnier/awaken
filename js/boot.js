@@ -2,6 +2,7 @@
     'use strict';
 
     function Boot() {
+        this.fxMusic = null;
     }
 
     Boot.prototype = {
