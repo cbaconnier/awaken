@@ -117,7 +117,6 @@ Ken.prototype.create = function () {
 
     /** collisions **/
     this.body.setCircle(28);
-    //this.body.collideWorldBounds = true;
     this.body.setCollisionGroup(this.game.entitiesCollisions);
     this.body.collides(this.game.entitiesCollisions);
 
@@ -363,7 +362,6 @@ Ken.prototype.animate = function () {
             var hit = false;
             this.game.entities.forEachAlive(function (enemy) {
                 if (self.checkOverlap(self.spriteAttack, enemy) && enemy != self) {
-                    //if(self.game.physics.arcade.overlap(self.spriteAttack, enemy.sprite)){
                     self.fxHit.play();
                     hit = true;
                     enemy.hit(Math.round(Math.random() * (self.maxDamage - self.minDamage) + self.minDamage));
@@ -420,11 +418,9 @@ Ken.prototype.disco = function () {
 
 
 Ken.prototype.resetCollisions = function (){
-    //this.game.physics.p2.enable(this);
     this.body.setCircle(28);
     this.body.setCollisionGroup(this.game.entitiesCollisions);
     this.body.collides(this.game.entitiesCollisions);
-    console.log("testff");
 };
 
 Ken.prototype.debugCollisions = function () {

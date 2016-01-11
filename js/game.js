@@ -45,7 +45,6 @@
             this.game.physics.p2.setImpactEvents(true);
             this.game.physics.p2.restitution = 0.8;
             this.game.world.setBounds(0,12,800, 595);//set borders(left/right/up/down) collidable
-            //this.game.physics.p2.setBoundsToWorld(true, true, true, true, true);
 
 
 
@@ -77,9 +76,6 @@
             if(!ns.Boot.fxMusic.isPlaying) ns.Boot.fxMusic.play();
             if(!ns.Boot.fxMusic.paused) ns.Boot.fxMusic.resume();
 
-
-            //this.game.sound.setDecodedCallback(this.fxMusic, start, this);
-            //this.fxMusic.play();
 
             this.game.events = new ns.Events(this.game);
             this.game.events.setEvents(this.level.events);
@@ -170,23 +166,6 @@
         },
 
 
-        updateEvents: function(){
-            //this.generateWind([this.game.entities]);
-            //this.events.generateSnow();
-            for(var i=0;i<this.events.length;i++){
-                this.events[i].update();
-            }
-        },
-
-
-
-        generateWind: function(groups){
-            for(var i=0; i < groups.length; i++){
-                groups[i].forEachAlive(function(sprite){
-                   sprite.body.x+=1;
-                });
-            }
-        },
 
 
 
@@ -214,7 +193,7 @@
                 this.game.entitiesCollisions = this.game.physics.p2.createCollisionGroup();
                 this.game.entities.callAll("resetCollisions");
             }
-        },
+        }
 
 
 

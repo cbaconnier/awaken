@@ -6,9 +6,6 @@ var WorstEnemyEver = function (game, x, y, parameters, type) {
     this.type = type;
 
 
-    //this.spider(game, x, y, parameters);
-
-    //this.game = game;
     this.factor = Math.round(Math.random() * (4-1)+1);
     this.init(parameters[type]);
     this.create();
@@ -38,14 +35,10 @@ WorstEnemyEver.prototype.init = function(parameters){
     this.isMovable = true;
 };
 
-WorstEnemyEver.prototype.create = function(difficultyFactor){
+WorstEnemyEver.prototype.create = function(){
 
 
 
-    /** physics **/
-   // this.game.physics.p2.enable(this);
-   // this.body.collideWorldBounds = true;
-   //
 
     /** collisions **/
     this.enableBody = true;
@@ -149,7 +142,6 @@ WorstEnemyEver.prototype.moveTo = function(destination, speed, maxTime){;
     //Z-index correction
     if(this.y > this.game.ken.y){
         this.z = this.game.ken.z+1;
-        //this.game.world.swap(this.game.ken, this);
     }else{
         this.z = this.game.ken.z-1;
     }
@@ -251,37 +243,11 @@ WorstEnemyEver.prototype.bleed = function(){
         this.blood.setYSpeed(50, -55);
     }
 
-    //this.resetBlood();
     this.blood.start(true, 500, null, 10);
-    //this.game.time.events.add(500, this.stopBloodMovement, this);
-   // this.game.time.events.add(2500, this.removeBlood, this);
+
 
 };
 
-WorstEnemyEver.prototype.resetBlood = function(){
-    var i = this.blood.children.length;
-    console.log(this.blood.children);
-    while (i--)
-    {
-        this.blood.children[i].body.moves = true;
-    }
-};
-
-WorstEnemyEver.prototype.stopBloodMovement = function(){
-    var i = this.blood.children.length;
-    while (i--)
-    {
-        this.blood.children[i].body.moves = false;
-    }
-};
-
-WorstEnemyEver.prototype.removeBlood = function(){
-    var i = this.blood.children.length;
-    while (i--)
-    {
-        this.blood.children[i].lifespan = Math.random() * (1000 + 500) - 500;
-    }
-};
 
 WorstEnemyEver.prototype.setAttackAvailable = function(){
     //overlaping
