@@ -25,7 +25,7 @@
                         "Suspendisse malesuada ante sem, at ultrices nunc pellentesque quis. ",
                         "Vestibulum suscipit accumsan lorem, sit amet pharetra sem. Vivamus sed elementum risus"],
 
-                    enemiesToKill: 25,
+                    enemiesToKill: 5,
                     maxEnemies: 10,
                     minSpawnDelay: 250,
                     maxSpawnDelay: 500,
@@ -35,8 +35,8 @@
                     },
 
                     events: {
-                        snow: {},
-                        wind: {}
+                        wind: {},
+                        snow: {}
                     },
 
                     playerParameters: {

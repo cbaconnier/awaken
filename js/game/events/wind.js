@@ -15,7 +15,7 @@ Wind.prototype.create = function(){
 
 
 Wind.prototype.update = function(snow, entities){
-    snow.changeWindDirection(200);
+    if(snow !== undefined) snow.changeWindDirection(200);
 
     entities.forEachAlive(function(sprite){
         sprite.body.x+=1;

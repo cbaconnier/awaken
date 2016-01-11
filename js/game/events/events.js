@@ -10,12 +10,12 @@
 
 
         update: function(){
-            this.snow.update();
-            this.wind.update(this.snow, this.game.entities);
+            if(this.snow !== undefined) this.snow.update();
+            if(this.wind !== undefined) this.wind.update(this.snow, this.game.entities);
         },
 
         setEvents: function(eventsList, params){
-
+            if(eventsList === undefined) return;
             var l = Object.keys(eventsList);
 
             for(var i=0; i< l.length;i++){

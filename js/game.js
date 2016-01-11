@@ -58,7 +58,7 @@
             this.enemiesTimer.start();
 
 
-            this.game.enemyFactory = new ns.EnemyFactory();
+            this.game.enemies = new ns.Enemies();
             this.game.effects = this.game.add.group();
             this.game.entities = this.game.add.group();
 
@@ -81,7 +81,7 @@
             //this.game.sound.setDecodedCallback(this.fxMusic, start, this);
             //this.fxMusic.play();
 
-            this.game.events = new ns.Event(this.game);
+            this.game.events = new ns.Events(this.game);
             this.game.events.setEvents(this.level.events);
 
         },
@@ -147,7 +147,7 @@
 
             if (nbAlive < this.level.enemyParameters[enemy].maxEnemy){
                 //add a new enemy to the entities
-                this.game.entities.add(this.game.enemyFactory.getEnemy(enemy, this.game, x, y, this.level.enemyParameters));
+                this.game.entities.add(this.game.enemies.getEnemy(enemy, this.game, x, y, this.level.enemyParameters));
             }else{
                 //In case, we have reach the limit of the picked one, we to look for an another one
                 var index = enemies.indexOf(enemy);
