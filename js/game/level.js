@@ -34,6 +34,11 @@
                         return levels.level_2;
                     },
 
+                    events: {
+                        snow: {},
+                        wind: {}
+                    },
+
                     playerParameters: {
                         health: 200,
                         minDmg: 3,
