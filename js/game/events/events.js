@@ -1,12 +1,12 @@
 (function() {
     'use strict';
 
-    function Event(game) {
+    function Events(game) {
         this.game = game;
     }
 
 
-    Event.prototype = {
+    Events.prototype = {
 
 
         update: function(){
@@ -31,5 +31,5 @@
     };
 
     window['awaken'] = window['awaken'] || {};
-    window['awaken'].Event = Event;
+    window['awaken'].Events = Events;
 }());
