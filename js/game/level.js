@@ -59,13 +59,13 @@
 
                     enemyParameters: {
                         spider: {
-                            maxEnemy: 2,
+                            maxEnemy: 0,
                             health: 2,
                             dmg: 5,
                             score: 20
                         },
                         worm: {
-                            maxEnemy: 1,
+                            maxEnemy: 0,
                             health: 4,
                             dmg: 2,
                             score: 20

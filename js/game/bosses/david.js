@@ -1,20 +1,41 @@
 
 var David = function (game, x, y, parameters) {
 
-    Boss.call(this, game,250, -250, parameters, 'david');
+    Boss.call(this, game,100, 25, parameters, 'david');
 
     this.animationSpeed = 6; //frame rate
     this.smoothed = false;
 
-    console.log("RELEASE THE KRAKEN");
     this.frameFrontDown = 0;
     this.frameFrontClutch = 1;
     this.frameProfilDown = 2;
     this.frameProfilClutch = 3;
 
     this.frame = this.frameFrontDown;
-    this.scale.x = 13;
-    this.scale.y = 13;
+    this.scale.x = 6;//13;
+    this.scale.y = 6;//13;
+
+        // http://jsfiddle.net/lewster32/Kc4N2/2/
+    var poly = new Phaser.Polygon();
+    poly.setTo([ new Phaser.Point(65-102, 140-20), //  X-Y top left
+                new Phaser.Point(140-102, 140-20), //  X-Y top right
+                new Phaser.Point(140-102, 210-20), //  X-Y bottom right
+                new Phaser.Point(65-102, 210-20) ]); // X-Y bottom left
+
+    this.attackZone = this.game.add.graphics(0, 0);
+    this.attackZone.beginFill(0xFF33ff);
+    this.attackZone.alpha = .2;
+    this.attackZone.drawPolygon(poly.points);
+    this.attackZone.endFill();
+
+
+    //this.addChild(zone);
+
+
+    this.attackZone.renderable = true;
+    //this.attackZone.physicsBodyType = Phaser.Physics.P2JS;
+    //this.game.physics.p2.enable(this.attackZone, true);
+
 
     /*** Timers ***/
         //Attack
@@ -28,6 +49,14 @@ var David = function (game, x, y, parameters) {
 
 David.prototype = Object.create(Boss.prototype);
 David.prototype.constructor = Boss;
+
+
+
+David.prototype.update = function() {
+    console.log(this.attackZone.x);
+    this.attackZone.x = this.x;
+    this.attackZone.y = this.y;
+};
 
 
 David.prototype.attack = function(){
@@ -56,10 +85,22 @@ David.prototype.moveTo = function(destination, speed, maxTime){
         speed = this.objectsDistance(this, destination) / (maxTime / 1000);
     }
 
-    if(this.dir==0)this.body.moveUp(speed);
-    if(this.dir==2)this.body.moveDown(speed);
-    if(this.dir==1)this.body.moveRight(speed);
-    if(this.dir==3)this.body.moveLeft(speed);
+    if(this.dir==0){
+        this.body.moveUp(speed);
+      //  this.attackZone.moveUp(speed);
+    }
+    if(this.dir==2){
+        this.body.moveDown(speed);
+       // this.attackZone.moveDown(speed);
+    }
+    if(this.dir==1){
+        this.body.moveRight(speed);
+        //this.attackZone.moveRight(speed);
+    }
+    if(this.dir==3){
+        this.body.moveLeft(speed);
+        //this.attackZone.moveLeft(speed);
+    }
 };
 
 

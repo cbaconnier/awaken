@@ -14,6 +14,9 @@ Boss.prototype.constructor = Boss;
 
 
 
+Boss.prototype.update = function(){
+    this.game.debug.body(this);
+};
 
 Boss.prototype.init = function(parameters) {
     this.maxEnemy = parameters.maxEnemy;
@@ -25,12 +28,17 @@ Boss.prototype.init = function(parameters) {
 
 Boss.prototype.create = function(){
     this.physicsBodyType = Phaser.Physics.P2JS;
-    this.game.physics.p2.enable(this, false);
+    this.game.physics.p2.enable(this, true);
 
     this.body.setZeroDamping();
     this.body.fixedRotation = true;
+    this.body.clearShapes();
 
-
+    // -+ en bas  à gauche X,Y
+    // -0 en haut à gauche
+    // +0 en haut à droite
+    // ++ en bas  à droite
+   // this.body.addPolygon({}, [[-60, 290], [-60, 150], [30, 150], [30, 290]] );
 
     /** Blood particles **/
     this.blood = this.game.add.emitter(0, 0, 50);

@@ -149,10 +149,8 @@
             if(boss !== null && nbBossesAlive < boss.maxBoss) {
                 boss.reset(location.x,location.y);
                 boss.init(this.level.bossParameters[boss.type]);
-                console.log("1");
             }else if(nbBossesAlive < this.level.maxBosses){
                 this.createRandomBoss(Object.keys(this.level.bossParameters), location.x, location.y);
-                console.log("2");
             }
 
 
@@ -162,7 +160,6 @@
 
         createRandomBoss: function(bosses, x, y){
             if(bosses.length < 1) return null;
-            console.log("tick");
             //pick random boss
             var boss = bosses[ bosses.length * Math.random() << 0 ];
 
