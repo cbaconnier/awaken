@@ -32,7 +32,6 @@ David.prototype.constructor = Boss;
 
 David.prototype.attack = function(){
     this.moveTo({x: this.game.ken.x, y: this.game.ken.y});
-
     this.attackTimer.add(Math.random() * (4000 - 3000)+4000, this.attack, this);
 };
 

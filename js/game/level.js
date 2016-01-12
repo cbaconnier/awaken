@@ -76,7 +76,7 @@
 
                 level_2: {
                     title: "Level 2",
-                    description: ["blablabla"],
+                    description: "blablabla",
                     enemiesToKill: 25,
                     maxEnemies: 100,
                     minSpawnDelay: 250,
@@ -110,7 +110,7 @@
 
                 level_3: {
                     title: "Level 3",
-                    description: ["mouhahahaha"],
+                    description: "mouhahahaha",
                     enemiesToKill: 100,
                     maxEnemies: 100,
                     minSpawnDelay: 100,
@@ -138,7 +138,7 @@
 
                 level_4: {
                     title: "Level 4",
-                    description: ["HO NO"],
+                    description: "HO NO",
                     enemiesToKill: 1,
                     maxEnemies: 100,
                     maxBosses: 1,
