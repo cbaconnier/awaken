@@ -1,7 +1,7 @@
 
-var Spider = function (game, x, y, parameters) {
+var Spider = function (game, parameters) {
 
-    WorstEnemyEver.call(this, game, x, y, parameters, 'spider');
+    WorstEnemyEver.call(this, game, parameters, 'spider');
 
     this.animationSpeed = 6; //frame rate
     this.smoothed = false;

@@ -1,7 +1,7 @@
 
-var David = function (game, x, y, parameters) {
+var David = function (game, parameters) {
 
-    Boss.call(this, game,100, 25, parameters, 'david');
+    Boss.call(this, game, parameters, 'david');
 
     this.animationSpeed = 6; //frame rate
     this.smoothed = false;

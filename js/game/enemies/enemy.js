@@ -1,8 +1,9 @@
 
 
-var WorstEnemyEver = function (game, x, y, parameters, type) {
+var WorstEnemyEver = function (game, parameters, type) {
 
-    Phaser.Sprite.call(this, game, x, y, type);
+    var location = this.popLocation();
+    Phaser.Sprite.call(this, game, location.x, location.y, type);
     this.type = type;
 
 
@@ -281,3 +282,13 @@ WorstEnemyEver.prototype.checkOverlap = function (body1, body2) {
 
 };
 
+WorstEnemyEver.prototype.popLocation = function(){
+    var x = Math.random() * (this.game.world.width * 3) - this.game.world.width;
+    var y = (x < 0 || x > this.game.world.height) ?
+    Math.random()* (this.game.world.height) :  // X is outside of the screen -> random on the Y axe
+        Math.random() > 0.5 ? // X is inside of the screen -> we need to be above the top or below the bottom
+        Math.random() - 128 :
+        Math.random() * 128 + this.game.world.height;
+    return {x:x,y:y};
+
+};

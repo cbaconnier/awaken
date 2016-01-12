@@ -1,9 +1,13 @@
 
-var Boss = function (game, x, y, parameters, type) {
-
-    Phaser.Sprite.call(this, game, x, y, type);
-    this.type = type;
+var Boss = function (game, parameters, type) {
     this.game = game;
+    var location = this.popLocation();
+    location.x = 100;
+    location.y = 150;
+    console.log(parameters);
+    Phaser.Sprite.call(this, game, location.x, location.y, type);
+    this.type = type;
+
 
     this.init(parameters[type]);
     this.create();
@@ -103,4 +107,17 @@ Boss.prototype.objectsDistance = function(object, destination){
     var dy = object.y - destination.y;
     var dist = Math.sqrt(dx * dx + dy * dy);     //pythagoras (get the distance to each other)
     return dist
+};
+
+
+
+Boss.prototype.popLocation = function(){
+    var x = Math.random() * (this.game.world.width * 3) - this.game.world.width;
+    var y = (x < 0 || x > this.game.world.height) ?
+    Math.random()* (this.game.world.height) :  // X is outside of the screen -> random on the Y axe
+        Math.random() > 0.5 ? // X is inside of the screen -> we need to be above the top or below the bottom
+        Math.random() - 128 :
+        Math.random() * 128 + this.game.world.height;
+    return {x:x,y:y};
+
 };
