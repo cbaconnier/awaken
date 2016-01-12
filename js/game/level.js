@@ -20,10 +20,10 @@
 
                 level_1: {
                     title: "Level 1",
-                    description: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-                        "Suspendisse posuere augue aliquam risus elementum, eu accumsan orci ullamcorper. ",
-                        "Suspendisse malesuada ante sem, at ultrices nunc pellentesque quis. ",
-                        "Vestibulum suscipit accumsan lorem, sit amet pharetra sem. Vivamus sed elementum risus"],
+                    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n" +
+                                "Suspendisse posuere augue aliquam risus elementum, eu accumsan orci ullamcorper. \n" +
+                                "Suspendisse malesuada ante sem, at ultrices nunc pellentesque quis. \n" +
+                                "Vestibulum suscipit accumsan lorem, sit amet pharetra sem. Vivamus sed elementum risus",
 
                     enemiesToKill: 15,
                     maxEnemies: 100,
@@ -83,6 +83,11 @@
                     maxSpawnDelay: 500,
                     nextLevel: function () {
                         return levels.level_3;
+                    },
+
+                    events: {
+                         wind: {},
+                         snow: {}
                     },
 
                     playerParameters: {

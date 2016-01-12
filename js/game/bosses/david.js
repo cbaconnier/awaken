@@ -32,6 +32,7 @@ David.prototype.constructor = Boss;
 
 David.prototype.attack = function(){
     this.moveTo({x: this.game.ken.x, y: this.game.ken.y});
+
     this.attackTimer.add(Math.random() * (4000 - 3000)+4000, this.attack, this);
 };
 
@@ -39,7 +40,7 @@ David.prototype.attack = function(){
 David.prototype.moveTo = function(destination, speed, maxTime){
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
-    this.speed = 200;
+    this.speed = 400;
     speed = speed || this.speed;
     maxTime = maxTime || 0;
 

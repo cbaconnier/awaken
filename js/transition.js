@@ -3,22 +3,12 @@
 
     function Transition() {}
 
-    var line = [];
-
-
-
 
     Transition.prototype = {
         init: function(level){
             this.level = level;
-
             this.charIndex = 0;
-            this.lineIndex = 0;
-
             this.charDelay = 20;
-            this.lineDelay = 400;
-
-
         },
 
         create: function () {
@@ -35,55 +25,18 @@
             this.description = this.game.add.bitmapText(50, this.game.height * 0.5, 'gem', '', 16);
             this.description.anchor.set(0);
 
-            this.nextLine();
+            this.nextChar();
 
             this.input.onDown.add(this.onDown, this);
             this.continue = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         },
 
 
-        nextLine: function(){
-            if (this.lineIndex === this.level.description.length)
-            {
-                //  We're finished
-                return;
-            }
-
-            //  Split the current line on spaces, so one word per array element
-            line = this.level.description[this.lineIndex].split('');
-
-            //  Reset the word index to zero (the first word in the line)
-            this.charIndex = 0;
-
-            //  Call the 'nextWord' function once for each word in the line (line.length)
-            //this.timer = this.game.time.events.repeat(this.charDelay, line.length, this.nextChar, this);
-            this.timer.add(this.charDelay, this.nextChar, this);
-            //  Advance to the next line
-            this.lineIndex++;
-        },
-
         nextChar: function(){
-            //  Add the next word onto the text string, followed by a space
-            this.description.text = this.description.text.concat(line[this.charIndex] + "");
-
-            //  Advance the word index to the next word in the line
+            if(this.charIndex >= this.level.description.length) return;
+            this.description.text = this.description.text.concat(this.level.description[this.charIndex]);
             this.charIndex++;
-
-            //  Last word?
-            if (this.charIndex === line.length)
-            {
-                //  Add a carriage return
-                this.description.text = this.description.text.concat("\n");
-
-                //  Get the next line after the lineDelay amount of ms has elapsed
-                this.game.time.events.add(this.lineDelay, this.nextLine, this);
-
-                if(this.lineIndex == this.level.description.length){
-                    this.textLoaded = true;
-                }
-            }else{
-                this.timer.add(this.charDelay, this.nextChar, this);
-            }
+            this.timer.add(this.charDelay, this.nextChar, this);
         },
 
         update: function () {
@@ -93,7 +46,7 @@
                 }else{
                     this.timer.stop();
                     this.description.text = '';
-                    this.description.text = this.level.description.join("\n");
+                    this.description.text = this.level.description;
                     this.textLoaded = true;
                 }
             }
