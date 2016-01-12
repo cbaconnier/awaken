@@ -25,8 +25,9 @@
                         "Suspendisse malesuada ante sem, at ultrices nunc pellentesque quis. ",
                         "Vestibulum suscipit accumsan lorem, sit amet pharetra sem. Vivamus sed elementum risus"],
 
-                    enemiesToKill: 5,
-                    maxEnemies: 10,
+                    enemiesToKill: 15,
+                    maxEnemies: 100,
+                    maxBosses: 100,
                     minSpawnDelay: 250,
                     maxSpawnDelay: 500,
 
@@ -35,8 +36,8 @@
                     },
 
                     events: {
-                        wind: {},
-                        snow: {}
+                       // wind: {},
+                       // snow: {}
                     },
 
                     playerParameters: {
@@ -46,15 +47,25 @@
                         attackSize: 1
                     },
 
+                    bossParameters: {
+                        david: {
+                            maxBoss: 1,
+                            health: 100000,
+                            dmg: 5000,
+                            score: 4242424242
+                        }
+                    },
+
+
                     enemyParameters: {
                         spider: {
-                            maxEnemy: 5,
+                            maxEnemy: 2,
                             health: 2,
                             dmg: 5,
                             score: 20
                         },
                         worm: {
-                            maxEnemy: 10,
+                            maxEnemy: 1,
                             health: 4,
                             dmg: 2,
                             score: 20
@@ -95,7 +106,7 @@
                 level_3: {
                     title: "Level 3",
                     description: ["mouhahahaha"],
-                    enemiesToKill: 1,
+                    enemiesToKill: 100,
                     maxEnemies: 100,
                     minSpawnDelay: 100,
                     maxSpawnDelay: 250,
@@ -107,7 +118,7 @@
                         health: 1600,
                         minDmg: 300,
                         maxDmg: 700,
-                        attackSize: 5
+                        attackSize: 4
                     },
 
                     enemyParameters: {
@@ -116,6 +127,44 @@
                             health: 1000,
                             dmg: 50,
                             score: 200
+                        }
+                    }
+                },
+
+                level_4: {
+                    title: "Level 4",
+                    description: ["HO NO"],
+                    enemiesToKill: 1,
+                    maxEnemies: 100,
+                    maxBosses: 1,
+                    minSpawnDelay: 100,
+                    maxSpawnDelay: 250,
+                    nextLevel: function () {
+                        return null;
+                    },
+
+                    playerParameters: {
+                        health: 16000,
+                        minDmg: 3000,
+                        maxDmg: 7000,
+                        attackSize: 5
+                    },
+
+                    bossParameters: {
+                        david: {
+                            maxBoss: 1,
+                            health: 100000,
+                            dmg: 5000,
+                            score: 4242424242
+                        }
+                    },
+
+                    enemyParameters: {
+                        worm: {
+                            maxEnemy: 100,
+                            health: 15000,
+                            dmg: 500,
+                            score: 2000
                         }
                     }
                 }

@@ -21,11 +21,16 @@
         },
 
         loadResources: function () {
-            //sprites
+            //player
             this.load.spritesheet('ken', 'assets/player/ken.png', 64, 64, 15);
             this.load.spritesheet('attack', 'assets/player/attack.png', 64, 80, 3);
+
+            //ennemies
             this.load.spritesheet('worm', 'assets/enemies/worm.png', 32, 32, 20);
             this.load.spritesheet('spider', 'assets/enemies/spider.png', 32, 32, 32);
+
+            //boss
+            this.load.spritesheet('david', 'assets/bosses/david.png', 32, 64, 4);
 
             //ui
             this.load.image('gear', 'assets/ui/gear.png');

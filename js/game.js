@@ -53,11 +53,11 @@
 
             this.game.debugCollisions = false;
 
-            this.enemiesTimer = this.game.time.create(false);
-            this.enemiesTimer.start();
+
 
 
             this.game.enemies = new ns.Enemies();
+            this.game.bosses = new ns.Bosses();
             this.game.effects = this.game.add.group();
             this.game.entities = this.game.add.group();
 
@@ -71,7 +71,13 @@
             this.game.entities.add(this.game.ken);
             this.game.ui = new ns.UI(this.game);
 
+            this.enemiesTimer = this.game.time.create(false);
+            this.enemiesTimer.start();
             this.addEnemy();
+
+            this.bossesTimer = this.game.time.create(false);
+            this.bossesTimer.start();
+            this.addBoss();
 
             if(!ns.Boot.fxMusic.isPlaying) ns.Boot.fxMusic.play();
             if(!ns.Boot.fxMusic.paused) ns.Boot.fxMusic.resume();
@@ -87,7 +93,7 @@
         update: function () {
             this.game.ui.update();
             this.game.events.update();
-            this.game.entities.sort();
+            this.game.entities.sort("y");
             this.nextLevel();
 
         },
@@ -112,15 +118,102 @@
             this.game.state.start('over');
         },
 
+        //todo : in bosses
+        addBoss: function(){
+            var location = this.popLocation();
+
+
+            var self = this;
+            var boss = null;
+            var nbBossesAlive = 0;
+
+            this.game.entities.filter(function(child) {
+
+                if(self.game.bosses.getBossesList().indexOf(child.type) != -1){
+
+                    //retrive the first boss dead
+                    if (boss === null  && !child.alive) {
+                        boss = child;
+                    }
+
+                    //count the number of children(bosses) alive of this type
+                    if (child.alive && boss !== null) {
+                        if (boss !== null && child.type == enemy.type) nbBossesAlive++;
+                    }
+
+                }
+                return child;
+
+            }, true);
+
+            if(boss !== null && nbBossesAlive < boss.maxBoss) {
+                boss.reset(location.x,location.y);
+                boss.init(this.level.bossParameters[boss.type]);
+                console.log("1");
+            }else if(nbBossesAlive < this.level.maxBosses){
+                this.createRandomBoss(Object.keys(this.level.bossParameters), location.x, location.y);
+                console.log("2");
+            }
+
+
+            this.bossesTimer.add(Math.random() * (this.level.maxSpawnDelay - this.level.minSpawnDelay)+this.level.minSpawnDelay, this.addBoss, this);
+
+        },
+
+        createRandomBoss: function(bosses, x, y){
+            if(bosses.length < 1) return null;
+            console.log("tick");
+            //pick random boss
+            var boss = bosses[ bosses.length * Math.random() << 0 ];
+
+            var nbAlive = 0; //number of boss alive: A type of enemies can have a limit
+            this.game.entities.forEachAlive(function(e){
+                if(e.type == boss) nbAlive++;
+            });
+
+            if (nbAlive < this.level.bossParameters[boss].maxBoss){
+                //add a new boss to the entities
+                this.game.entities.add(this.game.bosses.getBoss(boss, this.game, x, y, this.level.bossParameters));
+            }else{
+                //In case, we have reach the limit of the picked one, we to look for an another one
+                var index = bosses.indexOf(boss);
+                if (index > -1) {
+                    bosses.splice(index, 1);
+                }
+                this.createRandomBoss(bosses, x, y);
+            }
+        },
+
+        //todo : in enemies
         addEnemy: function(){
 
             var location = this.popLocation();
-            var enemy = this.game.entities.getFirstDead();
 
             if(this.game.entities.length < this.level.maxEnemies) {
                  this.createRandomEnemy(Object.keys(this.level.enemyParameters), location.x, location.y);
             }else{
-                if(enemy !== null && this.game.entities.countLiving() < enemy.maxEnemy){
+
+                var enemy = null;
+                var self = this;
+                var nbEnemyAlive = 0;
+                this.game.entities.filter(function(child) {
+
+                    if (self.game.enemies.getEnemiesList().indexOf(child.type) != -1 ){
+
+                        //retrive the first enemy dead
+                        if (enemy === null  && !child.alive) {
+                            enemy = child;
+                        }
+
+                        //count the number of children alive of this type
+                        if (child.alive && enemy !== null) {
+                            if (enemy !== null && child.type == enemy.type) nbEnemyAlive++;
+                        }
+                    }
+                    return child;
+                }, false);
+
+                if(enemy !== null && nbEnemyAlive <= enemy.maxEnemy){
                     enemy.reset(location.x,location.y);
                     enemy.init(this.level.enemyParameters[enemy.type]);
                 }
@@ -130,6 +223,7 @@
 
         },
 
+        //todo : in enemies
         createRandomEnemy: function(enemies, x, y){
             if(enemies.length < 1) return null;
 

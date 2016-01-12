@@ -1,32 +1,65 @@
 
 var David = function (game, x, y, parameters) {
 
-    WorstEnemyEver.call(this, game, x, y, parameters, 'david');
+    Boss.call(this, game,250, -250, parameters, 'david');
 
     this.animationSpeed = 6; //frame rate
     this.smoothed = false;
 
+    console.log("RELEASE THE KRAKEN");
+    this.frameFrontDown = 0;
+    this.frameFrontClutch = 1;
+    this.frameProfilDown = 2;
+    this.frameProfilClutch = 3;
 
-    //walking animations
-    this.animations.add('walk_down', [1,2,3,4,0], this.animationSpeed, false);
-    this.animations.add('walk_up', [9,10,11,12,8], this.animationSpeed, false);
-    this.animations.add('walk_right', [17,18,19,16], this.animationSpeed, false);
-    this.animations.add('walk_left', [25,26,27,24], this.animationSpeed, false);
+    this.frame = this.frameFrontDown;
+    this.scale.x = 13;
+    this.scale.y = 13;
 
-    //attacking animations
-    this.animations.add('attack_down', [5,6], this.animationSpeed, false);
-    this.animations.add('attack_up', [13,14], this.animationSpeed, false);
-    this.animations.add('attack_right', [21,22], this.animationSpeed, false);
-    this.animations.add('attack_left', [29,30], this.animationSpeed, false);
+    /*** Timers ***/
+        //Attack
+    this.attackTimer = this.game.time.create(false);
+    this.attackTimer.start();
+    this.attackTimer.add(Math.random() * (4000 - 3000)+4000, this.attack, this);
 
-    //this.factor = Math.round(Math.random() * (4-1)+1);
-    //this.init(parameters.spider);
-    //this.create();
+
 };
 
-David.prototype = Object.create(WorstEnemyEver.prototype);
-David.prototype.constructor = David;
+
+David.prototype = Object.create(Boss.prototype);
+David.prototype.constructor = Boss;
 
 
-//Overide create
-//Overide init
+David.prototype.attack = function(){
+    this.moveTo({x: this.game.ken.x, y: this.game.ken.y});
+    this.attackTimer.add(Math.random() * (4000 - 3000)+4000, this.attack, this);
+};
+
+
+David.prototype.moveTo = function(destination, speed, maxTime){
+    this.body.velocity.x = 0;
+    this.body.velocity.y = 0;
+    this.speed = 200;
+    speed = speed || this.speed;
+    maxTime = maxTime || 0;
+
+
+    var radians = Math.atan2(destination.y - this.y, destination.x - this.x);
+
+    if(radians <= -0.79 || radians <=  0.79) this.dir = 1; //east
+    if(radians <= -2.4  || radians >=  2.4 ) this.dir = 3; //west
+    if(radians <=  2.4  && radians >=  0.79) this.dir = 2; //south
+    if(radians >= -2.4  && radians <= -0.79) this.dir = 0; //north
+
+    if (maxTime > 0) {
+        //  We know how many pixels we need to move, but how fast?
+        speed = this.objectsDistance(this, destination) / (maxTime / 1000);
+    }
+
+    if(this.dir==0)this.body.moveUp(speed);
+    if(this.dir==2)this.body.moveDown(speed);
+    if(this.dir==1)this.body.moveRight(speed);
+    if(this.dir==3)this.body.moveLeft(speed);
+};
+
+

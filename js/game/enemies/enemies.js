@@ -6,6 +6,10 @@
 
     Enemies.prototype = {
 
+        getEnemiesList: function(){
+            return ['worm', 'spider'];
+        },
+
         getEnemy: function (entity, game, x, y, parameters) {
             if(entity == 'worm') return new Worm(game, x, y, parameters);
             if(entity == 'spider') return new Spider(game, x, y, parameters);

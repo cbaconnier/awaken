@@ -16,10 +16,8 @@ WorstEnemyEver.prototype.constructor = WorstEnemyEver;
 
 
 
-
-
-
 WorstEnemyEver.prototype.init = function(parameters){
+
 
     this.maxEnemy = parameters.maxEnemy;
 
@@ -106,10 +104,6 @@ WorstEnemyEver.prototype.update = function(){
 };
 
 
-WorstEnemyEver.prototype.render = function(){
-
-};
-
 WorstEnemyEver.prototype.moveTo = function(destination, speed, maxTime){;
 
 
@@ -137,16 +131,6 @@ WorstEnemyEver.prototype.moveTo = function(destination, speed, maxTime){;
     if(this.dir==2)this.body.moveDown(speed);
     if(this.dir==1)this.body.moveRight(speed);
     if(this.dir==3)this.body.moveLeft(speed);
-
-
-    //Z-index correction
-    if(this.y > this.game.ken.y){
-        this.z = this.game.ken.z+1;
-    }else{
-        this.z = this.game.ken.z-1;
-    }
-
-
 
 };
 
