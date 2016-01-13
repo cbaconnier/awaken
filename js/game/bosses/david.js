@@ -3,23 +3,27 @@ var David = function (game, parameters) {
 
     var type = 'david';
     this.game = game;
-    var location = this.popLocation();
-    location.x = 150;
-    location.y = 230;
-    Phaser.Sprite.call(this, game, location.x, location.y, 'david_foot');
+
+    var x = game.width/2;
+    var y = -150;
+    Phaser.Sprite.call(this, game, x, y, 'david_foot');
     this.type = type;
-    //this.init(parameters[this.type]);
+    this.init(parameters[this.type]);
     //this.create();
 
     this.yy = this.y;
     this.enableBody = true;
     this.physicsBodyType = Phaser.Physics.P2JS;
-    this.game.physics.p2.enable(this, true); // true = debug
+    this.game.physics.p2.enable(this, false); // true = debug
     this.body.fixedRotation = true;
-    this.body.setRectangle(150, 80, 0, 26);
-    console.log(this.body.data.shapes[0]);
-
+    this.body.setRectangle(350, 80, 0, 26);
+    this.body.collideWorldBounds = false;
     this.smoothed = false;
+    this.body.kinematic = true;
+
+    this.destinationY = 0;
+    this.ready = false;
+    this.ready2 = true;
 
     this.frameFrontDown = 0;
     this.frameFrontClutch = 1;
@@ -27,7 +31,7 @@ var David = function (game, parameters) {
     this.frameProfilClutch = 3;
 
     this.anchor.set(0.5);
-    this.frame = this.frameFrontClutch;
+    this.frame = this.frameProfilClutch;
     this.scale.x = 13;
     this.scale.y = 13;
     var leg = this.game.make.sprite(0, -8, 'david_leg');
@@ -36,16 +40,20 @@ var David = function (game, parameters) {
     this.addChild(leg);
     this.leg = leg;
     this.leg.smoothed = false;
+    this.leg.frame = 1;
 
 
-
+    /** Blood particles **/
+    this.blood = this.game.add.emitter(0, 0, 10);
+    this.blood.makeParticles('blood', [0,1,2]);
+    this.blood.gravity = 0;
 
 
     /*** Timers ***/
         //Attack
-    //this.attackTimer = this.game.time.create(false);
-    //this.attackTimer.start();
-    //this.attackTimer.add(Math.random() * (4000 - 3000)+4000, this.attack, this);
+    this.attackTimer = this.game.time.create(false);
+    this.attackTimer.start();
+    this.attack();
 
 
 };
@@ -54,21 +62,6 @@ David.prototype = Object.create(Phaser.Sprite.prototype);
 David.prototype.constructor = David;
 
 
-
-David.prototype.update = function(){
-    this.yy = this.y+85;
-    //Because we use a custom collision zone, we have to get the real collisions bounds of the sprite
-    //P2 convert pixels to meters with 20px/m, we need them in pixels so : multiplied by 20
-    var body = {};
-    var correctionX = this.body.data.shapes[0].position[0]*20;
-    var correctionY = this.body.data.shapes[0].position[1]*20;
-    body.left   = this.x + (this.body.data.shapes[0].vertices[0][0] * 20) - correctionX;
-    body.right  = this.x + (this.body.data.shapes[0].vertices[1][0] * 20) - correctionX;
-    body.top    = this.y + (this.body.data.shapes[0].vertices[0][1] * 20) - correctionY;
-    body.bottom = this.y + (this.body.data.shapes[0].vertices[2][1] * 20) - correctionY;
-    if(this.checkOverlap( body, this.game.ken))
-        console.log("HIIITTTTT");
-};
 
 
 David.prototype.init = function(parameters) {
@@ -80,89 +73,125 @@ David.prototype.init = function(parameters) {
 };
 
 David.prototype.create = function(){
-    this.physicsBodyType = Phaser.Physics.P2JS;
-    this.game.physics.p2.enable(this, true);
-
-    this.body.setZeroDamping();
-    this.body.fixedRotation = true;
-    this.body.clearShapes();
-
-    // -+ en bas  à gauche X,Y
-    // -0 en haut à gauche
-    // +0 en haut à droite
-    // ++ en bas  à droite
-    // this.body.addPolygon({}, [[-60, 290], [-60, 150], [30, 150], [30, 290]] );
-
-    /** Blood particles **/
-    this.blood = this.game.add.emitter(0, 0, 50);
-    this.blood.makeParticles('blood', [0,1,2]);
-    this.blood.gravity = 0;
-
-
-
     /** Debug **/
     this.filterDebug = this.game.add.filter('Debug');
     this.filterDebug.red = 0.1;
     this.filterDebug.blue = 1;
     this.filterDebug.green = 0.5;
+};
+
+
+
+David.prototype.update = function(){
+
+
+    if(this.y >= this.destinationY && this.ready){
+        this.body.velocity.y = 0;
+        this.attackPhase4();
+        this.ready2 = false;
+        if(this.frame == 0) this.frame++;
+        if(this.frame == 2) this.frame++;
+    }
+
+
+    this.yy = this.y+85;
+
 
 
 };
 
 
 David.prototype.attack = function(){
+    //this.body.setCollisionGroup(this.game.entitiesCollisions);
+    //this.body.collides(this.game.entitiesCollisions);
+    this.body.x = this.game.ken.x;
+    this.body.velocity.y = 0;
+    this.body.y = -80;
+    this.destinationY = this.game.ken.y;
+
+
+    if(Math.round(Math.random())){ //0 or 1
+        this.body.setRectangle(150, 80, 0, 26);
+        this.frame = 0;
+        this.leg.frame = 0;
+    }else{
+        this.body.setRectangle(350, 80, 0, 26);
+        this.frame = 2;
+        this.leg.frame = 1;
+    }
+
+
+    this.attackTimer.add(Math.random() * (4000 - 3000)+4000, this.attackPhase1, this);
+
+};
+
+David.prototype.attackPhase1 = function() {
+    console.log("PHASE 1");
+    this.body.velocity.y = 100;
+
+    this.ready = true;
+    this.ready2 = true;
+    var attackTimer = this.game.time.create(false);
+    attackTimer.start();
+    attackTimer.add(3000, this.attackPhase2, this);
+};
+
+David.prototype.attackPhase2 = function() {
+    console.log("PHASE 2");
+    this.body.velocity.y = 0;
+
+    var attackTimer = this.game.time.create(false);
+    attackTimer.start();
+    attackTimer.add(500, this.attackPhase3, this);
+
+};
+
+David.prototype.attackPhase3 = function() {
+    if(this.ready2)
+        this.body.velocity.y = 1000;
+
+};
+
+David.prototype.attackPhase4 = function() {
+    this.ready = false;
+
+    //Because we use a custom collision zone, we have to get the real collisions bounds of the sprite
+    //P2 convert pixels to meters with 20px/m, we need them in pixels so : multiplied by 20
+    var body = {};
+    var correctionX = this.body.data.shapes[0].position[0]*20;
+    var correctionY = this.body.data.shapes[0].position[1]*20;
+    body.left   = this.x + (this.body.data.shapes[0].vertices[0][0] * 20) - correctionX;
+    body.right  = this.x + (this.body.data.shapes[0].vertices[1][0] * 20) - correctionX;
+    body.top    = this.y + (this.body.data.shapes[0].vertices[0][1] * 20) - correctionY;
+    body.bottom = this.y + (this.body.data.shapes[0].vertices[2][1] * 20) - correctionY;
+    if(this.checkOverlap( body, this.game.ken))
+        this.game.ken.hit(this.damage);
+
+
+
     this.body.setCollisionGroup(this.game.entitiesCollisions);
     this.body.collides(this.game.entitiesCollisions);
-    this.moveTo({x: this.game.ken.x, y: this.game.ken.y});
+
+    var attackTimer = this.game.time.create(false);
+    attackTimer.start();
+    attackTimer.add(3000, this.attackPhase5, this);
+
+};
+
+David.prototype.attackPhase5 = function() {
+    this.body.clearCollision(true);
+    this.body.velocity.y = -500;
     this.attackTimer.add(Math.random() * (4000 - 3000)+4000, this.attack, this);
-
 };
 
-
-David.prototype.moveTo = function(destination, speed, maxTime){
-    this.body.velocity.x = 0;
-    this.body.velocity.y = 0;
-    this.speed = 400;
-    speed = speed || this.speed;
-    maxTime = maxTime || 0;
-
-
-    var radians = Math.atan2(destination.y - this.y, destination.x - this.x);
-
-    if(radians <= -0.79 || radians <=  0.79) this.dir = 1; //east
-    if(radians <= -2.4  || radians >=  2.4 ) this.dir = 3; //west
-    if(radians <=  2.4  && radians >=  0.79) this.dir = 2; //south
-    if(radians >= -2.4  && radians <= -0.79) this.dir = 0; //north
-
-    if (maxTime > 0) {
-        //  We know how many pixels we need to move, but how fast?
-        speed = this.objectsDistance(this, destination) / (maxTime / 1000);
-    }
-
-    if(this.dir==0){
-        this.body.moveUp(speed);
-        //  this.attackZone.moveUp(speed);
-    }
-    if(this.dir==2){
-        this.body.moveDown(speed);
-        // this.attackZone.moveDown(speed);
-    }
-    if(this.dir==1){
-        this.body.moveRight(speed);
-        //this.attackZone.moveRight(speed);
-    }
-    if(this.dir==3){
-        this.body.moveLeft(speed);
-        //this.attackZone.moveLeft(speed);
-    }
-};
 
 
 
 
 David.prototype.bleed = function(){
-    this.blood.x = this.x;
-    this.blood.y = this.y;
+
+    this.blood.x = this.game.ken.spriteAttack.x;
+    this.blood.y = this.game.ken.spriteAttack.y;
 
 
     if(this.game.ken.dir==2){
@@ -220,12 +249,10 @@ David.prototype.checkOverlap = function (body1, body2) {
 };
 
 David.prototype.popLocation = function(){
-    var x = Math.random() * (this.game.world.width * 3) - this.game.world.width;
-    var y = (x < 0 || x > this.game.world.height) ?
-    Math.random()* (this.game.world.height) :  // X is outside of the screen -> random on the Y axe
-        Math.random() > 0.5 ? // X is inside of the screen -> we need to be above the top or below the bottom
-        Math.random() - 128 :
-        Math.random() * 128 + this.game.world.height;
+    var max = this.game.world.width - this.width / 2;
+    var min = this.width / 2;
+    var x = Math.random() * (max-min) + min;
+    var y = - 120;
     return {x:x,y:y};
 
 };

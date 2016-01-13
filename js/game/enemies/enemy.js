@@ -109,7 +109,6 @@ WorstEnemyEver.prototype.update = function(){
 WorstEnemyEver.prototype.moveTo = function(destination, speed, maxTime){;
 
 
-    //collideWorldBounds bug fix
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
 
