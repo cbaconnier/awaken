@@ -85,7 +85,7 @@
         update: function () {
             this.game.ui.update();
             this.game.events.update();
-            this.game.entities.sort("y");
+            this.game.entities.sort("yy");
             this.nextLevel();
 
         },

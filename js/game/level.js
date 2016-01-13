@@ -27,7 +27,7 @@
 
                     enemiesToKill: 15,
                     maxEnemies: 100,
-                    maxBosses: 100,
+                    maxBosses: 1,
                     minSpawnDelay: 250,
                     maxSpawnDelay: 500,
 

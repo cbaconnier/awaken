@@ -1,3 +1,4 @@
+/*
 
 var Boss = function (game, parameters, type) {
     this.game = game;
@@ -44,14 +45,14 @@ Boss.prototype.create = function(){
     // ++ en bas  à droite
    // this.body.addPolygon({}, [[-60, 290], [-60, 150], [30, 150], [30, 290]] );
 
-    /** Blood particles **/
+    /!** Blood particles **!/
     this.blood = this.game.add.emitter(0, 0, 50);
     this.blood.makeParticles('blood', [0,1,2]);
     this.blood.gravity = 0;
 
 
 
-    /** Debug **/
+    /!** Debug **!/
     this.filterDebug = this.game.add.filter('Debug');
     this.filterDebug.red = 0.1;
     this.filterDebug.blue = 1;
@@ -120,4 +121,4 @@ Boss.prototype.popLocation = function(){
         Math.random() * 128 + this.game.world.height;
     return {x:x,y:y};
 
-};
+};*/

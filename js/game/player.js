@@ -120,6 +120,7 @@ Ken.prototype.create = function () {
     this.body.setCollisionGroup(this.game.entitiesCollisions);
     this.body.collides(this.game.entitiesCollisions);
 
+    this.yy = this.y;
 
     /** animations **/
 
@@ -208,7 +209,7 @@ Ken.prototype.update = function () {
     this.debugCollisions(); //only if actived
     this.animate();
     this.disco();
-
+    this.yy = this.y;
 };
 
 

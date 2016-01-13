@@ -47,7 +47,7 @@ WorstEnemyEver.prototype.create = function(){
     this.body.fixedRotation = true;
     this.body.setCollisionGroup(this.game.entitiesCollisions);
     this.body.collides(this.game.entitiesCollisions);
-
+    this.yy = this.y;
 
     this.sensor = true;
     this.body.onBeginContact.add(this.attack, this);
@@ -101,6 +101,7 @@ WorstEnemyEver.prototype.update = function(){
         this.attack();
         if (this.isMovable) this.moveTo({x: this.game.ken.x, y: this.game.ken.y});
         this.animate();
+        this.yy = this.y;
     }
 };
 
