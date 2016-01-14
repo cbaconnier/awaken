@@ -2,6 +2,7 @@
 
 var WorstEnemyEver = function (game, parameters, type) {
 
+    this.game = game;
     var location = this.popLocation();
     Phaser.Sprite.call(this, game, location.x, location.y, type);
     this.type = type;

@@ -42,8 +42,10 @@
 
                     playerParameters: {
                         health: 200,
-                        minDmg: 3,
-                        maxDmg: 7,
+                        //minDmg: 3,
+                        minDmg: 3000,
+                        //maxDmg: 7,
+                        maxDmg: 7000,
                         attackSize: 1
                     },
 
@@ -59,13 +61,13 @@
 
                     enemyParameters: {
                         spider: {
-                            maxEnemy: 0,
+                            maxEnemy: 100,
                             health: 2,
                             dmg: 5,
                             score: 20
                         },
                         worm: {
-                            maxEnemy: 0,
+                            maxEnemy: 100,
                             health: 4,
                             dmg: 2,
                             score: 20

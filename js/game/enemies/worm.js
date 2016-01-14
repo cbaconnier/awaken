@@ -1,7 +1,7 @@
 
-var Worm = function (game, x, y, parameters) {
+var Worm = function (game, parameters) {
 
-    WorstEnemyEver.call(this, game, x, y, parameters, 'worm');
+    WorstEnemyEver.call(this, game, parameters, 'worm');
 
     this.animationSpeed = 6; //frame rate
     this.smoothed = false;

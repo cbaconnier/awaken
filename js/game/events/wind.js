@@ -38,7 +38,6 @@ Wind.prototype.update = function(snow, entities){
     if(this.windForce != 0){
         var force = this.windForce;
         entities.forEachAlive(function(sprite){
-            //console.log(this.windForce);
             sprite.body.x+=(force/100);
         });
     }

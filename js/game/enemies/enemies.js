@@ -11,7 +11,7 @@
             return ['worm', 'spider'];
         },
 
-        getEnemy: function (entity, game, x, y, parameters) {
+        getEnemy: function (entity, game, parameters) {
             if(entity == 'worm') return new Worm(game, parameters);
             if(entity == 'spider') return new Spider(game, parameters);
         },

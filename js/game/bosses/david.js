@@ -12,26 +12,29 @@ var David = function (game, parameters) {
     //this.create();
 
     this.yy = this.y;
+
+
     this.enableBody = true;
     this.physicsBodyType = Phaser.Physics.P2JS;
     this.game.physics.p2.enable(this, false); // true = debug
     this.body.fixedRotation = true;
-    this.body.setRectangle(350, 80, 0, 26);
+
+
     this.body.collideWorldBounds = false;
     this.smoothed = false;
     this.body.kinematic = true;
+    this.anchor.set(0.5);
+
 
     this.destinationY = 0;
     this.ready = false;
-    this.ready2 = true;
+    this.ready2 = false;
+    this.phase1 = false;
 
-    this.frameFrontDown = 0;
-    this.frameFrontClutch = 1;
-    this.frameProfilDown = 2;
-    this.frameProfilClutch = 3;
+    this.frame = 3;
+    this.body.setRectangle(350, 80, 0, 26);
 
-    this.anchor.set(0.5);
-    this.frame = this.frameProfilClutch;
+
     this.scale.x = 13;
     this.scale.y = 13;
     var leg = this.game.make.sprite(0, -8, 'david_leg');
@@ -84,15 +87,25 @@ David.prototype.create = function(){
 
 David.prototype.update = function(){
 
+    if(this.ready && this.game.ken.x > this.x) this.body.velocity.x = 100;
+    if(this.ready && this.game.ken.x <  this.x) this.body.velocity.x = -100;
 
-    if(this.y >= this.destinationY && this.ready){
-        this.body.velocity.y = 0;
+    if(this.y >= this.destinationY-300 && this.ready){
+        this.attackPhase2();
+    }
+
+    if(this.y >= this.destinationY && this.ready2){
         this.attackPhase4();
-        this.ready2 = false;
         if(this.frame == 0) this.frame++;
         if(this.frame == 2) this.frame++;
     }
 
+    if(this.phase1){
+        if(this.game.ken.x > this.x)
+            this.body.velocity.x = 100;
+        if(this.game.ken.x < this.x)
+            this.body.velocity.x = -100;
+    }
 
     this.yy = this.y+85;
 
@@ -102,11 +115,9 @@ David.prototype.update = function(){
 
 
 David.prototype.attack = function(){
-    //this.body.setCollisionGroup(this.game.entitiesCollisions);
-    //this.body.collides(this.game.entitiesCollisions);
     this.body.x = this.game.ken.x;
     this.body.velocity.y = 0;
-    this.body.y = -80;
+    this.body.y = -80-this.game.height;
     this.destinationY = this.game.ken.y;
 
 
@@ -120,24 +131,18 @@ David.prototype.attack = function(){
         this.leg.frame = 1;
     }
 
-
-    this.attackTimer.add(Math.random() * (4000 - 3000)+4000, this.attackPhase1, this);
+    this.attackPhase1();
 
 };
 
 David.prototype.attackPhase1 = function() {
-    console.log("PHASE 1");
     this.body.velocity.y = 100;
-
     this.ready = true;
-    this.ready2 = true;
-    var attackTimer = this.game.time.create(false);
-    attackTimer.start();
-    attackTimer.add(3000, this.attackPhase2, this);
 };
 
 David.prototype.attackPhase2 = function() {
-    console.log("PHASE 2");
+    this.ready = false;
+    this.body.velocity.x = 0;
     this.body.velocity.y = 0;
 
     var attackTimer = this.game.time.create(false);
@@ -147,13 +152,15 @@ David.prototype.attackPhase2 = function() {
 };
 
 David.prototype.attackPhase3 = function() {
-    if(this.ready2)
-        this.body.velocity.y = 1000;
-
+    this.ready2 = true;
+    this.body.velocity.y = 1000;
+    if(this.frame == 0) this.frame++;
+    if(this.frame == 2) this.frame++;
 };
 
 David.prototype.attackPhase4 = function() {
-    this.ready = false;
+    this.ready2 = false;
+    this.body.velocity.y = 0;
 
     //Because we use a custom collision zone, we have to get the real collisions bounds of the sprite
     //P2 convert pixels to meters with 20px/m, we need them in pixels so : multiplied by 20
@@ -164,8 +171,13 @@ David.prototype.attackPhase4 = function() {
     body.right  = this.x + (this.body.data.shapes[0].vertices[1][0] * 20) - correctionX;
     body.top    = this.y + (this.body.data.shapes[0].vertices[0][1] * 20) - correctionY;
     body.bottom = this.y + (this.body.data.shapes[0].vertices[2][1] * 20) - correctionY;
-    if(this.checkOverlap( body, this.game.ken))
-        this.game.ken.hit(this.damage);
+
+    var self = this;
+    this.game.entities.forEachAlive(function(entity){
+        if(self.checkOverlap( body, entity)){
+            entity.hit(self.damage);
+        }
+    });
 
 
 
@@ -181,7 +193,8 @@ David.prototype.attackPhase4 = function() {
 David.prototype.attackPhase5 = function() {
     this.body.clearCollision(true);
     this.body.velocity.y = -500;
-    this.attackTimer.add(Math.random() * (4000 - 3000)+4000, this.attack, this);
+    this.attackTimer.add(2000, this.attack, this);
+    //this.attack();
 };
 
 
@@ -218,7 +231,7 @@ David.prototype.hit = function(damage){
     //blood
     this.bleed();
 
-
+    this.game.ui.dialogue(this.x, this.y, damage.toString(), 30, 350, -96);
 
     this.health -= damage;
     if(this.health <= 0){
@@ -227,7 +240,7 @@ David.prototype.hit = function(damage){
 };
 
 David.prototype.die = function(){
-
+    this.kill();
 };
 
 David.prototype.objectsDistance = function(object, destination){
