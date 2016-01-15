@@ -85,6 +85,11 @@ David.prototype.create = function(){
 
 
 
+
+David.prototype.decreaseSpeed = function(speed){};
+David.prototype.resetSpeed = function(){};
+
+
 David.prototype.update = function(){
 
     if(this.ready && this.game.ken.x > this.x) this.body.velocity.x = 100;

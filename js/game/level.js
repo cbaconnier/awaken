@@ -25,7 +25,7 @@
                                 "Suspendisse malesuada ante sem, at ultrices nunc pellentesque quis. \n" +
                                 "Vestibulum suscipit accumsan lorem, sit amet pharetra sem. Vivamus sed elementum risus",
 
-                    enemiesToKill: 15,
+                    enemiesToKill: 10,
                     maxEnemies: 100,
                     maxBosses: 1,
                     minSpawnDelay: 250,
@@ -41,6 +41,17 @@
                        fog: {}
                     },
 
+                    tiles: {
+                        poison: {
+                            maxTiles: 2,
+                            dmg: 5
+                        },
+                        water: {
+                            maxTiles: 2,
+                            speedDecrease: 100
+                        }
+                    },
+
                     playerParameters: {
                         health: 200,
                         //minDmg: 3,
@@ -52,7 +63,7 @@
 
                     bossParameters: {
                         david: {
-                            maxBoss: 1,
+                            maxBoss: 0,
                             health: 100000,
                             dmg: 5000,
                             score: 4242424242
@@ -62,13 +73,13 @@
 
                     enemyParameters: {
                         spider: {
-                            maxEnemy: 0,
+                            maxEnemy: 5,
                             health: 2,
                             dmg: 5,
                             score: 20
                         },
                         worm: {
-                            maxEnemy: 0,
+                            maxEnemy: 5,
                             health: 4,
                             dmg: 2,
                             score: 20
@@ -114,7 +125,7 @@
                 level_3: {
                     title: "Level 3",
                     description: "mouhahahaha",
-                    enemiesToKill: 100,
+                    enemiesToKill: 1000000,
                     maxEnemies: 100,
                     minSpawnDelay: 100,
                     maxSpawnDelay: 250,
@@ -124,14 +135,14 @@
 
                     playerParameters: {
                         health: 1600,
-                        minDmg: 300,
-                        maxDmg: 700,
+                        minDmg: 1800,
+                        maxDmg: 2600,
                         attackSize: 4
                     },
 
                     enemyParameters: {
                         worm: {
-                            maxEnemy: 100,
+                            maxEnemy: 200,
                             health: 1000,
                             dmg: 50,
                             score: 200

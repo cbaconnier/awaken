@@ -28,6 +28,7 @@ WorstEnemyEver.prototype.init = function(parameters){
     this.scoreGiven = parameters.score *this.factor ;
 
     this.speed = 130 - (10*this.factor);
+    this.defaultSpeed = this.speed;
     this.dir = 0;
     this.animating = false;
     this.attacking = false;
@@ -103,9 +104,18 @@ WorstEnemyEver.prototype.update = function(){
         if (this.isMovable) this.moveTo({x: this.game.ken.x, y: this.game.ken.y});
         this.animate();
         this.yy = this.y;
+        this.resetSpeed();
     }
 };
 
+WorstEnemyEver.prototype.decreaseSpeed = function(speed){
+    if(this.speed == this.defaultSpeed)
+        this.speed -= speed;
+};
+
+WorstEnemyEver.prototype.resetSpeed = function(){
+    this.speed = this.defaultSpeed;
+};
 
 WorstEnemyEver.prototype.moveTo = function(destination, speed, maxTime){;
 
@@ -248,6 +258,14 @@ WorstEnemyEver.prototype.setMovable = function(){
 
 WorstEnemyEver.prototype.die = function(){
     this.game.enemiesKilled++;
+    var parameters = {
+        dir: this.dir,
+        scaleX: this.scale.x,
+        scaleY: this.scale.y,
+        x: this.x,
+        y: this.y
+    };
+    new BloodTile(this.game, parameters);
     this.kill();
 };
 

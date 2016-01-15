@@ -51,6 +51,8 @@
 
 
             //grounds effects
+            this.load.image('bloodTile', 'assets/tiles/bloodTile.png');
+
 
             //filters
             this.load.script('debug',   'assets/filters/DebugFilter.js');

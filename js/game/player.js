@@ -36,7 +36,7 @@ Ken.prototype.create = function () {
     this.maxDamage = this.parameters.maxDmg;
     this.minDamage = this.parameters.minDmg;
     this.speed = 200;
-
+    this.defaultSpeed = this.speed;
     this.score = 0;
 
 
@@ -210,7 +210,20 @@ Ken.prototype.update = function () {
     this.animate();
     this.disco();
     this.yy = this.y;
+    this.resetSpeed();
 };
+
+
+
+Ken.prototype.decreaseSpeed = function(speed){
+    if(this.speed == this.defaultSpeed)
+        this.speed -= speed;
+};
+
+Ken.prototype.resetSpeed = function(){
+    this.speed = this.defaultSpeed;
+};
+
 
 
 

@@ -56,11 +56,12 @@
 
             this.game.enemies = new ns.Enemies(this.game);
             this.game.bosses = new ns.Bosses(this.game);
+            this.game.tilesf = new ns.Tiles(this.game);
+
+            this.game.tiles = this.game.add.group();
             this.game.effects = this.game.add.group();
             this.game.entities = this.game.add.group();
 
-            this.game.effects.z = 0;
-            this.game.entities.z = 5;
 
             this.game.maxEnemies = 10;
             this.game.enemiesKilled = 0;
@@ -69,6 +70,7 @@
             this.game.entities.add(this.game.ken);
             this.game.ui = new ns.UI(this.game);
 
+            this.game.tilesf.addTiles();
             this.game.bosses.addBosses();
             this.game.enemies.addEnemies();
 
