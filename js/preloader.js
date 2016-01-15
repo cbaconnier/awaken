@@ -34,18 +34,28 @@
             this.load.spritesheet('david_foot', 'assets/bosses/david_foot.png', 32, 16, 4);
             this.load.spritesheet('david_leg', 'assets/bosses/david_leg.png', 32, 64, 2);
 
+
+            //Blood particles
+            this.load.spritesheet('blood', 'assets/particles/blood.png', 4, 4, 3);
+
+
             //ui
             this.load.image('gear', 'assets/ui/gear.png');
 
             //fonts
             this.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
 
+            //events
+            this.load.image('fog', 'assets/events/fog.png');
+            this.load.spritesheet('snow', 'assets/events/snow.png', 4, 4, 3);
+
+
+            //grounds effects
+
             //filters
             this.load.script('debug',   'assets/filters/DebugFilter.js');
            //this.load.script('recolor', 'assets/filters/RecolorFilter.js');
 
-            //particles
-            this.load.spritesheet('blood', 'assets/particles/blood.png', 4, 4, 3);
 
             //musics
             this.load.audio('music_game_1', ['assets/musics/paragonX9_metropolis.mp3']);

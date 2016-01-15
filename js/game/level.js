@@ -37,7 +37,8 @@
 
                     events: {
                        // wind: {},
-                       // snow: {}
+                        snow: {},
+                       fog: {}
                     },
 
                     playerParameters: {
@@ -61,13 +62,13 @@
 
                     enemyParameters: {
                         spider: {
-                            maxEnemy: 100,
+                            maxEnemy: 0,
                             health: 2,
                             dmg: 5,
                             score: 20
                         },
                         worm: {
-                            maxEnemy: 100,
+                            maxEnemy: 0,
                             health: 4,
                             dmg: 2,
                             score: 20

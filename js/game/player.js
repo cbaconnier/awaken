@@ -146,7 +146,7 @@ Ken.prototype.create = function () {
 
 
     /**Debug filters **/
-    this.filterDebugAtk = this.game.add.filter('Debug');
+    this.filterDebugAtk = this.game.add.filter('Debug', this.game);
     this.filterDebug = this.game.add.filter('Debug');
     this.filterDebugAtk.red = 1;
     this.filterDebugAtk.blue = 0.2;
