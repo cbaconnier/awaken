@@ -12,7 +12,8 @@
         update: function(){
             if(this.fog !== undefined) this.fog.update();
             if(this.snow !== undefined) this.snow.update();
-            if(this.wind !== undefined) this.wind.update(this.snow, this.game.entities);
+            if(this.rain !== undefined) this.rain.update();
+            if(this.wind !== undefined) this.wind.update([this.snow, this.rain], this.game.entities);
         },
 
         setEvents: function(eventsList, params){
@@ -26,6 +27,7 @@
 
         setEvent: function (event, params) {
             if(event == 'snow') this.snow = new Snow(this.game);
+            if(event == 'rain') this.rain = new Rain(this.game);
             if(event == 'wind') this.wind = new Wind(this.game);
             if(event == 'fog') this.fog = new Fog(this.game);
         },

@@ -26,7 +26,7 @@
                                 "Vestibulum suscipit accumsan lorem, sit amet pharetra sem. Vivamus sed elementum risus",
 
                     enemiesToKill: 100000,
-                    maxEnemies: 0,
+                    maxEnemies: 5,
                     maxBosses: 0,
                     minSpawnDelay: 250,
                     maxSpawnDelay: 500,
@@ -36,19 +36,20 @@
                     },
 
                     events: {
-                       // wind: {},
-                        snow: {},
+                        wind: {},
+                        //snow: {},
+                        rain: {},
                         //fog: {}
                     },
 
                     tiles: {
                         poison: {
-                            maxTiles: 1,
+                            maxTiles: 0,
                             dmg: 5
                         },
                         water: {
-                            maxTiles: 0,
-                            speedDecrease: 100
+                            maxTiles: 3,
+                            speedDecrease: 150
                         },
                         grass:{
                             maxTiles: 0,

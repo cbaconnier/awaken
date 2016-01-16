@@ -39,7 +39,7 @@ Ken.prototype.create = function () {
     this.speed = 200;
     this.defaultSpeed = this.speed;
     this.score = 0;
-
+    this.invulnerability = false;
 
     this.dir = 2; // direction of the player
     this.isFunky = false; //hum...
@@ -395,18 +395,51 @@ Ken.prototype.animate = function () {
     };
 
 Ken.prototype.hit = function (damage) {
-    this.health -= damage;
+    if(!this.invulnerability){
+        this.setInvulnerable();
+        this.highlight();
+        this.health -= damage;
 
-    if (this.messagesIsAvailable) {
-        this.game.ui.dialogue(this.world.x, this.world.y, this.messages_hit[Math.floor(Math.random() * this.messages_hit.length)]);
-        this.messagesIsAvailable = false;
-    }
+        this.game.ui.dialogue(this.x, this.y, damage.toString(), 16, null, null, 0xFFD555);
 
-    this.game.ui.setHealthWidth(this.health);
-    if (this.health <= 0) {
-        //this.game.state.start('over');
+        if (this.messagesIsAvailable) {
+            this.game.ui.dialogue(this.x, this.y, this.messages_hit[Math.floor(Math.random() * this.messages_hit.length)]);
+            this.messagesIsAvailable = false;
+        }
+
+        this.game.ui.setHealthWidth(this.health);
+        if (this.health <= 0) {
+            //this.game.state.start('over');
+        }
     }
 };
+
+Ken.prototype.setInvulnerable = function(){
+    this.invulnerability = true;
+    var timerInvulnerability = this.game.time.create(false);
+    timerInvulnerability.start();
+    timerInvulnerability.add(1000, this.unsetInvulnerable, this);
+
+};
+
+Ken.prototype.unsetInvulnerable = function(){
+    this.invulnerability = false;
+
+};
+
+Ken.prototype.highlight = function(){
+    if(this.invulnerability){
+        this.tint =  (this.tint == 0xffffff) ? 0x510000 : 0xffffff;
+
+        var timerHighlight = this.game.time.create(false);
+        timerHighlight.start();
+        timerHighlight.add(200, this.highlight, this);
+    }else{
+        this.tint = 0xffffff;
+    }
+
+};
+
 
 Ken.prototype.setMessageAvailable = function () {
     this.messagesIsAvailable = !this.messagesIsAvailable;

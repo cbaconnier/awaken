@@ -40,11 +40,8 @@
                 if(!x || !y){
                     var pos = this.getUniqueLocation();
                     if(!pos) return null;
-                    console.log(pos);
-                   // x = pos.x*128;
-                    x = 1*128;
-                   // y = pos.y*128;
-                    y = 2*128;
+                   x = pos.x*128;
+                   y = pos.y*128;
                 }
                 this.game.tiles.add(this.getTile(type, x, y, parameters));
             }

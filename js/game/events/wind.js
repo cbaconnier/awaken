@@ -28,12 +28,16 @@ Wind.prototype.changeWind = function(){
     this.windTimer.add(Math.random() * (4000 - 3000)+3000, this.changeWind, this);
 };
 
-Wind.prototype.update = function(snow, entities){
+Wind.prototype.update = function(events, entities){
 
-    if(snow !== undefined && this.windChanged){
-        snow.changeWindDirection(this.windForce);
-        this.windChanged = false;
-    }
+    var self = this;
+    events.forEach(function(evt){
+        if(evt !== undefined && self.windChanged){
+            evt.changeWindDirection(self.windForce);
+            self.windChanged = false;
+        }
+    });
+
 
     if(this.windForce != 0){
         var force = this.windForce;

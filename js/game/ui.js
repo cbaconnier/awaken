@@ -127,16 +127,18 @@
 
         },
 
-        dialogue: function(x, y, msg, size, duration, distance){
+        dialogue: function(x, y, msg, size, duration, distance, color){
             var fontSize = size || 32;
             var time = duration || 2000;
             distance = distance || -192;
+            color = color || 0xffffff;
 
             fontSize = (msg.length > 20 && !size) ? 20 : fontSize;
             time = (msg.length < 20 && !duration) ? 1000 : time;
 
 
             var text = this.game.add.bitmapText(x, y-64, 'gem', msg, fontSize);
+            text.tint = color;
             text.anchor.set(0.5);
 
             var angle =  Math.random() * (25 - 5)+5;

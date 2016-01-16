@@ -59,7 +59,6 @@
 
             //filters
             this.load.script('debug',   'assets/filters/DebugFilter.js');
-            this.load.script('grassf',   'assets/filters/grassFilter.js');
            //this.load.script('recolor', 'assets/filters/RecolorFilter.js');
 
 
