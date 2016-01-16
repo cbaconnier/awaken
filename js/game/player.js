@@ -130,12 +130,13 @@ Ken.prototype.create = function () {
     this.animations.add('walk_down', [1, 0, 2, 0], this.animationSpeed, false);
     this.animations.add('walk_up', [6, 5, 7, 5], this.animationSpeed, false);
     this.animations.add('walk_left', [11, 10, 12, 10], this.animationSpeed, false);
+    this.animations.add('walk_right', [16, 15, 17, 15], this.animationSpeed, false);
 
     //attacking animations
     this.animations.add('attack_down', [3, 4], this.animationSpeed, false);
     this.animations.add('attack_up', [8, 9], this.animationSpeed, false);
     this.animations.add('attack_left', [13, 14], this.animationSpeed, false);
-    this.animations.add('attack_right', [14, 13], this.animationSpeed, false);
+    this.animations.add('attack_right', [18, 19], this.animationSpeed, false);
 
 
     this.spriteAttack.animations.add('attack', [0, 1, 2], this.animationSpeed * 2, false);
@@ -199,6 +200,9 @@ Ken.prototype.create = function () {
     this.fxAttack.allowMultiple = false;
     this.fxAttack.volume = 0.4;
 
+
+    this.scale.x = 1.5;
+    this.scale.y = 1.5;
 
 };
 
@@ -271,21 +275,21 @@ Ken.prototype.move = function () {
         if (x > 0) {
             this.dir = 1; //east
             this.body.moveRight(this.speed);
-            if (this.scale.x < 0) this.scale.x *= -1; // mirroring
+            //if (this.scale.x < 0) this.scale.x *= -1; // mirroring
         }
         if (x < 0) {
             this.dir = 3; //west
             this.body.moveLeft(this.speed);
-            if (this.scale.x > 0) this.scale.x *= -1; // mirroring
+            //if (this.scale.x > 0) this.scale.x *= -1; // mirroring
         }
         if (y > 0) {
             this.dir = 2; //south
             this.body.moveDown(this.speed);
-            if (this.scale.x < 0) this.scale.x *= -1;
+            //if (this.scale.x < 0) this.scale.x *= -1;
         }
         if (y < 0) {
             this.dir = 0; // north
-            if (this.scale.x < 0) this.scale.x *= -1; // mirroring
+            //if (this.scale.x < 0) this.scale.x *= -1; // mirroring
             this.body.moveUp(this.speed);
         }
 
@@ -337,9 +341,9 @@ Ken.prototype.animate = function () {
                 this.animations.play("attack_right");
                 this.spriteAttack.animations.play("attack");
             } else if (this.walking) {
-                this.animations.play("walk_left");
+                this.animations.play("walk_right");
             } else {
-                this.frame = 10;
+                this.frame = 15;
             }
         }
     }

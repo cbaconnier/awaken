@@ -13,10 +13,12 @@
 
         create: function () {
 
-            var title = this.add.text(this.game.width * 0.5, this.game.height * 0.2,
-                this.level.title, {font: '42px Arial', fill: '#ffffff', align: 'center'
-                });
+            var title = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.2, 'gem', this.level.title, 42);
             title.anchor.set(0.5);
+
+
+            var short = this.game.add.bitmapText(50, this.game.height * 0.35, 'gem', this.level.short, 32);
+            short.anchor.set(0);
 
 
             this.timer = this.game.time.create(false);
@@ -24,6 +26,11 @@
 
             this.description = this.game.add.bitmapText(50, this.game.height * 0.5, 'gem', '', 16);
             this.description.anchor.set(0);
+
+            this.fxText = this.game.add.audio('fx_text');
+            this.fxText.allowMultiple = false;
+            this.fxText.volume = .6;
+            this.mutedChars = [" ", "\n"];
 
             this.nextChar();
 
@@ -34,7 +41,12 @@
 
         nextChar: function(){
             if(this.charIndex >= this.level.description.length) return;
-            this.description.text = this.description.text.concat(this.level.description[this.charIndex]);
+            var char = this.level.description[this.charIndex];
+            this.description.text = this.description.text.concat(char);
+            if(this.mutedChars.indexOf(char) == -1) {
+                console.log(char);
+                this.fxText.play();
+            }
             this.charIndex++;
             this.timer.add(this.charDelay, this.nextChar, this);
         },

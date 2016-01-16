@@ -7,6 +7,18 @@
     Level.prototype = {
 
 
+        /*
+
+        level 1 : House -- spiders
+        level 2 : Garden -- worms + grass
+        level 3 : City -- cockroaches, worms + rain + water
+        level 4 : Sewers -- rat, cockroaches + poison
+        level 5 : Train -- ??, ~wind, + poison
+        level 6 : City -- spiders, worms, cockroaches + snow + wind + fog
+        level 7 : School -- boss, spiders, worms, cockroaches
+
+         */
+
         getFirstLevel: function () {
             return this.getLevels().level_1;
         },
@@ -20,6 +32,7 @@
 
                 level_1: {
                     title: "Level 1",
+                    short: "The house",
                     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n" +
                                 "Suspendisse posuere augue aliquam risus elementum, eu accumsan orci ullamcorper. \n" +
                                 "Suspendisse malesuada ante sem, at ultrices nunc pellentesque quis. \n" +
@@ -94,6 +107,7 @@
 
                 level_2: {
                     title: "Level 2",
+                    short: "The garden",
                     description: "blablabla",
                     enemiesToKill: 25,
                     maxEnemies: 100,
@@ -128,6 +142,7 @@
 
                 level_3: {
                     title: "Level 3",
+                    short: "The city",
                     description: "mouhahahaha",
                     enemiesToKill: 1000000,
                     maxEnemies: 100,
@@ -156,6 +171,7 @@
 
                 level_4: {
                     title: "Level 4",
+                    short: "The sewers",
                     description: "HO NO",
                     enemiesToKill: 1,
                     maxEnemies: 100,

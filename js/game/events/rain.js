@@ -14,7 +14,7 @@ Rain.prototype.create = function(){
     this.emitter.width = this.game.world.width;
     // emitter.angle = 30; // uncomment to set an angle for the rain.
 
-    this.emitter.makeParticles('snow');
+    this.emitter.makeParticles('rain');
 
     this.emitter.minParticleScale = 0.1;
     this.emitter.maxParticleScale = 0.5;

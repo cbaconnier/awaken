@@ -22,7 +22,7 @@
 
         loadResources: function () {
             //player
-            this.load.spritesheet('ken', 'assets/player/ken.png', 64, 64, 15);
+            this.load.spritesheet('ken', 'assets/player/ken.png', 32, 32, 20);
             this.load.spritesheet('attack', 'assets/player/attack.png', 64, 80, 3);
 
             //ennemies
@@ -48,6 +48,7 @@
             //events
             this.load.image('fog', 'assets/events/fog.png');
             this.load.spritesheet('snow', 'assets/events/snow.png', 4, 4, 3);
+            this.load.spritesheet('rain', 'assets/events/rain.png', 4, 4, 3);
 
 
             //grounds effects
@@ -68,6 +69,7 @@
             //sounds
             this.load.audio('fx_hit', 'assets/sounds/hit.wav');
             this.load.audio('fx_attack', 'assets/sounds/attack.wav');
+            this.load.audio('fx_text', 'assets/sounds/text.wav');
 
         },
 
