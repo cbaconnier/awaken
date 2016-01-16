@@ -58,7 +58,7 @@
                     },
 
                     events: {
-                        //wind: {},
+                        wind: {},
                         //snow: {},
                         rain: {},
                         //fog: {}

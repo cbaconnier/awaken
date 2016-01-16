@@ -47,6 +47,7 @@
 
             //events
             this.load.image('fog', 'assets/events/fog.png');
+            this.load.image('wind', 'assets/events/wind.png');
             this.load.spritesheet('snow', 'assets/events/snow.png', 4, 4, 3);
             this.load.spritesheet('rain', 'assets/events/rain.png', 4, 4, 3);
 
