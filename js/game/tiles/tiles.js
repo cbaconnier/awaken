@@ -26,6 +26,7 @@
             if(tile == 'water') return new WaterTile(this.game, x, y, parameters);
             if(tile == 'blood') return new BloodTile(this.game, x, y, parameters);
             if(tile == 'grass') return new GrassTile(this.game, x, y, parameters);
+            if(tile == 'shadow') return new ShadowTile(this.game, x, y, parameters);
         },
 
         getUniqueLocation: function(){
@@ -36,28 +37,41 @@
         },
 
         addTile: function(type, x, y, parameters){
-            if(this.game.tiles.length < 3000) {
+
+            var tile = null;
+            this.game.tiles.forEachDead(function(DeadTile){
+                 if(DeadTile.type == type){
+                     tile = DeadTile;
+                     return;
+                 }
+            });
+            console.log(tile);
+            if(tile){
+                if(!x || !y){
+                    var pos = this.getUniqueLocation();
+                    if(!pos) return null;
+                    x = pos.x*128;
+                    y = pos.y*128;
+                }
+                tile.reset(x, y);
+                return tile;
+            }else if(this.game.tiles.length < 3000) {
                 if(!x || !y){
                     var pos = this.getUniqueLocation();
                     if(!pos) return null;
                    x = pos.x*128;
                    y = pos.y*128;
                 }
-                this.game.tiles.add(this.getTile(type, x, y, parameters));
+                tile = this.getTile(type, x, y, parameters);
+                this.game.tiles.add(tile);
+                return tile;
             }
-            //todo : else pick the first of the type
+
         },
 
-        addTiles: function(){
-/*
-            for (var x=0; x<9; x++){
-                for(var y=0; y<7; y++) {
-                    //if(x%3 == 0)
-                        this.addTile("poison", {x: x*128, y: y*128});
-                }
 
-            }
-*/
+        addTiles: function(){
+
             if(this.game.level.tiles !== undefined){
                 if(this.game.tiles.length < 3000) {
                     for (var i in this.game.level.tiles){

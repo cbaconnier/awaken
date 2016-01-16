@@ -40,9 +40,9 @@ Wind.prototype.update = function(events, entities){
 
 
     if(this.windForce != 0){
-        var force = this.windForce;
-        entities.forEachAlive(function(sprite){
-            sprite.body.x+=(force/100);
+        var force = Math.round(this.windForce/100);
+        entities.forEachAlive(function(entity){
+            entity.setWindForce(force);
         });
     }
 

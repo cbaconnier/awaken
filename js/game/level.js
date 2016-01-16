@@ -30,6 +30,13 @@
 
             return levels = {
 
+                /********************************************************
+                 *  Level 1
+                 *
+                 *
+                 *
+                 *********************************************************/
+
                 level_1: {
                     title: "Level 1",
                     short: "The house",
@@ -39,8 +46,10 @@
                                 "Vestibulum suscipit accumsan lorem, sit amet pharetra sem. Vivamus sed elementum risus",
 
                     enemiesToKill: 100000,
+                    //timeLimit: 10,
+                    //bossesToKill: 2,
                     maxEnemies: 5,
-                    maxBosses: 0,
+                    maxBosses: 2,
                     minSpawnDelay: 250,
                     maxSpawnDelay: 500,
 
@@ -49,7 +58,7 @@
                     },
 
                     events: {
-                        wind: {},
+                        //wind: {},
                         //snow: {},
                         rain: {},
                         //fog: {}
@@ -57,15 +66,16 @@
 
                     tiles: {
                         poison: {
-                            maxTiles: 0,
+                            maxTiles: 3,
+                            scale:4,
                             dmg: 5
                         },
                         water: {
-                            maxTiles: 3,
+                            maxTiles: 0,
                             speedDecrease: 150
                         },
                         grass:{
-                            maxTiles: 0,
+                            maxTiles: 0
                         }
                     },
 
@@ -90,13 +100,13 @@
 
                     enemyParameters: {
                         spider: {
-                            maxEnemy: 100,
+                            maxEnemy: 0,
                             health: 2,
                             dmg: 5,
                             score: 20
                         },
                         worm: {
-                            maxEnemy: 100,
+                            maxEnemy: 0,
                             health: 4,
                             dmg: 2,
                             score: 20
@@ -104,6 +114,16 @@
                     }
                 },
 
+
+
+
+
+                /********************************************************
+                 *  Level 2
+                 *
+                 *
+                 *
+                 *********************************************************/
 
                 level_2: {
                     title: "Level 2",
@@ -140,6 +160,16 @@
 
                 },
 
+
+
+
+
+                /********************************************************
+                 *  Level 3
+                 *
+                 *
+                 *
+                 *********************************************************/
                 level_3: {
                     title: "Level 3",
                     short: "The city",
@@ -169,6 +199,16 @@
                     }
                 },
 
+
+
+
+
+                /********************************************************
+                 *  Level 4
+                 *
+                 *
+                 *
+                 *********************************************************/
                 level_4: {
                     title: "Level 4",
                     short: "The sewers",

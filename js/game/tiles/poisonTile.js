@@ -9,7 +9,7 @@ var PoisonTile = function (game, x, y, parameters) {
     var animOrder = [0,1,2].sort(function() {
         return .5 - Math.random();
     });
-    this.animations.add('tile_animation', animOrder, 6, true);
+    this.animations.add('tile_animation', animOrder, 4, true);
     this.animations.play("tile_animation");
 };
 

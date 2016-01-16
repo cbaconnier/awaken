@@ -6,7 +6,7 @@ var Ken = function (game, parameters) {
     Phaser.Sprite.call(this, game, this.game.width *.5, this.game.height *.5, 'ken');
     //this._parentTransform = game.players;
     //this.updateTransform(game.players);
-    this.name = "Ken";
+    this.type = "ken";
 
     this.parameters = parameters;
     //this.tint = '#FF00FF';
@@ -39,7 +39,15 @@ Ken.prototype.create = function () {
     this.speed = 200;
     this.defaultSpeed = this.speed;
     this.score = 0;
-    this.invulnerability = false;
+
+
+    //objects because we need the reference of the value when we use them in callback
+    this.invulnerability = {
+        value: false
+    };
+    this.poisoned = {
+        value: false
+    };
 
     this.dir = 2; // direction of the player
     this.isFunky = false; //hum...
@@ -88,6 +96,8 @@ Ken.prototype.create = function () {
 
     this.messagesIsAvailable = true;
     this.attackIsAvailable = true;
+
+    this.blocked = false;
 
 
     /** Keyboard **/
@@ -209,13 +219,20 @@ Ken.prototype.create = function () {
 
 
 Ken.prototype.update = function () {
-    this.move();
-    this.attack();
-    this.debugCollisions(); //only if actived
+    if(!this.blocked){
+        this.move();
+        this.attack();
+    }else{
+        this.body.velocity.x = 0;
+        this.body.velocity.y = 0;
+    }
+
     this.animate();
+    this.debugCollisions(); //only if actived
     this.disco();
     this.yy = this.y;
     this.resetSpeed();
+
 };
 
 
@@ -229,7 +246,9 @@ Ken.prototype.resetSpeed = function(){
     this.speed = this.defaultSpeed;
 };
 
-
+Ken.prototype.setWindForce = function(force){
+    if(!this.blocked) this.body.x+=force;
+};
 
 
 Ken.prototype.move = function () {
@@ -398,10 +417,44 @@ Ken.prototype.animate = function () {
         }
     };
 
+
+Ken.prototype.poisonHit = function(damage){
+    if(!this.poisoned.value && !this.invulnerability.value){
+        this.poisoned.value = true;
+        this.highlight(0x0d7200, this.poisoned);
+        if (this.messagesIsAvailable) {
+            this.game.ui.dialogue(this.x, this.y, this.messages_hit[Math.floor(Math.random() * this.messages_hit.length)]);
+            this.messagesIsAvailable = false;
+        }
+        this.poisonEffect(damage, 10);
+    }
+};
+
+Ken.prototype.poisonEffect = function(damage, i){
+    i--;
+    if(i <= 0){
+        this.poisoned.value = false;
+        return;
+    }
+
+    this.health -= damage;
+    this.game.ui.setHealthWidth(this.health);
+    this.game.ui.dialogue(this.x, this.y, damage.toString(), 16, null, null, 0x0d7200);
+    if (this.health <= 0) {
+        //this.game.state.start('over');
+    }
+
+    var poisonTimer = this.game.time.create(false);
+    poisonTimer.start();
+    poisonTimer.add(200, this.poisonEffect, this, damage, i);
+
+};
+
+
 Ken.prototype.hit = function (damage) {
-    if(!this.invulnerability){
-        this.setInvulnerable();
-        this.highlight();
+    if(!this.invulnerability.value){
+        this.setInvulnerable(1000);
+        this.highlight(0x510000, this.invulnerability);
         this.health -= damage;
 
         this.game.ui.dialogue(this.x, this.y, damage.toString(), 16, null, null, 0xFFD555);
@@ -418,26 +471,28 @@ Ken.prototype.hit = function (damage) {
     }
 };
 
-Ken.prototype.setInvulnerable = function(){
-    this.invulnerability = true;
-    var timerInvulnerability = this.game.time.create(false);
-    timerInvulnerability.start();
-    timerInvulnerability.add(1000, this.unsetInvulnerable, this);
-
+Ken.prototype.setInvulnerable = function(time){
+    this.invulnerability.value = true;
+    if(time){
+        var timerInvulnerability = this.game.time.create(false);
+        timerInvulnerability.start();
+        timerInvulnerability.add(time, this.unsetInvulnerable, this);
+    }
 };
 
 Ken.prototype.unsetInvulnerable = function(){
-    this.invulnerability = false;
+    this.invulnerability.value = false;
 
 };
 
-Ken.prototype.highlight = function(){
-    if(this.invulnerability){
-        this.tint =  (this.tint == 0xffffff) ? 0x510000 : 0xffffff;
+Ken.prototype.highlight = function(tint, callback){
+    console.log(callback);
+    if(callback.value){
+        this.tint =  (this.tint == 0xffffff) ? tint : 0xffffff;
 
         var timerHighlight = this.game.time.create(false);
         timerHighlight.start();
-        timerHighlight.add(200, this.highlight, this);
+        timerHighlight.add(200, this.highlight, this, tint, callback);
     }else{
         this.tint = 0xffffff;
     }

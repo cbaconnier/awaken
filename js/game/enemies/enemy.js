@@ -9,6 +9,9 @@ var WorstEnemyEver = function (game, parameters, type) {
 
 
     this.factor = Math.round(Math.random() * (4-1)+1);
+    this.poisoned = {
+        value : false
+    };
     this.init(parameters[type]);
     this.create();
 };
@@ -33,13 +36,13 @@ WorstEnemyEver.prototype.init = function(parameters){
     this.animating = false;
     this.attacking = false;
     this.attackIsAvailable = false;
+    this.blocked = false;
     this.isMovable = true;
+    this.poisoned.value = false;
+
 };
 
 WorstEnemyEver.prototype.create = function(){
-
-
-
 
     /** collisions **/
     this.enableBody = true;
@@ -59,7 +62,6 @@ WorstEnemyEver.prototype.create = function(){
 
     this.scale.x *= this.factor;
     this.scale.y *= this.factor;
-
 
 
 
@@ -99,9 +101,15 @@ WorstEnemyEver.prototype.create = function(){
 
 WorstEnemyEver.prototype.update = function(){
     if(this.alive) {
+        if(!this.blocked){
+            if (this.isMovable) this.moveTo({x: this.game.ken.x, y: this.game.ken.y});
+            this.attack();
+        }else{
+            this.body.velocity.x = 0;
+            this.body.velocity.y = 0;
+        }
+
         this.debugCollisions();
-        this.attack();
-        if (this.isMovable) this.moveTo({x: this.game.ken.x, y: this.game.ken.y});
         this.animate();
         this.yy = this.y;
         this.resetSpeed();
@@ -189,6 +197,52 @@ WorstEnemyEver.prototype.attack = function(){
     this.attackIsAvailable = false;
 };
 
+
+
+WorstEnemyEver.prototype.poisonHit = function(damage){
+    if(!this.poisoned.value){
+        this.poisoned.value = true;
+        this.highlight(0x0d7200, this.poisoned);
+        this.poisonEffect(damage, 10);
+    }
+};
+
+WorstEnemyEver.prototype.poisonEffect = function(damage, i){
+    i--;
+    if(i <= 0 || !this.poisoned.value){
+        this.poisoned.value = false;
+        return;
+    }
+
+    this.health -= damage;
+    this.game.ui.setHealthWidth(this.health);
+    this.game.ui.dialogue(this.x, this.y, damage.toString(), 16, null, null, 0x0d7200);
+    if (this.health <= 0) {
+       this.die();
+    }
+
+    var poisonTimer = this.game.time.create(false);
+    poisonTimer.start();
+    poisonTimer.add(200, this.poisonEffect, this, damage, i);
+
+};
+
+
+WorstEnemyEver.prototype.highlight = function(tint, callback){
+    if(callback.value){
+        this.tint =  (this.tint == 0xffffff) ? tint : 0xffffff;
+
+        var timerHighlight = this.game.time.create(false);
+        timerHighlight.start();
+        timerHighlight.add(200, this.highlight, this, tint, callback);
+    }else{
+        this.tint = 0xffffff;
+    }
+
+};
+
+
+
 WorstEnemyEver.prototype.hit = function(damage){
 
     //blood
@@ -254,6 +308,10 @@ WorstEnemyEver.prototype.setAttackAvailable = function(){
 
 WorstEnemyEver.prototype.setMovable = function(){
     this.isMovable = true;
+};
+
+WorstEnemyEver.prototype.setWindForce = function(force){
+    if(!this.blocked) this.body.x+=force;
 };
 
 WorstEnemyEver.prototype.die = function(){

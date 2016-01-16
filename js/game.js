@@ -64,7 +64,11 @@
 
 
             this.game.maxEnemies = 10;
+
+            // Objectives
             this.game.enemiesKilled = 0;
+            this.game.bossesKilled = 0;
+
 
             this.game.ken = new Ken(this.game, this.game.level.playerParameters);
             this.game.entities.add(this.game.ken);
@@ -88,7 +92,7 @@
             this.game.ui.update();
             this.game.events.update();
             this.game.entities.sort("yy");
-            this.nextLevel();
+            this.objectivesComplete();
 
         },
 
@@ -99,14 +103,47 @@
 
         },
 
-        nextLevel: function(){
-            if(this.game.level.nextLevel()){
-              if(this.game.enemiesKilled >= this.game.level.enemiesToKill){
-                  this.game.state.start('transition', true, false, this.game.level.nextLevel());
+        objectivesComplete: function(){
+
+              if(
+                  (this.game.level.enemiesToKill != null && this.game.enemiesKilled >= this.game.level.enemiesToKill) //Number of enemies to kill
+                    ||
+                  (this.game.level.timeLimit != null && this.game.time.totalElapsedSeconds() > this.game.level.timeLimit)  //Time elapsed in the level
+                    ||
+                  (this.game.level.bossesToKill != null && this.game.bossesKilled >= this.game.level.bossesToKill)
+              ){
+
+                  this.game.entities.setAll('blocked',true );
+
+                  var nextLevelTimer = this.game.time.create(false);
+                  nextLevelTimer.start();
+                  nextLevelTimer.add(1000, this.killThemAll, this);
               }
-            }
+
 
         },
+
+        killThemAll: function(){
+            this.game.entities.forEachAlive(function(entity){
+                entity.blocked = true;
+                if(entity.type != 'ken') {
+                    entity.bleed();
+                    entity.die();
+                }
+            });
+
+            var nextLevelTimer = this.game.time.create(false);
+            nextLevelTimer.start();
+            nextLevelTimer.add(1000, this.nextLevel, this);
+
+        },
+
+        nextLevel: function(){
+            if(this.game.level.nextLevel()){
+                this.game.state.start('transition', true, false, this.game.level.nextLevel());
+            }
+        },
+
 
         onInputDown: function () {
             this.game.state.start('over');

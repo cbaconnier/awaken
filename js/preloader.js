@@ -50,13 +50,12 @@
             this.load.spritesheet('snow', 'assets/events/snow.png', 4, 4, 3);
             this.load.spritesheet('rain', 'assets/events/rain.png', 4, 4, 3);
 
-
             //grounds effects
             this.load.image('bloodTile', 'assets/tiles/bloodTile.png');
             this.load.spritesheet('poison', 'assets/tiles/poison.png', 32, 32, 3);
             this.load.spritesheet('water', 'assets/tiles/water.png', 32, 32, 3);
             this.load.spritesheet('grass', 'assets/tiles/grass.png', 32, 32, 3);
-
+            this.load.spritesheet('shadow', 'assets/tiles/shadow.png', 32, 32, 3);
 
             //filters
             this.load.script('debug',   'assets/filters/DebugFilter.js');

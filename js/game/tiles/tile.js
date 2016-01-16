@@ -28,13 +28,28 @@ Tile.prototype.init = function(parameters) {
     this.speedDecrease = parameters.speedDecrease || null;
     this.frame = parameters.frame || 0;
 
-    this.scale.x = parameters.scaleX || 5;
-    this.scale.y = parameters.scaleY || 5;
+    var scaleX = parameters.scale || Math.round(Math.random() * (3 - 1) + 1);
+    var scaleY = scaleX;
 
-    if (parameters.dir == 0) this.angle = 0;
-    if (parameters.dir == 2) this.angle = 180;
-    if (parameters.dir == 1) this.angle = 90;
-    if (parameters.dir == 3) this.angle = 270;
+    this.scale.x = parameters.scaleX || scaleX+2;
+    this.scale.y = parameters.scaleY || scaleY;
+
+    if (parameters.dir == 0) {
+        this.scale.x+=2;
+        this.angle = 0;
+    }
+    if (parameters.dir == 2) {
+        this.scale.x+=2;
+        this.angle = 180;
+    }
+    if (parameters.dir == 1) {
+        this.scale.y+=2;
+        this.angle = 90;
+    }
+    if (parameters.dir == 3) {
+        this.scale.y+=2;
+        this.angle = 270;
+    }
 
 
 };
@@ -51,7 +66,7 @@ Tile.prototype.update = function() {
         this.game.entities.forEachAlive(function(entity){
             if(self.checkOverlap(self.collisions, entity)){
                 if(self.speedDecrease) entity.decreaseSpeed(self.speedDecrease);
-                if(self.damage) entity.hit(self.damage);
+                if(self.damage) entity.poisonHit(self.damage);
             }
         });
     }
@@ -62,9 +77,9 @@ Tile.prototype.update = function() {
 
 Tile.prototype.checkOverlap = function (body1, body2) {
     return (
-        body1.left - (body1.left * 0.1) < body2.right &&
-        body1.right > body2.left &&
-        body1.top < body2.bottom &&
+        body1.left   < body2.right &&
+        body1.right  > body2.left &&
+        body1.top    < body2.bottom &&
         body1.bottom > body2.top
     );
 

@@ -22,6 +22,7 @@ var Spider = function (game, parameters) {
     //this.factor = Math.round(Math.random() * (4-1)+1);
     //this.init(parameters.spider);
     //this.create();
+
 };
 
 Spider.prototype = Object.create(WorstEnemyEver.prototype);

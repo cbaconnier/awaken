@@ -43,10 +43,8 @@
             if(this.charIndex >= this.level.description.length) return;
             var char = this.level.description[this.charIndex];
             this.description.text = this.description.text.concat(char);
-            if(this.mutedChars.indexOf(char) == -1) {
-                console.log(char);
-                this.fxText.play();
-            }
+            if(this.mutedChars.indexOf(char) == -1) this.fxText.play();
+
             this.charIndex++;
             this.timer.add(this.charDelay, this.nextChar, this);
         },
