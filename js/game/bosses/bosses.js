@@ -52,7 +52,7 @@
                 var location = boss.popLocation();
                 boss.reset(location.x,location.y);
                 boss.init(this.game.level.bossParameters[boss.type]);
-            }else if(nbBossesAlive < this.game.level.maxBosses){
+            }else if(nbBossesAlive < this.game.level.maxBosses && this.game.level.bossParameters){
                 this.createRandomBoss(Object.keys(this.game.level.bossParameters));
             }
 

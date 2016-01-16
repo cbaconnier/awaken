@@ -141,7 +141,6 @@ Ken.prototype.create = function () {
     this.body.setCollisionGroup(this.game.entitiesCollisions);
     this.body.collides(this.game.entitiesCollisions);
 
-    this.parameters.attackSize = 5;
 
     //this.attackZone.body.setRectangle(this.spriteAttack.width*this.parameters.attackSize, this.spriteAttack.height*this.parameters.attackSize, 0, 20*this.parameters.attackSize);
 
