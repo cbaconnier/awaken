@@ -18,6 +18,6 @@ var ShadowTile = function (game, x, y, parameters) {
 ShadowTile.prototype = Object.create(Tile.prototype);
 ShadowTile.prototype.constructor = ShadowTile;
 
-Tile.prototype.update = function() {
+ShadowTile.prototype.update = function() {
     this.bringToTop();
 };

@@ -20,3 +20,7 @@ var GrassTile = function (game, x, y, parameters) {
 GrassTile.prototype = Object.create(Tile.prototype);
 GrassTile.prototype.constructor = GrassTile;
 
+
+GrassTile.prototype.update = function() {
+    this.bringToTop();
+};

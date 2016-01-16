@@ -215,7 +215,6 @@ WorstEnemyEver.prototype.poisonEffect = function(damage, i){
     }
 
     this.health -= damage;
-    this.game.ui.setHealthWidth(this.health);
     this.game.ui.dialogue(this.x, this.y, damage.toString(), 16, null, null, 0x0d7200);
     if (this.health <= 0) {
        this.die();

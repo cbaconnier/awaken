@@ -64,7 +64,7 @@
 
 
             //musics
-            this.load.audio('music_game_1', ['assets/musics/paragonX9_metropolis.mp3']);
+            this.load.audio('music_game_1', ['assets/musics/paragonX9_metropolis.ogg']);
 
             //sounds
             this.load.audio('fx_hit', 'assets/sounds/hit.wav');
@@ -83,8 +83,8 @@
         },
 
         update: function () {
-            if (!!this.ready) {
-            //if (!!this.ready && this.cache.isSoundDecoded('music_game_1')) {
+            //if (!!this.ready) {
+            if (!!this.ready && this.cache.isSoundDecoded('music_game_1')) {
                 this.game.state.start('menu');
             }
         },
