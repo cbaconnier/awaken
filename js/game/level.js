@@ -25,9 +25,9 @@
                                 "Suspendisse malesuada ante sem, at ultrices nunc pellentesque quis. \n" +
                                 "Vestibulum suscipit accumsan lorem, sit amet pharetra sem. Vivamus sed elementum risus",
 
-                    enemiesToKill: 10,
-                    maxEnemies: 100,
-                    maxBosses: 1,
+                    enemiesToKill: 100000,
+                    maxEnemies: 0,
+                    maxBosses: 0,
                     minSpawnDelay: 250,
                     maxSpawnDelay: 500,
 
@@ -38,17 +38,20 @@
                     events: {
                        // wind: {},
                         snow: {},
-                       fog: {}
+                        //fog: {}
                     },
 
                     tiles: {
                         poison: {
-                            maxTiles: 2,
+                            maxTiles: 1,
                             dmg: 5
                         },
                         water: {
-                            maxTiles: 2,
+                            maxTiles: 0,
                             speedDecrease: 100
+                        },
+                        grass:{
+                            maxTiles: 0,
                         }
                     },
 
@@ -63,7 +66,7 @@
 
                     bossParameters: {
                         david: {
-                            maxBoss: 0,
+                            maxBoss: 1,
                             health: 100000,
                             dmg: 5000,
                             score: 4242424242
@@ -73,13 +76,13 @@
 
                     enemyParameters: {
                         spider: {
-                            maxEnemy: 5,
+                            maxEnemy: 100,
                             health: 2,
                             dmg: 5,
                             score: 20
                         },
                         worm: {
-                            maxEnemy: 5,
+                            maxEnemy: 100,
                             health: 4,
                             dmg: 2,
                             score: 20

@@ -52,10 +52,14 @@
 
             //grounds effects
             this.load.image('bloodTile', 'assets/tiles/bloodTile.png');
+            this.load.spritesheet('poison', 'assets/tiles/poison.png', 32, 32, 3);
+            this.load.spritesheet('water', 'assets/tiles/water.png', 32, 32, 3);
+            this.load.spritesheet('grass', 'assets/tiles/grass.png', 32, 32, 3);
 
 
             //filters
             this.load.script('debug',   'assets/filters/DebugFilter.js');
+            this.load.script('grassf',   'assets/filters/grassFilter.js');
            //this.load.script('recolor', 'assets/filters/RecolorFilter.js');
 
 
@@ -77,7 +81,8 @@
         },
 
         update: function () {
-            if (!!this.ready && this.cache.isSoundDecoded('music_game_1')) {
+            if (!!this.ready) {
+            //if (!!this.ready && this.cache.isSoundDecoded('music_game_1')) {
                 this.game.state.start('menu');
             }
         },

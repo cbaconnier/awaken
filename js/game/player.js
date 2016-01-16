@@ -2,11 +2,12 @@
 
 
 var Ken = function (game, parameters) {
-    Phaser.Sprite.call(this, game, 350, 120, 'ken');
+    this.game = game;
+    Phaser.Sprite.call(this, game, this.game.width *.5, this.game.height *.5, 'ken');
     //this._parentTransform = game.players;
     //this.updateTransform(game.players);
     this.name = "Ken";
-    this.game = game;
+
     this.parameters = parameters;
     //this.tint = '#FF00FF';
     this.create();

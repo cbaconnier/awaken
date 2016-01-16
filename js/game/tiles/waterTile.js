@@ -1,8 +1,18 @@
 
-var WaterTile = function (game, parameters) {
-    x = 450;
-    y = 450;
-    Tile.call(this, game, x, y, 'bloodTile', parameters);
+var WaterTile = function (game, x, y, parameters) {
+
+   // x = 150;
+   // y = 150;
+
+
+    Tile.call(this, game, x, y, 'water', parameters);
+
+    //randomize the order of sprites
+    var animOrder = [0,1,2].sort(function() {
+        return .5 - Math.random();
+    });
+    this.animations.add('tile_animation', animOrder, 6, true);
+    this.animations.play("tile_animation");
 
 };
 

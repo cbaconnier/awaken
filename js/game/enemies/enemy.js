@@ -117,7 +117,7 @@ WorstEnemyEver.prototype.resetSpeed = function(){
     this.speed = this.defaultSpeed;
 };
 
-WorstEnemyEver.prototype.moveTo = function(destination, speed, maxTime){;
+WorstEnemyEver.prototype.moveTo = function(destination, speed, maxTime){
 
 
     this.body.velocity.x = 0;
@@ -262,10 +262,8 @@ WorstEnemyEver.prototype.die = function(){
         dir: this.dir,
         scaleX: this.scale.x,
         scaleY: this.scale.y,
-        x: this.x,
-        y: this.y
     };
-    new BloodTile(this.game, parameters);
+    this.game.tilesf.addTile('blood', this.x, this.y, parameters);
     this.kill();
 };
 

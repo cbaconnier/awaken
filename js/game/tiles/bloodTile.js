@@ -1,7 +1,7 @@
 
-var BloodTile = function (game, parameters) {
+var BloodTile = function (game, x, y, parameters) {
 
-    Tile.call(this, game, parameters.x, parameters.y, 'bloodTile', parameters);
+    Tile.call(this, game, x, y, 'bloodTile', parameters);
 
 
 };
