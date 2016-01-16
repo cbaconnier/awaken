@@ -8,3 +8,8 @@ var BloodTile = function (game, x, y, parameters) {
 
 BloodTile.prototype = Object.create(Tile.prototype);
 BloodTile.prototype.constructor = BloodTile;
+
+
+Tile.prototype.update = function() {
+    this.sendToBack();
+};

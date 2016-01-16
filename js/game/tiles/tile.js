@@ -61,7 +61,7 @@ Tile.prototype.update = function() {
 
     //if(this.filter) this.filter.update();
     if(this.speedDecrease || this.damage){
-        this.bringToTop();
+        //this.bringToTop();
         var self = this;
         this.game.entities.forEachAlive(function(entity){
             if(self.checkOverlap(self.collisions, entity)){

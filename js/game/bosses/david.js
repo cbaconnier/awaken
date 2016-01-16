@@ -26,6 +26,8 @@ var David = function (game, parameters) {
     this.anchor.set(0.5);
 
 
+    this.shadow = this.game.tilesf.addTile('shadow', this.game.ken.x, this.game.ken.y, {dir: this.dir, scaleX:1, scaleY:1});
+
     this.destinationY = 0;
     this.ready = false;
     this.ready2 = false;
@@ -35,7 +37,6 @@ var David = function (game, parameters) {
     this.frame = 3;
     this.body.setRectangle(350, 80, 0, 26);
 
-    this.shadow = null;
     this.canTakeDamage = false;
     this.blocked = false;
 
@@ -101,7 +102,7 @@ David.prototype.resetSpeed = function(){};
 
 
 David.prototype.update = function(){
-
+if(this.alive){
     if(!this.blocked){
 
         if(this.ready && this.game.ken.x > this.x) this.body.velocity.x = 100;
@@ -150,43 +151,56 @@ David.prototype.update = function(){
     }else{
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
-        //this.shadow.body.velocity.y = 0;
+
     }
     this.yy = this.y+85;
-
+}
 
 
 };
 
 
 David.prototype.attack = function(){
-    if(this.shadow) this.shadow.destroy();
-    this.body.x = this.game.ken.x;
-    this.body.velocity.y = 0;
-    this.body.y = -80-this.game.height;
-    this.destinationY = this.game.ken.y;
-    this.lastPhase = false;
+    if(this.alive){
+        this.shadow.visible = false;
+        this.body.x = this.game.ken.x;
+        this.body.velocity.y = 0;
+        this.body.y = -80-this.game.height;
+        this.destinationY = this.game.ken.y;
+        this.lastPhase = false;
 
-    if(Math.round(Math.random())){ //0 or 1
-        this.body.setRectangle(150, 80, 0, 26);
-        this.frame = 0;
-        this.leg.frame = 0;
-        this.dir = 0;
-    }else{
-        this.body.setRectangle(350, 80, 0, 26);
-        this.frame = 2;
-        this.leg.frame = 1;
-        this.dir = 3;
+        if(Math.round(Math.random())){ //0 or 1
+            this.body.setRectangle(150, 80, 0, 26);
+            this.frame = 0;
+            this.leg.frame = 0;
+            this.dir = 0;
+        }else{
+            this.body.setRectangle(350, 80, 0, 26);
+            this.frame = 2;
+            this.leg.frame = 1;
+            this.dir = 3;
+        }
     }
 
     this.attackPhase1();
 
 };
 
+
+
+
 David.prototype.attackPhase1 = function() {
-    console.log(this.dir);
-    this.shadow = this.game.tilesf.addTile('shadow', this.game.ken.x, this.game.ken.y, {dir: this.dir, scaleX:1, scaleY:1});
-    //this.shadow.y = this.game.ken.y+32;
+    if (this.dir == 0) {
+        this.shadow.scale.x=4;
+        this.shadow.scale.y=1;
+        this.shadow.body.angle =0 ;
+    }
+    if (this.dir == 3) {
+        this.shadow.scale.x=1;
+        this.shadow.scale.y=4;
+        this.shadow.body.angle = 270;
+    }
+    this.shadow.visible = true;
     this.body.velocity.y = 100;
     this.ready = true;
 };
@@ -207,7 +221,7 @@ David.prototype.attackPhase2 = function() {
 };
 
 David.prototype.attackPhase3 = function() {
-//    this.shadow.body.velocity.y = 0;
+
     this.ready2 = true;
 
     this.body.velocity.y = 1000;
@@ -221,7 +235,6 @@ David.prototype.attackPhase4 = function() {
     this.ready2 = false;
     this.body.velocity.y = 0;
     this.shadow.visible = false;
-    //this.shadow.body.velocity.y = 0;
 
     //Because we use a custom collision zone, we have to get the real collisions bounds of the sprite
     //P2 convert pixels to meters with 20px/m, we need them in pixels so : multiplied by 20
@@ -251,13 +264,15 @@ David.prototype.attackPhase4 = function() {
 };
 
 David.prototype.attackPhase5 = function() {
-    this.lastPhase = true;
-    this.canTakeDamage = false;
-    this.shadow.visible = true;
-    this.body.clearCollision(true);
-    this.body.velocity.y = -500;
-    this.attackTimer.add(2000, this.attack, this);
-    //this.attack();
+    if(this.alive){
+        this.lastPhase = true;
+        this.canTakeDamage = false;
+        this.shadow.visible = true;
+        this.body.clearCollision(true);
+        this.body.velocity.y = -500;
+        this.attackTimer.add(2000, this.attack, this);
+        //this.attack();
+    }
 };
 
 
@@ -317,6 +332,8 @@ David.prototype.die = function(){
         scaleY: this.scale.y
     };
     this.game.tilesf.addTile('blood', this.x, this.y, parameters);
+    this.shadow.visible = false;
+    this.shadow.kill();
     this.kill();
 };
 

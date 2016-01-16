@@ -45,8 +45,8 @@
                      return;
                  }
             });
-            console.log(tile);
             if(tile){
+                console.log(tile.type);
                 if(!x || !y){
                     var pos = this.getUniqueLocation();
                     if(!pos) return null;

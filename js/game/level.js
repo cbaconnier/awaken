@@ -90,7 +90,7 @@
 
                     bossParameters: {
                         david: {
-                            maxBoss: 1,
+                            maxBoss: 2,
                             health: 100000,
                             dmg: 5000,
                             score: 4242424242
