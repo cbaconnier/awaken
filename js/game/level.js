@@ -58,7 +58,7 @@
                     },
 
                     events: {
-                        wind: {},
+                        //wind: {},
                         //snow: {},
                         rain: {},
                         //fog: {}
@@ -66,7 +66,7 @@
 
                     tiles: {
                         poison: {
-                            maxTiles: 3,
+                            maxTiles: 0,
                             scale:4,
                             dmg: 5
                         },
@@ -85,12 +85,12 @@
                         minDmg: 3000,
                         //maxDmg: 7,
                         maxDmg: 7000,
-                        attackSize: 1
+                        attackSize: 4
                     },
 
                     bossParameters: {
                         david: {
-                            maxBoss: 1,
+                            maxBoss: 0,
                             health: 100000,
                             dmg: 5000,
                             score: 4242424242
@@ -100,7 +100,7 @@
 
                     enemyParameters: {
                         spider: {
-                            maxEnemy: 0,
+                            maxEnemy: 100,
                             health: 2,
                             dmg: 5,
                             score: 20

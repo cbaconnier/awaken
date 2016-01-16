@@ -85,7 +85,7 @@ Ken.prototype.create = function () {
         "LET'S GET PISSED!",
         "ALL I EVER WANTED WAS TO STUDY",
         "PLEASE, LEAVE THE GAME",
-        "I GETTING TOO OLD FOR THIS",
+        "I GETTING TOO OLD FOR THIS"
     ];
 
 
@@ -118,7 +118,10 @@ Ken.prototype.create = function () {
 
     /** sprites **/
     this.spriteAttack = this.game.add.sprite(this.x, this.y, 'attack');
+    this.attackZone = this.game.add.sprite(this.x, this.y, 'attack');
+    //this.attackZone.visible = false;
     this.smoothed = false;
+    this.spriteAttack.smoothed = false;
 
     /** physics **/
     this.enableBody = true;
@@ -126,10 +129,22 @@ Ken.prototype.create = function () {
     this.game.physics.p2.enable(this, false);
     this.body.fixedRotation = true;
 
+    this.attackZone.enableBody = true;
+    this.attackZone.physicsBodyType = Phaser.Physics.P2JS;
+    this.game.physics.p2.enable(this.attackZone, false); // true = debug
+    this.attackZone.body.fixedRotation = true;
+    this.attackZone.body.collideWorldBounds = false;
+
+
     /** collisions **/
     this.body.setCircle(28);
     this.body.setCollisionGroup(this.game.entitiesCollisions);
     this.body.collides(this.game.entitiesCollisions);
+
+    this.parameters.attackSize = 5;
+
+    //this.attackZone.body.setRectangle(this.spriteAttack.width*this.parameters.attackSize, this.spriteAttack.height*this.parameters.attackSize, 0, 20*this.parameters.attackSize);
+
 
     this.yy = this.y;
 
@@ -152,6 +167,16 @@ Ken.prototype.create = function () {
     this.spriteAttack.animations.add('attack', [0, 1, 2], this.animationSpeed * 2, false);
     this.spriteAttack.angle = 180;
     this.spriteAttack.anchor.setTo(0.5);
+
+    this.attackZone.animations.add('attack', [0, 1, 2], this.animationSpeed * 2, false);
+    this.attackZone.angle = 180;
+
+    this.attackZone.anchor.setTo(0.5);
+
+
+    this.attackZone.scale.x = this.parameters.attackSize;
+    this.attackZone.scale.y = this.parameters.attackSize;
+
 
     this.spriteAttack.scale.x = this.parameters.attackSize;
     this.spriteAttack.scale.y = this.parameters.attackSize;
@@ -200,6 +225,9 @@ Ken.prototype.create = function () {
 
     /*** Timers ***/
     this.game.time.events.loop(1000, this.setMessageAvailable, this); //Messages
+    //this.attackTimer = this.game.time.create(false);
+    //this.attackTimer.start();
+    //this.attackTimer.add(500, this.setAttackAvailable, this);
 
     /*** Audio ***/
 
@@ -368,54 +396,103 @@ Ken.prototype.animate = function () {
     }
 };
 
-    Ken.prototype.attack = function () {
-        //To attack, we need the attackKey pressed and that the action is available
-        if (this.attackKey.isDown && this.attackIsAvailable) {
+Ken.prototype.attack = function () {
 
-            var dist = 32;
-            var longueDist = 78;
-            if (this.dir == 0) {
-                dist = (this.walking) ? longueDist : dist;
-                this.spriteAttack.x = this.x;
-                this.spriteAttack.y = this.y - dist;
-                this.spriteAttack.angle = 0;
-            } else if (this.dir == 2) {
-                dist = (this.walking) ? longueDist : dist;
-                this.spriteAttack.x = this.x;
-                this.spriteAttack.y = this.y + dist;
-                this.spriteAttack.angle = 180;
-            } else if (this.dir == 1) {
-                dist = (this.walking) ? longueDist : dist;
-                this.spriteAttack.x = this.x + dist;
-                this.spriteAttack.y = this.y;
-                this.spriteAttack.angle = 90;
-            } else if (this.dir == 3) {
-                dist = (this.walking) ? longueDist : dist;
-                this.spriteAttack.x = this.x - dist;
-                this.spriteAttack.y = this.y;
-                this.spriteAttack.angle = 270;
-            }
+    var dist;
+    var dist2;
 
-            var self = this;
-            var hit = false;
-            this.game.entities.forEachAlive(function (enemy) {
-                if (self.checkOverlap(self.spriteAttack, enemy) && enemy != self) {
-                    self.fxHit.play();
-                    hit = true;
-                    enemy.hit(Math.round(Math.random() * (self.maxDamage - self.minDamage) + self.minDamage));
-                    self.score += enemy.scoreGiven;
-                }
-            });
-            if(!hit){
-                this.fxAttack.play();
-            }
+    if (this.dir == 0) {
+        dist = (this.walking) ? this.spriteAttack.height + 16 : this.spriteAttack.height;
+        dist2 = (this.walking) ? this.spriteAttack.height/2: 0;
+        dist2 = (this.walking) ? (6-this.parameters.attackSize) * 8: 16;
 
-            this.animating = false;
-            this.attacking = true;
-            this.attackIsAvailable = false;
-            this.game.time.events.add(500, this.setAttackAvailable, this);
+        if(this.attackIsAvailable){
+            this.spriteAttack.x = this.x;
+            this.spriteAttack.y = this.y - dist2;
+            this.spriteAttack.angle = 0;
         }
-    };
+
+        this.attackZone.body.x = this.x;
+        this.attackZone.body.y = this.y - dist + (40*this.parameters.attackSize);
+        this.attackZone.body.angle = 0;
+
+
+
+    } else if (this.dir == 2) {
+        dist = (this.walking) ? this.spriteAttack.height + 16  : this.spriteAttack.height;
+        dist2 = (this.walking) ? this.spriteAttack.height/2: 0;
+        dist2 = (this.walking) ? (6-this.parameters.attackSize) * 8: 16;
+        if(this.attackIsAvailable) {
+            this.spriteAttack.x = this.x;
+            this.spriteAttack.y = this.y + dist2;
+            this.spriteAttack.angle = 180;
+        }
+
+        this.attackZone.body.x = this.x;
+        this.attackZone.body.y = this.y + dist - (40*this.parameters.attackSize);
+        this.attackZone.body.angle = 180;
+
+
+
+    } else if (this.dir == 1) {
+        dist = (this.walking) ? this.spriteAttack.width + 16  : this.spriteAttack.width;
+        dist2 = (this.walking) ? this.spriteAttack.width/2: 0;
+        dist2 = (this.walking) ? (6-this.parameters.attackSize) * 8: 16;
+        if(this.attackIsAvailable) {
+            this.spriteAttack.x = this.x + dist2;
+            this.spriteAttack.y = this.y;
+            this.spriteAttack.angle = 90;
+        }
+
+        this.attackZone.body.x = this.x + dist - (32*this.parameters.attackSize);
+        this.attackZone.body.y = this.y;
+        this.attackZone.body.angle = 90;
+
+
+
+    } else if (this.dir == 3) {
+        dist = (this.walking) ? this.spriteAttack.width + 16  : this.spriteAttack.width;
+        dist2 = (this.walking) ? this.spriteAttack.width/2: 0;
+        dist2 = (this.walking) ? (6-this.parameters.attackSize) * 8: 16;
+        if(this.attackIsAvailable) {
+            this.spriteAttack.x = this.x - dist2;
+            this.spriteAttack.y = this.y;
+            this.spriteAttack.angle = 270;
+        }
+        this.attackZone.body.x = this.x - dist + (32*this.parameters.attackSize);
+        this.attackZone.body.y = this.y;
+        this.attackZone.body.angle = 270;
+    }
+
+
+
+    //To attack, we need the attackKey pressed and that the action is available
+    if (this.attackKey.isDown && this.attackIsAvailable) {
+
+
+
+        var self = this;
+        var hit = false;
+
+
+        this.game.entities.forEachAlive(function (enemy) {
+            if (self.checkOverlap(self.attackZone, enemy) && enemy != self) {
+                self.fxHit.play();
+                hit = true;
+                enemy.hit(Math.round(Math.random() * (self.maxDamage - self.minDamage) + self.minDamage));
+                self.score += enemy.scoreGiven;
+            }
+        });
+        if(!hit){
+            this.fxAttack.play();
+        }
+
+        this.animating = false;
+        this.attacking = true;
+        this.attackIsAvailable = false;
+        this.game.time.events.add(500, this.setAttackAvailable, this);
+    }
+};
 
 
 Ken.prototype.poisonHit = function(damage){
@@ -486,7 +563,6 @@ Ken.prototype.unsetInvulnerable = function(){
 };
 
 Ken.prototype.highlight = function(tint, callback){
-    console.log(callback);
     if(callback.value){
         this.tint =  (this.tint == 0xffffff) ? tint : 0xffffff;
 
@@ -534,9 +610,11 @@ Ken.prototype.debugCollisions = function () {
     /** Debug **/
     if (this.game.debugCollisions) {
         this.spriteAttack.filters = [this.filterDebugAtk];
+        this.attackZone.filters = [this.filterDebugAtk];
         this.filters = [this.filterDebug];
     } else {
         this.spriteAttack.filters = null;
+        this.attackZone.filters = null;
         this.filters = null;
     }
 };
