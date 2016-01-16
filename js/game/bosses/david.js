@@ -36,7 +36,7 @@ var David = function (game, parameters) {
     this.body.setRectangle(350, 80, 0, 26);
 
     this.shadow = null;
-
+    this.canTakeDamage = false;
     this.blocked = false;
 
     this.scale.x = 13;
@@ -61,6 +61,12 @@ var David = function (game, parameters) {
     this.attackTimer = this.game.time.create(false);
     this.attackTimer.start();
     this.attack();
+
+
+    this.fxAttack = this.game.add.audio('fx_david');
+    this.fxAttack.allowMultiple = false;
+    this.fxAttack.volume = 0.6;
+
 
 
 };
@@ -210,7 +216,8 @@ David.prototype.attackPhase3 = function() {
 };
 
 David.prototype.attackPhase4 = function() {
-
+    this.fxAttack.play();
+    this.canTakeDamage = true;
     this.ready2 = false;
     this.body.velocity.y = 0;
     this.shadow.visible = false;
@@ -245,6 +252,7 @@ David.prototype.attackPhase4 = function() {
 
 David.prototype.attackPhase5 = function() {
     this.lastPhase = true;
+    this.canTakeDamage = false;
     this.shadow.visible = true;
     this.body.clearCollision(true);
     this.body.velocity.y = -500;
@@ -287,14 +295,17 @@ David.prototype.setWindForce = function(force){};
 
 
 David.prototype.hit = function(damage){
-    //blood
-    this.bleed();
 
-    this.game.ui.dialogue(this.x, this.y, damage.toString(), 30, 350, -96);
+    if(this.canTakeDamage){
+        //blood
+        this.bleed();
 
-    this.health -= damage;
-    if(this.health <= 0){
-        this.die();
+        this.game.ui.dialogue(this.x, this.y, damage.toString(), 30, 350, -96);
+
+        this.health -= damage;
+        if(this.health <= 0){
+            this.die();
+        }
     }
 };
 

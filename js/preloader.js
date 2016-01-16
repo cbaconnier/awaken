@@ -70,6 +70,7 @@
             this.load.audio('fx_hit', 'assets/sounds/hit.wav');
             this.load.audio('fx_attack', 'assets/sounds/attack.wav');
             this.load.audio('fx_text', 'assets/sounds/text.wav');
+            this.load.audio('fx_david', 'assets/sounds/david.wav');
 
         },
 
