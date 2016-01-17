@@ -72,6 +72,8 @@
             this.load.audio('fx_attack', 'assets/sounds/attack.wav');
             this.load.audio('fx_text', 'assets/sounds/text.wav');
             this.load.audio('fx_david', 'assets/sounds/david.wav');
+            this.load.audio('fx_button_over', 'assets/sounds/button_over.wav');
+            this.load.audio('fx_button_actived', 'assets/sounds/button_actived.wav');
 
         },
 

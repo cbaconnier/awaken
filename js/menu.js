@@ -10,6 +10,14 @@
         create: function () {
 
 
+            this.fxButtonOver = this.game.add.audio('fx_button_over');
+            this.fxButtonOver.allowMultiple = false;
+            this.fxButtonOver.volume = .9;
+
+            this.fxButtonActived = this.game.add.audio('fx_button_actived');
+            this.fxButtonActived.allowMultiple = false;
+            this.fxButtonActived.volume = .9;
+
             var title = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.3, 'gem', "AWAKEN", 42);
             title.anchor.set(0.5);
 
@@ -28,6 +36,7 @@
             this.play.anchor.set(0.5);
             this.play.scale.x = 3;
             this.play.scale.y = 3;
+            this.play.setSounds(this.fxButtonOver);
             var playText = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.45, 'gem', "PLAY", 16);
             playText.anchor.set(0.5);
 
@@ -38,6 +47,7 @@
             this.cheat.anchor.set(0.5);
             this.cheat.scale.x = 3;
             this.cheat.scale.y = 3;
+            this.cheat.setSounds(this.fxButtonOver);
             var cheaterText = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.55, 'gem', "CHEATER", 16);
             cheaterText.anchor.set(0.5);
 
@@ -47,6 +57,7 @@
             this.full.anchor.set(0.5);
             this.full.scale.x = 3;
             this.full.scale.y = 3;
+            this.full.setSounds(this.fxButtonOver);
             var fullscreenText = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.65, 'gem', "FULLSCREEN", 16);
             fullscreenText.anchor.set(0.5);
 
@@ -70,13 +81,16 @@
 
 
         playAction: function(){
-            if(this.play.input.pointerOver())
+            if(this.play.input.pointerOver()){
+                this.fxButtonActived.play();
                 this.onDown();
+            }
+
         },
 
         cheaterAction: function(){
             if(this.cheat.input.pointerOver()){
-                console.log(ns.Boot.cheater);
+                this.fxButtonActived.play();
                 ns.Boot.cheater = !ns.Boot.cheater;
                 if(ns.Boot.cheater){
                     this.cheatText.text = "Cheat actived !";
@@ -87,8 +101,10 @@
         },
 
         fullscreenAction: function(){
-            if(this.full.input.pointerOver())
+            if(this.full.input.pointerOver()) {
+                this.fxButtonActived.play();
                 this.goFullscreen();
+            }
         },
 
         addButtons: function(){
