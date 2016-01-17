@@ -155,18 +155,21 @@
         },
 
         gameOverState: function(){
-            if(this.game.level.nextLevel()){
-                this.game.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
-                this.game.pad.getButton(Phaser.Gamepad.XBOX360_START).onDown.dispose();
-                this.game.state.start('over', true, false, this.game.level.nextLevel());
-            }
+
+            this.game.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
+            this.game.pad.getButton(Phaser.Gamepad.XBOX360_START).onDown.dispose();
+            this.game.state.start('over', true, false, this.game.level.nextLevel());
+
         },
 
         nextLevel: function(){
+            this.game.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
+            this.game.pad.getButton(Phaser.Gamepad.XBOX360_START).onDown.dispose();
+
             if(this.game.level.nextLevel()){
-                this.game.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
-                this.game.pad.getButton(Phaser.Gamepad.XBOX360_START).onDown.dispose();
                 this.game.state.start('transition', true, false, this.game.level.nextLevel());
+            }else{
+                this.game.state.start('end');
             }
         },
 

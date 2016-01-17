@@ -5,10 +5,9 @@
 
     Over.prototype = {
         create: function () {
-            var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5,
-                'GAME OVER', {font: '42px Arial', fill: '#ffffff', align: 'center'
-                });
+            var text = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.3, 'gem', "GAME OVER", 42);
             text.anchor.set(0.5);
+
             this.input.onDown.add(this.onDown, this);
             this.continue = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
             this.input.keyboard.addKey(Phaser.Keyboard.F).onDown.add(this.goFullscreen, this);
