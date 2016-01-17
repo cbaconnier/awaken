@@ -20,7 +20,7 @@
          */
 
         getFirstLevel: function () {
-            return this.getLevels().level_7;
+            return this.getLevels().level_1;
         },
 
 
