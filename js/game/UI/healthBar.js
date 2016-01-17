@@ -1,5 +1,6 @@
 
 var HealthBar = function (game, health, parameters) {
+
     this.game = game;
     this.defaultHealth = health;
     this.health = this.defaultHealth;
@@ -38,6 +39,11 @@ HealthBar.prototype.create = function(){
     this.updateHealthBar();
     if(this.params.highlight)
         this.game.time.events.loop(250, this.highlightHealth, this);
+
+    console.log(this.game.ui);
+    this.game.ui.add(this.healthBarBgSprite);
+    this.game.ui.add(this.healthBarSprite);
+    this.game.ui.add(this.healthText);
 
 };
 

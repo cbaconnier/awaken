@@ -58,15 +58,16 @@
             this.game.debugCollisions = false;
 
 
+            this.game.tiles = this.game.add.group();
+            this.game.effects = this.game.add.group();
+            this.game.entities = this.game.add.group();
+            this.game.ui = this.game.add.group();
+
             this.game.enemies = new ns.Enemies(this.game);
             this.game.bosses = new ns.Bosses(this.game);
             this.game.tilesf = new ns.Tiles(this.game);
 
 
-            this.game.tiles = this.game.add.group();
-            this.game.effects = this.game.add.group();
-            this.game.entities = this.game.add.group();
-            this.game.ui = this.game.add.group();
 
 
             //this.game.maxEnemies = 10; // ?????

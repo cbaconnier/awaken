@@ -444,11 +444,11 @@
                     title: "Level 7",
                     short: "The school",
                     description: "HO NO",
-                    bossesToKill: 2,
-                    maxEnemies: 0,
-                    maxBosses: 3,
-                    minSpawnDelay: 5000,
-                    maxSpawnDelay: 5000,
+                    bossesToKill: 1,
+                    maxEnemies: 50,
+                    maxBosses: 1,
+                    minSpawnDelay: 100,
+                    maxSpawnDelay: 250,
                     nextLevel: function () {
                         return null;
                     },
@@ -462,7 +462,7 @@
 
                     bossParameters: {
                         david: {
-                            maxBoss: 2,
+                            maxBoss: 1,
                             health: 5000000,
                             dmg: 6000,
                             score: 10000000000
