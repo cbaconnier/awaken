@@ -7,7 +7,7 @@ var Tile = function (game, x, y, type, parameters) {
     this.type = type;
     this.game = game;
     this.smoothed = false;
-
+    this.anchor.set(0.5);
     this.init(parameters);
 
     this.collisions = {

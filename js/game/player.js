@@ -531,7 +531,7 @@ Ken.prototype.poisonEffect = function(damage, i){
     this.game.ui.setHealthWidth(this.health);
     this.game.ui.dialogue(this.x, this.y, damage.toString(), 16, null, null, 0x0d7200);
     if (this.health <= 0) {
-        //this.game.state.start('over');
+       this.die();
     }
 
     var poisonTimer = this.game.time.create(false);
@@ -556,9 +556,19 @@ Ken.prototype.hit = function (damage) {
 
         this.game.ui.setHealthWidth(this.health);
         if (this.health <= 0) {
-            //this.game.state.start('over');
+            this.die();
         }
     }
+};
+Ken.prototype.die = function() {
+    var parameters = {
+        dir: this.dir,
+        scaleX: 2,
+        scaleY: 2
+    };
+    this.game.tilesf.addTile('blood', this.x, this.y, parameters);
+    this.kill();
+    this.game.over = true;
 };
 
 Ken.prototype.setInvulnerable = function(time){

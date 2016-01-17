@@ -67,6 +67,7 @@
             this.game.effects = this.game.add.group();
             this.game.entities = this.game.add.group();
 
+            this.game.over = false;
 
             this.game.maxEnemies = 10;
 
@@ -98,7 +99,6 @@
             this.game.events.update();
             this.game.entities.sort("yy");
             this.objectivesComplete();
-
         },
 
         render: function (){
@@ -110,6 +110,8 @@
 
         objectivesComplete: function(){
 
+            if(this.game.over) this.gameOver();
+
               if(
                   (this.game.level.enemiesToKill != null && this.game.enemiesKilled >= this.game.level.enemiesToKill) //Number of enemies to kill
                     ||
@@ -118,13 +120,22 @@
                   (this.game.level.bossesToKill != null && this.game.bossesKilled >= this.game.level.bossesToKill)
               ){
 
-                  this.game.entities.setAll('blocked',true );
+                  this.game.entities.setAll('blocked', true);
 
                   var nextLevelTimer = this.game.time.create(false);
                   nextLevelTimer.start();
                   nextLevelTimer.add(1000, this.killThemAll, this);
               }
 
+
+        },
+
+        gameOver: function(){
+            this.game.entities.setAll('blocked', true);
+
+            var nextLevelTimer = this.game.time.create(false);
+            nextLevelTimer.start();
+            nextLevelTimer.add(3000, this.gameOverState, this);
 
         },
 
@@ -141,6 +152,14 @@
             nextLevelTimer.start();
             nextLevelTimer.add(1000, this.nextLevel, this);
 
+        },
+
+        gameOverState: function(){
+            if(this.game.level.nextLevel()){
+                this.game.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
+                this.game.pad.getButton(Phaser.Gamepad.XBOX360_START).onDown.dispose();
+                this.game.state.start('over', true, false, this.game.level.nextLevel());
+            }
         },
 
         nextLevel: function(){
@@ -160,7 +179,7 @@
         onInputDown: function () {
             this.game.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
             this.game.pad.getButton(Phaser.Gamepad.XBOX360_START).onDown.dispose();
-            this.game.state.start('over');
+            this.game.state.start('menu');
         },
 
 
