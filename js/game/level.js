@@ -236,7 +236,7 @@
 
                     tiles: {
                         grass:{
-                            maxTiles: 9
+                            maxTiles: 7
                         }
                     }
 

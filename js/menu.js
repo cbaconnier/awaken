@@ -9,6 +9,7 @@
     Menu.prototype = {
         create: function () {
 
+            ns.Boot.score = 0;
 
             this.fxButtonOver = this.game.add.audio('fx_button_over');
             this.fxButtonOver.allowMultiple = false;

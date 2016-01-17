@@ -7,7 +7,7 @@
         var xx = this.game.width/128;
         var yy = this.game.height/128;
         for(var x=1; x<xx-1;x++){
-            for(var y=1; y<yy-1;y++) {
+            for(var y=1; y<yy;y++) {
                 if(x != 3 && y != 2) //avoid player startup position
                     this.locations.push({x:x, y:y});
             }
