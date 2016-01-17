@@ -207,8 +207,8 @@
                     description: "blablabla",
                     enemiesToKill: 60,
                     maxEnemies: 20,
-                    minSpawnDelay: 250,
-                    maxSpawnDelay: 500,
+                    minSpawnDelay: 750,
+                    maxSpawnDelay: 1300,
                     nextLevel: function () {
                         return levels.level_3;
                     },
@@ -229,7 +229,7 @@
                         worm:{
                             maxEnemy: 20,
                             health: 35,
-                            dmg: 20,
+                            dmg: 15,
                             score: 200
                         }
                     },
@@ -257,8 +257,8 @@
                     description: "mouhahahaha",
                     enemiesToKill: 75,
                     maxEnemies: 100,
-                    minSpawnDelay: 100,
-                    maxSpawnDelay: 250,
+                    minSpawnDelay: 350,
+                    maxSpawnDelay: 1000,
                     nextLevel: function () {
                         return levels.level_4;
                     },

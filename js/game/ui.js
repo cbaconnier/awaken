@@ -34,8 +34,9 @@
             this.gear.bringToTop();
             this.healthBarBgSprite.bringToTop();
             this.healthBarSprite.bringToTop();
-            this.scoreText.setText(this.game.ken.score.toString());
+            this.scoreText.setText(window['awaken'].Boot.score.toString());
             this.healthText.setText(this.game.ken.health.toString() + "/" + this.defaultHealth.toString());
+
         },
 
         drawGear: function(){
@@ -45,7 +46,7 @@
         },
 
         drawScore: function(){
-            this.scoreText = this.game.add.bitmapText(this.game.world.width-20, 15, 'gem', this.game.ken.score.toString(), 32);
+            this.scoreText = this.game.add.bitmapText(this.game.world.width-20, 15, 'gem', window['awaken'].Boot.score.toString(), 32);
             this.scoreText.anchor.x = 1;
         },
 

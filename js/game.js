@@ -86,9 +86,6 @@
             this.game.bosses.addBosses();
             this.game.enemies.addEnemies();
 
-            if(!ns.Boot.fxMusic.isPlaying) ns.Boot.fxMusic.play();
-            if(!ns.Boot.fxMusic.paused) ns.Boot.fxMusic.resume();
-
 
             this.game.events = new ns.Events(this.game);
             this.game.events.setEvents(this.game.level.events);

@@ -1,6 +1,9 @@
 'use strict';
 
 
+
+var ns = window['awaken'];
+
 var Ken = function (game, parameters) {
     this.game = game;
     Phaser.Sprite.call(this, game, this.game.width *.5, this.game.height *.5, 'ken');
@@ -493,13 +496,12 @@ Ken.prototype.attack = function () {
         var self = this;
         var hit = false;
 
-
         this.game.entities.forEachAlive(function (enemy) {
             if (self.checkOverlap(self.attackZone, enemy) && enemy != self) {
                 self.fxHit.play();
                 hit = true;
                 enemy.hit(Math.round(Math.random() * (self.maxDamage - self.minDamage) + self.minDamage));
-                self.score += enemy.scoreGiven;
+                ns.Boot.score += enemy.scoreGiven;
             }
         });
         if(!hit){
@@ -533,7 +535,7 @@ Ken.prototype.poisonEffect = function(damage, i){
         return;
     }
 
-    this.health -= damage;
+    if(!ns.Boot.cheater) this.health -= damage;
     this.game.ui.setHealthWidth(this.health);
     this.game.ui.dialogue(this.x, this.y, damage.toString(), 16, null, null, 0x0d7200);
     if (this.health <= 0) {
@@ -551,7 +553,7 @@ Ken.prototype.hit = function (damage) {
     if(!this.invulnerability.value){
         this.setInvulnerable(1000);
         this.highlight(0x510000, this.invulnerability);
-        this.health -= damage;
+        if(!ns.Boot.cheater) this.health -= damage;
 
         this.game.ui.dialogue(this.x, this.y, damage.toString(), 16, null, null, 0xFFD555);
 

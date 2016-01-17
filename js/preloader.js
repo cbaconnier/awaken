@@ -41,6 +41,7 @@
 
             //ui
             this.load.image('gear', 'assets/ui/gear.png');
+            this.load.spritesheet('button', 'assets/ui/button.png', 64, 16, 3);
 
             //fonts
             this.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
@@ -79,7 +80,8 @@
             window['awaken'].Boot.fxMusic.allowMultiple = false;
             window['awaken'].Boot.fxMusic.loop = true;
             window['awaken'].Boot.fxMusic.volume = .5 ;
-
+            window['awaken'].Boot.cheater = false ;
+            window['awaken'].Boot.score = 0 ;
         },
 
         update: function () {
