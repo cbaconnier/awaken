@@ -68,19 +68,27 @@
             this.game.tiles = this.game.add.group();
             this.game.effects = this.game.add.group();
             this.game.entities = this.game.add.group();
+            this.game.ui = this.game.add.group();
 
-            this.game.over = false;
 
-            this.game.maxEnemies = 10;
+
+
+            //this.game.maxEnemies = 10; // ?????
 
             // Objectives
             this.game.enemiesKilled = 0;
             this.game.bossesKilled = 0;
+            this.game.over = false;
 
 
             this.game.ken = new Ken(this.game, this.game.level.playerParameters);
             this.game.entities.add(this.game.ken);
-            this.game.ui = new ns.UI(this.game);
+
+
+            this.game.dialogues = new Dialogue(this.game);
+            this.game.ui.add(new Score(this.game));
+            this.game.ui.add(new Gear(this.game));
+
 
             this.game.tilesf.addTiles();
             this.game.bosses.addBosses();
@@ -94,7 +102,7 @@
 
 
         update: function () {
-            this.game.ui.update();
+           // this.game.ui.update();
             this.game.events.update();
             this.game.entities.sort("yy");
             this.objectivesComplete();

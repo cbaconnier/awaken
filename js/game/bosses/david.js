@@ -315,7 +315,7 @@ David.prototype.hit = function(damage){
         //blood
         this.bleed();
 
-        this.game.ui.dialogue(this.x, this.y, damage.toString(), 30, 350, -96);
+        this.game.dialogues.create(this.x, this.y, damage.toString(), 30, 350, -96);
 
         this.health -= damage;
         if(this.health <= 0){

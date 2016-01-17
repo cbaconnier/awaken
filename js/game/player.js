@@ -43,6 +43,10 @@ Ken.prototype.create = function () {
     this.defaultSpeed = this.speed;
     this.score = 0;
 
+    var healthBarParams = {x: 20, y: 30, width: 300, height: 20, radius: 3, color: '#FFFFFF', bgColor: '#651828', highlight: true };
+    this.healthBar = new HealthBar(this, this.game, healthBarParams);
+
+
 
     //objects because we need the reference of the value when we use them in callback
     this.invulnerability = {
@@ -521,7 +525,7 @@ Ken.prototype.poisonHit = function(damage){
         this.poisoned.value = true;
         this.highlight(0x0d7200, this.poisoned);
         if (this.messagesIsAvailable) {
-            this.game.ui.dialogue(this.x, this.y, this.messages_hit[Math.floor(Math.random() * this.messages_hit.length)]);
+            this.game.dialogues.create(this.x, this.y, this.messages_hit[Math.floor(Math.random() * this.messages_hit.length)]);
             this.messagesIsAvailable = false;
         }
         this.poisonEffect(damage, 10);
@@ -536,8 +540,10 @@ Ken.prototype.poisonEffect = function(damage, i){
     }
 
     if(!ns.Boot.cheater) this.health -= damage;
-    this.game.ui.setHealthWidth(this.health);
-    this.game.ui.dialogue(this.x, this.y, damage.toString(), 16, null, null, 0x0d7200);
+    if(this.health < 0) this.health = 0;
+
+    this.healthBar.updateHealthBar();
+    this.game.dialogues.create(this.x, this.y, damage.toString(), 16, null, null, 0x0d7200);
     if (this.health <= 0) {
        this.die();
     }
@@ -554,15 +560,16 @@ Ken.prototype.hit = function (damage) {
         this.setInvulnerable(1000);
         this.highlight(0x510000, this.invulnerability);
         if(!ns.Boot.cheater) this.health -= damage;
+        if(this.health < 0) this.health = 0;
 
-        this.game.ui.dialogue(this.x, this.y, damage.toString(), 16, null, null, 0xFFD555);
+        this.game.dialogues.create(this.x, this.y, damage.toString(), 16, null, null, 0xFFD555);
 
         if (this.messagesIsAvailable) {
-            this.game.ui.dialogue(this.x, this.y, this.messages_hit[Math.floor(Math.random() * this.messages_hit.length)]);
+            this.game.dialogues.create(this.x, this.y, this.messages_hit[Math.floor(Math.random() * this.messages_hit.length)]);
             this.messagesIsAvailable = false;
         }
 
-        this.game.ui.setHealthWidth(this.health);
+        this.healthBar.updateHealthBar();
         if (this.health <= 0) {
             this.die();
         }

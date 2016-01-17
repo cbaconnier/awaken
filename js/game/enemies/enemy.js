@@ -215,7 +215,7 @@ WorstEnemyEver.prototype.poisonEffect = function(damage, i){
     }
 
     this.health -= damage;
-    this.game.ui.dialogue(this.x, this.y, damage.toString(), 16, null, null, 0x0d7200);
+    this.game.dialogues.create(this.x, this.y, damage.toString(), 16, null, null, 0x0d7200);
     if (this.health <= 0) {
        this.die();
     }
@@ -248,7 +248,7 @@ WorstEnemyEver.prototype.hit = function(damage){
     this.bleed();
 
     // dialogue
-    this.game.ui.dialogue(this.x, this.y, damage.toString(), 15, 350, -96);
+    this.game.dialogues.create(this.x, this.y, damage.toString(), 15, 350, -96);
 
     // displacement due to the impact
     var xx = 0;

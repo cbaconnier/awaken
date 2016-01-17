@@ -14,10 +14,11 @@
 
         create: function(){
 
-            this.defaultHealth = this.game.ken.health;
-            this.drawHealthBar();
+           // this.defaultHealth = this.game.ken.health;
+           // this.drawHealthBar();
+           // this.setHealthWidth(this.game.ken.health);
+
             this.drawScore();
-            this.setHealthWidth(this.game.ken.health);
             this.game.time.events.loop(250, this.highlightHealth, this); //1 second
             this.highlighting = false;
             this.drawGear();
@@ -32,10 +33,10 @@
 
         update: function(){
             this.gear.bringToTop();
-            this.healthBarBgSprite.bringToTop();
-            this.healthBarSprite.bringToTop();
+           // this.healthBarBgSprite.bringToTop();
+           // this.healthBarSprite.bringToTop();
             this.scoreText.setText(window['awaken'].Boot.score.toString());
-            this.healthText.setText(this.game.ken.health.toString() + "/" + this.defaultHealth.toString());
+            //this.healthText.setText(this.game.ken.health.toString() + "/" + this.defaultHealth.toString());
 
         },
 
@@ -54,7 +55,12 @@
             this.game.debugCollisions = !this.game.debugCollisions;
         },
 
-        drawHealthBar: function(){
+        drawPlayerHealthBar: function(params){
+            params = {x: 20, y: 30, width: 300, height: 20, radius: 3, color: '#FFFFFF', bgColor: '#651828'};
+            this.playerHealthBar = this.drawHealthBar(params);
+        },
+
+        drawHealthBar: function(params){
 
             this.healthbar = {x: 20, y: 30, width: 300, height: 20, radius: 3, color: '#FFFFFF', bgColor: '#651828'};
 
@@ -77,6 +83,8 @@
 
             this.healthBarSprite = this.game.add.sprite(this.healthbar.x, this.healthbar.y, bmd);
 
+
+
             this.healthText = this.game.add.bitmapText(this.healthbar.width+this.healthbar.x, this.healthbar.height, 'gem', this.game.ken.health.toString() + "/" + this.defaultHealth.toString(), 16);
             this.healthText.anchor.x = 1;
             this.healthText.anchor.y = .5;
@@ -85,8 +93,6 @@
         },
 
         setHealthWidth: function(health){
-
-
 
             //Graphic bug fix -> Cause : Textures overlaping
             this.healthBarBgSprite.width = this.healthbar.width;
@@ -105,6 +111,7 @@
                 this.healthBarBgSprite.x = this.healthbar.x+5;
                 this.healthBarBgSprite.width = this.healthBarBgSprite.width - 5;
             }
+
 
             //HealthBar coloration
             this.healthBarSprite.tint = this.rgbToHex((this.health > 50 ? 1-2*(this.health-50)/190.0 : 1.0) * 255,
