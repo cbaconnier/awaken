@@ -35,7 +35,14 @@
             this.nextChar();
 
             this.input.onDown.add(this.onDown, this);
-            this.continue = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+            this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.onNext, this);
+            this.input.keyboard.addKey(Phaser.Keyboard.F).onDown.add(this.goFullscreen, this);
+
+
+            this.game.input.gamepad.start();
+            this.pad = this.game.input.gamepad.pad1;
+            this.pad.addCallbacks(this, {onConnect: this.addButtons});
+            this.addButtons();
         },
 
 
@@ -50,21 +57,45 @@
         },
 
         update: function () {
-            if(this.continue.downDuration(10)) {
-                if(this.textLoaded) {
-                    this.onDown();
-                }else{
-                    this.timer.stop();
-                    this.description.text = '';
-                    this.description.text = this.level.description;
-                    this.textLoaded = true;
-                }
+
+        },
+
+        addButtons: function(){
+            this.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.add(this.onNext, this);
+            //this.pad.getButton(Phaser.Gamepad.XBOX360_Y).onDown.add(this.goFullscreen, this);
+        },
+
+        onNext: function(){
+            if(this.textLoaded) {
+                this.onDown();
+            }else{
+                this.timer.stop();
+                this.description.text = '';
+                this.description.text = this.level.description;
+                this.textLoaded = true;
             }
         },
 
+
         onDown: function () {
+            this.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
             this.game.state.start('game', true, false, this.level);
+        },
+
+        goFullscreen: function(){
+            if (this.game.scale.isFullScreen)
+            {
+                this.game.scale.stopFullScreen();
+            }
+            else
+            {
+                this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+                this.game.scale.startFullScreen(false);
+            }
+
         }
+
+
     };
 
     window['awaken'] = window['awaken'] || {};

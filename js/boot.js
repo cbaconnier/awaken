@@ -3,6 +3,7 @@
 
     function Boot() {
         this.fxMusic = null;
+
     }
 
     Boot.prototype = {
@@ -36,9 +37,9 @@
                 self.resizeGame();
             });
 
+
             this.game.state.start('preloader');
         },
-
 
 
          resizeGame: function () {
@@ -48,6 +49,7 @@
 
 
     };
+
 
     window['awaken'] = window['awaken'] || {};
     window['awaken'].Boot = Boot;

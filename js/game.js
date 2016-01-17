@@ -34,9 +34,14 @@
                 }, false);
             }
 
+            this.input.gamepad.start();
+            this.game.pad = this.input.gamepad.pad1;
+            this.game.pad.addCallbacks(this, {onConnect: this.addButtons});
+            this.addButtons();
 
             this.input.keyboard.addKey(Phaser.Keyboard.ESC).onDown.add(this.onInputDown, this);
             this.input.keyboard.addKey(Phaser.Keyboard.F).onDown.add(this.goFullscreen, this);
+
 
 
             this.game.stage.backgroundColor = '#333';
@@ -140,17 +145,27 @@
 
         nextLevel: function(){
             if(this.game.level.nextLevel()){
+                this.game.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
+                this.game.pad.getButton(Phaser.Gamepad.XBOX360_START).onDown.dispose();
                 this.game.state.start('transition', true, false, this.game.level.nextLevel());
             }
         },
 
 
+        addButtons: function(){
+            this.game.pad.getButton(Phaser.Gamepad.XBOX360_START).onDown.add(this.onInputDown, this);
+            //this.pad.getButton(Phaser.Gamepad.XBOX360_Y).onDown.add(this.goFullscreen, this);
+        },
+
         onInputDown: function () {
+            this.game.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
+            this.game.pad.getButton(Phaser.Gamepad.XBOX360_START).onDown.dispose();
             this.game.state.start('over');
         },
 
 
         goFullscreen: function(){
+
             if (this.game.scale.isFullScreen)
             {
                 this.game.scale.stopFullScreen();

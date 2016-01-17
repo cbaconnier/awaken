@@ -116,6 +116,14 @@ Ken.prototype.create = function () {
     this.keyright2 = false;
 
 
+    this.game.pad.addCallbacks(this, {onConnect: this.addButtons});
+    this.attackButton = null;
+    this.pad = null;
+    this.addButtons();
+
+
+
+
     /** sprites **/
     this.spriteAttack = this.game.add.sprite(this.x, this.y, 'attack');
     this.attackZone = this.game.add.sprite(this.x, this.y, 'attack');
@@ -245,6 +253,10 @@ Ken.prototype.create = function () {
 
 
 
+Ken.prototype.addButtons = function (){
+    this.attackButton = this.game.pad.getButton(Phaser.Gamepad.XBOX360_A);
+};
+
 Ken.prototype.update = function () {
     if(!this.blocked){
         this.move();
@@ -283,36 +295,38 @@ Ken.prototype.move = function () {
     var x = 0;
     var y = 0;
 
+    this.padX = this.game.pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X);
+    this.padY = this.game.pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y);
 
-    if (this.keys.up.isDown || this.key.w.isDown) y--;
-    if (this.keys.down.isDown || this.key.s.isDown) y++;
-    if (this.keys.left.isDown || this.key.a.isDown) x--;
-    if (this.keys.right.isDown || this.key.d.isDown) x++;
+    if (this.keys.up.isDown    || this.key.w.isDown || (this.padY < -0.1)) y--;
+    if (this.keys.down.isDown  || this.key.s.isDown || (this.padY > 0.1))  y++;
+    if (this.keys.left.isDown  || this.key.a.isDown || (this.padX < -0.1)) x--;
+    if (this.keys.right.isDown || this.key.d.isDown || (this.padX > 0.1))  x++;
 
-    if (this.keyup2 != this.keys.up.isDown && this.keyup2 != this.key.w.isDown && !this.attacking) {
+    if (this.keyup2 != (this.keys.up.isDown || this.key.w.isDown || (this.padY < -0.1)) && !this.attacking) {
         this.animating = false;
-        this.keyup2 = this.keys.up.isDown || this.key.w.isDown;
+        this.keyup2 = this.keys.up.isDown || this.key.w.isDown || (this.padY < -0.1);
     }
 
-    if (this.keydown2 != this.keys.down.isDown && this.keyup2 != this.key.s.isDown && !this.attacking) {
+    if (this.keydown2 != (this.keys.down.isDown || this.key.s.isDown || (this.padY > 0.1)) && !this.attacking) {
         this.animating = false;
-        this.keydown2 = this.keys.down.isDown || this.key.s.isDown;
+        this.keydown2 = this.keys.down.isDown || this.key.s.isDown || (this.padY > 0.1);
     }
 
-    if (this.keyleft2 != this.keys.left.isDown && this.keyup2 != this.key.a.isDown && !this.attacking) {
+    if (this.keyleft2 != (this.keys.left.isDown|| this.key.a.isDown || (this.padX < -0.1)) && !this.attacking) {
         this.animating = false;
-        this.keyleft2 = this.keys.left.isDown || this.key.a.isDown;
+        this.keyleft2 = this.keys.left.isDown || this.key.a.isDown || (this.padX < -0.1);
     }
 
-    if (this.keyright2 != this.keys.right.isDown && this.keyup2 != this.key.d.isDown && !this.attacking) {
+    if (this.keyright2 != (this.keys.right.isDown || this.key.d.isDown || (this.padX > 0.1)) && !this.attacking) {
         this.animating = false;
-        this.keyright2 = this.keys.right.isDown || this.key.d.isDown;
+        this.keyright2 = this.keys.right.isDown || this.key.d.isDown || (this.padX > 0.1);
     }
 
 
-    if (this.keys.up.downDuration(50) || this.key.w.downDuration(50))this.animating = false;
-    if (this.keys.down.downDuration(50) || this.key.s.downDuration(50))this.animating = false;
-    if (this.keys.left.downDuration(50) || this.key.a.downDuration(50))this.animating = false;
+    if (this.keys.up.downDuration(50)    || this.key.w.downDuration(50))this.animating = false;
+    if (this.keys.down.downDuration(50)  || this.key.s.downDuration(50))this.animating = false;
+    if (this.keys.left.downDuration(50)  || this.key.a.downDuration(50))this.animating = false;
     if (this.keys.right.downDuration(50) || this.key.d.downDuration(50))this.animating = false;
 
 
@@ -466,7 +480,7 @@ Ken.prototype.attack = function () {
 
 
     //To attack, we need the attackKey pressed and that the action is available
-    if (this.attackKey.isDown && this.attackIsAvailable) {
+    if ((this.attackKey.isDown || this.attackButton.isDown) && this.attackIsAvailable) {
 
 
 
