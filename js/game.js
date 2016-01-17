@@ -36,8 +36,10 @@
 
             this.input.gamepad.start();
             this.game.pad = this.input.gamepad.pad1;
-            this.game.pad.addCallbacks(this, {onConnect: this.addButtons});
-            this.addButtons();
+            if (this.game.input.gamepad.supported && this.game.input.gamepad.active && this.game.pad.connected){
+                this.game.pad.addCallbacks(this, {onConnect: this.addButtons});
+                this.addButtons();
+            }
 
             this.input.keyboard.addKey(Phaser.Keyboard.ESC).onDown.add(this.onInputDown, this);
             this.input.keyboard.addKey(Phaser.Keyboard.F).onDown.add(this.goFullscreen, this);
@@ -156,15 +158,13 @@
 
         gameOverState: function(){
 
-            this.game.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
-            this.game.pad.getButton(Phaser.Gamepad.XBOX360_START).onDown.dispose();
+            this.resetButtons();
             this.game.state.start('over', true, false, this.game.level.nextLevel());
 
         },
 
         nextLevel: function(){
-            this.game.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
-            this.game.pad.getButton(Phaser.Gamepad.XBOX360_START).onDown.dispose();
+            this.resetButtons();
 
             if(this.game.level.nextLevel()){
                 this.game.state.start('transition', true, false, this.game.level.nextLevel());
@@ -180,8 +180,7 @@
         },
 
         onInputDown: function () {
-            this.game.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
-            this.game.pad.getButton(Phaser.Gamepad.XBOX360_START).onDown.dispose();
+            this.resetButtons();
             this.game.state.start('menu');
         },
 
@@ -209,6 +208,13 @@
 
                 this.game.entitiesCollisions = this.game.physics.p2.createCollisionGroup();
                 this.game.entities.callAll("resetCollisions");
+            }
+        },
+
+        resetButtons: function(){
+            if (this.game.input.gamepad.supported && this.game.input.gamepad.active && this.game.pad.connected){
+                this.game.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
+                this.game.pad.getButton(Phaser.Gamepad.XBOX360_START).onDown.dispose();
             }
         }
 

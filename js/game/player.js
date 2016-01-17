@@ -115,11 +115,15 @@ Ken.prototype.create = function () {
     this.keyleft2 = false;
     this.keyright2 = false;
 
-
-    this.game.pad.addCallbacks(this, {onConnect: this.addButtons});
     this.attackButton = null;
-    this.pad = null;
-    this.addButtons();
+    this.padX = null;
+    this.padY = null;
+
+    if (this.game.input.gamepad.supported && this.game.input.gamepad.active && this.game.pad.connected){
+        this.game.pad.addCallbacks(this, {onConnect: this.addButtons});
+        this.addButtons();
+    }
+
 
 
 
@@ -295,8 +299,10 @@ Ken.prototype.move = function () {
     var x = 0;
     var y = 0;
 
-    this.padX = this.game.pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X);
-    this.padY = this.game.pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y);
+    if (this.game.input.gamepad.supported && this.game.input.gamepad.active && this.game.pad.connected) {
+        this.padX = this.game.pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X);
+        this.padY = this.game.pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y);
+    }
 
     if (this.keys.up.isDown    || this.key.w.isDown || (this.padY < -0.1)) y--;
     if (this.keys.down.isDown  || this.key.s.isDown || (this.padY > 0.1))  y++;
@@ -480,7 +486,7 @@ Ken.prototype.attack = function () {
 
 
     //To attack, we need the attackKey pressed and that the action is available
-    if ((this.attackKey.isDown || this.attackButton.isDown) && this.attackIsAvailable) {
+    if ((this.attackKey.isDown || (this.attackButton!= null && this.attackButton.isDown)) && this.attackIsAvailable) {
 
 
 

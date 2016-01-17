@@ -14,9 +14,10 @@
 
             this.input.gamepad.start();
             this.pad = this.input.gamepad.pad1;
-            this.pad.getButton(Phaser.Gamepad.XBOX360_A).reset();
-            this.pad.addCallbacks(this, {onConnect: this.addButtons});
-            this.addButtons();
+            if (this.game.input.gamepad.supported && this.game.input.gamepad.active && this.pad.connected){
+                this.pad.addCallbacks(this, {onConnect: this.addButtons});
+                this.addButtons();
+            }
         },
 
         update: function () {
@@ -30,8 +31,7 @@
         },
 
         onDown: function () {
-            this.input.gamepad.reset();
-            this.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
+            this.resetButtons();
             this.game.state.start('menu');
         },
 
@@ -46,6 +46,12 @@
                 this.game.scale.startFullScreen(false);
             }
 
+        },
+
+        resetButtons: function(){
+            if (this.game.input.gamepad.supported && this.game.input.gamepad.active && this.pad.connected){
+                this.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
+            }
         }
 
     };
