@@ -10,8 +10,17 @@
         create: function () {
 
 
-            var text = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.3, 'gem', "MENU", 42);
+            var text = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.3, 'gem', "AWAKEN", 42);
             text.anchor.set(0.5);
+
+            var author = this.game.add.bitmapText(this.game.width-25, this.game.height * 0.9, 'gem', "Developed by Clement Baconnier", 12);
+            author.anchor.set(1);
+
+            var music = this.game.add.bitmapText(this.game.width-25, this.game.height * 0.93, 'gem', "Music by ParagonX9", 12);
+            music.anchor.set(1);
+
+
+
             this.input.onDown.add(this.onDown, this);
             this.continue = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
             this.input.keyboard.addKey(Phaser.Keyboard.F).onDown.add(this.goFullscreen, this);

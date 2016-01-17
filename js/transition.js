@@ -34,7 +34,7 @@
 
             this.nextChar();
 
-            this.input.onDown.add(this.onDown, this);
+            this.input.onDown.add(this.onNext, this);
             this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.onNext, this);
             this.input.keyboard.addKey(Phaser.Keyboard.F).onDown.add(this.goFullscreen, this);
 
