@@ -5,6 +5,20 @@
         this.game = game;
         this.bossesTimer = this.game.time.create(false);
         this.bossesTimer.start();
+        this.healthBarParams = {
+            x: this.game.width/2-150,
+            y: this.game.height-40,
+            width: 300,
+            height: 20,
+            radius: 3,
+            color: '#FFFFFF',
+            bgColor: '#651828',
+            highlight: true,
+            hiddable: true
+        };
+        this.sharedHealthbar = new HealthBar(this.game, 0, this.healthBarParams);
+        this.sharedHealthbar.hideHealthBar();
+
     }
 
     Bosses.prototype = {
@@ -37,27 +51,28 @@
                     if (boss === null  && !child.alive) {
                         boss = child;
                     }
-
-                    //count the number of children(bosses) alive of this type
-                    if (child.alive && boss !== null) {
-                        if (boss !== null && child.type == enemy.type) nbBossesAlive++;
-                    }
-
+                    nbBossesAlive++;
                 }
                 return child;
 
             }, true);
+
+
+            this.bossesTimer.add(Math.random() * (this.game.level.maxSpawnDelay - this.game.level.minSpawnDelay)+this.game.level.minSpawnDelay, this.addBoss, this);
 
             if(boss !== null && nbBossesAlive < boss.maxBoss) {
                 var location = boss.popLocation();
                 boss.reset(location.x,location.y);
                 boss.init(this.game.level.bossParameters[boss.type]);
             }else if(nbBossesAlive < this.game.level.maxBosses && this.game.level.bossParameters){
-                this.createRandomBoss(Object.keys(this.game.level.bossParameters));
+                console.log(nbBossesAlive);
+                boss = this.createRandomBoss(Object.keys(this.game.level.bossParameters));
+            }else{
+                return;
             }
 
 
-            this.bossesTimer.add(Math.random() * (this.game.level.maxSpawnDelay - this.game.level.minSpawnDelay)+this.game.level.minSpawnDelay, this.addBoss, this);
+
 
         },
 
@@ -73,7 +88,9 @@
 
             if (nbAlive < this.game.level.bossParameters[boss].maxBoss){
                 //add a new boss to the entities
-                this.game.entities.add(this.game.bosses.getBoss(boss, this.game, this.game.level.bossParameters));
+                var boss = this.game.bosses.getBoss(boss, this.game, this.game.level.bossParameters);
+                this.game.entities.add(boss);
+                return boss;
             }else{
                 //In case, we have reach the limit of the picked one, we to look for an another one
                 var index = bosses.indexOf(boss);
@@ -82,7 +99,7 @@
                 }
                 this.createRandomBoss(bosses);
             }
-        },
+        }
 
 
 

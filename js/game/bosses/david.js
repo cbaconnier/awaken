@@ -14,6 +14,7 @@ var David = function (game, parameters) {
     this.yy = this.y;
 
 
+
     this.enableBody = true;
     this.physicsBodyType = Phaser.Physics.P2JS;
     this.game.physics.p2.enable(this, false); // true = debug
@@ -82,11 +83,16 @@ David.prototype.init = function(parameters) {
     this.maxEnemy = parameters.maxEnemy;
     this.damage = parameters.dmg;
     this.health = parameters.health ;
+    this.defaultHealth = this.health;
     this.scoreGiven = parameters.score;
+
+    this.game.bosses.sharedHealthbar.addEntity(this.health);
+
 
 };
 
 David.prototype.create = function(){
+
     /** Debug **/
     this.filterDebug = this.game.add.filter('Debug');
     this.filterDebug.red = 0.1;
@@ -316,7 +322,7 @@ David.prototype.hit = function(damage){
         this.bleed();
 
         this.game.dialogues.create(this.x, this.y, damage.toString(), 30, 350, -96);
-
+        this.game.bosses.sharedHealthbar.updateHealthBar(damage);
         this.health -= damage;
         if(this.health <= 0){
             this.die();
@@ -333,6 +339,8 @@ David.prototype.die = function(){
     };
     this.game.tilesf.addTile('blood', this.x, this.y, parameters);
     this.shadow.visible = false;
+
+    this.game.bosses.sharedHealthbar.removeEntity(this.defaultHealth);
     this.shadow.kill();
     this.kill();
 };

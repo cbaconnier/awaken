@@ -45,7 +45,6 @@
             this.input.keyboard.addKey(Phaser.Keyboard.F).onDown.add(this.goFullscreen, this);
 
 
-
             this.game.stage.backgroundColor = '#333';
 
             this.game.physics.startSystem(Phaser.Physics.P2JS);
@@ -54,10 +53,8 @@
             this.game.world.setBounds(0,12,800, 595);//set borders(left/right/up/down) collidable
 
 
-
             this.game.entitiesCollisions = this.game.physics.p2.createCollisionGroup();
             this.game.physics.p2.updateBoundsCollisionGroup();
-
             this.game.debugCollisions = false;
 
 
@@ -65,12 +62,11 @@
             this.game.bosses = new ns.Bosses(this.game);
             this.game.tilesf = new ns.Tiles(this.game);
 
+
             this.game.tiles = this.game.add.group();
             this.game.effects = this.game.add.group();
             this.game.entities = this.game.add.group();
             this.game.ui = this.game.add.group();
-
-
 
 
             //this.game.maxEnemies = 10; // ?????

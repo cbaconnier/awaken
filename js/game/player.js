@@ -43,8 +43,8 @@ Ken.prototype.create = function () {
     this.defaultSpeed = this.speed;
     this.score = 0;
 
-    var healthBarParams = {x: 20, y: 30, width: 300, height: 20, radius: 3, color: '#FFFFFF', bgColor: '#651828', highlight: true };
-    this.healthBar = new HealthBar(this, this.game, healthBarParams);
+    var healthBarParams = {x: 20, y: 30, width: 300, height: 20, radius: 3, color: '#FFFFFF', bgColor: '#651828', highlight: true, hiddable: false };
+    this.healthBar = new HealthBar(this.game, this.health, healthBarParams);
 
 
 
@@ -542,7 +542,7 @@ Ken.prototype.poisonEffect = function(damage, i){
     if(!ns.Boot.cheater) this.health -= damage;
     if(this.health < 0) this.health = 0;
 
-    this.healthBar.updateHealthBar();
+    this.healthBar.updateHealthBar(damage);
     this.game.dialogues.create(this.x, this.y, damage.toString(), 16, null, null, 0x0d7200);
     if (this.health <= 0) {
        this.die();
@@ -569,7 +569,7 @@ Ken.prototype.hit = function (damage) {
             this.messagesIsAvailable = false;
         }
 
-        this.healthBar.updateHealthBar();
+        this.healthBar.updateHealthBar(damage);
         if (this.health <= 0) {
             this.die();
         }
