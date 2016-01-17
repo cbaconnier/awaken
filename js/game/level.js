@@ -181,7 +181,7 @@
 
 
                     enemyParameters: {
-                        spider: {
+                        cockroach: {
                             maxEnemy: 10,
                             health: 5,
                             dmg: 5,

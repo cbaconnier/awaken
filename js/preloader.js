@@ -28,6 +28,7 @@
             //ennemies
             this.load.spritesheet('worm', 'assets/enemies/worm.png', 32, 32, 20);
             this.load.spritesheet('spider', 'assets/enemies/spider.png', 32, 32, 32);
+            this.load.spritesheet('cockroach', 'assets/enemies/cockroach.png', 32, 32, 27);
 
             //boss
             //this.load.spritesheet('david', 'assets/bosses/david.png', 32, 64, 4);

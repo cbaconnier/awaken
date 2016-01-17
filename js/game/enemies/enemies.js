@@ -8,12 +8,13 @@
     Enemies.prototype = {
 
         getEnemiesList: function(){
-            return ['worm', 'spider'];
+            return ['worm', 'spider', 'cockroach'];
         },
 
         getEnemy: function (entity, game, parameters) {
             if(entity == 'worm') return new Worm(game, parameters);
             if(entity == 'spider') return new Spider(game, parameters);
+            if(entity == 'cockroach') return new Cockroach(game, parameters);
         },
 
         addEnemies: function(){
