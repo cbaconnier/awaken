@@ -87,6 +87,7 @@
             this.game.ui.add(this.game.notification);
             this.game.ui.add(this.lowPerf);
             this.game.ui.add(new Score(this.game));
+            this.game.ui.add(new Objective(this.game));
             this.game.ui.add(new Debug(this.game));
             this.game.ui.add(new Fullscreen(this.game));
             this.game.dialogues = new Dialogue(this.game);

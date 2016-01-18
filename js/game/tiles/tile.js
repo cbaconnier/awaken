@@ -9,13 +9,13 @@ var Tile = function (game, x, y, type, parameters) {
     this.smoothed = false;
     this.anchor.set(0.5);
     this.init(parameters);
-/*
+
     this.collisions = {
         left: this.left + (this.left * .4),
         right: this.right - (this.right * .1),
         top: this.top + (this.top * 0.03),
         bottom: this.bottom - (this.bottom * 0.1)
-    }*/
+    }
 
 };
 
