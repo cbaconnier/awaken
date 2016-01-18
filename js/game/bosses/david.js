@@ -86,7 +86,7 @@ David.prototype.init = function(parameters) {
     this.defaultHealth = this.health;
     this.scoreGiven = parameters.score;
 
-    this.game.bosses.sharedHealthbar.addEntity(this.health);
+    this.game.bosses.sharedHealthbar.addEntity(this.health, this.health, "DAVID");
 
 
 };
@@ -322,7 +322,8 @@ David.prototype.hit = function(damage){
         this.bleed();
 
         this.game.dialogues.create(this.x, this.y, damage.toString(), 30, 350, -96);
-        this.game.bosses.sharedHealthbar.updateHealthBar(damage);
+        var maxDamage = ((this.health-damage) < 0) ? maxDamage = this.health : damage;
+        this.game.bosses.sharedHealthbar.updateHealthBar(maxDamage);
         this.health -= damage;
         if(this.health <= 0){
             this.die();

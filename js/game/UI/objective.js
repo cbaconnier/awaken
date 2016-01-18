@@ -1,8 +1,7 @@
 
 var Objective = function (game) {
     this.game = game;
-    Phaser.BitmapText.call(this, game, 20, 60, 'gem', '', 20);
-    this.anchor.set(0);
+    Phaser.BitmapText.call(this, game, 30, 60, 'gem', '', 20);
     this.smoothed = false;
 
 };

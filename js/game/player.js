@@ -43,7 +43,7 @@ Ken.prototype.create = function () {
     this.defaultSpeed = this.speed;
     this.score = 0;
 
-    var healthBarParams = {x: 20, y: 30, width: 300, height: 20, radius: 3, color: '#FFFFFF', bgColor: '#651828', highlight: true, hiddable: false };
+    var healthBarParams = {x: 30, y: 35, width: 300, height: 20, radius: 3, color: '#FFFFFF', bgColor: '#651828', highlight: true, hiddable: false, name: "KEN", names: "PLAYERS"};
     this.healthBar = new HealthBar(this.game, this.health, healthBarParams);
 
 

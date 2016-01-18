@@ -13,8 +13,10 @@
             radius: 3,
             color: '#FFFFFF',
             bgColor: '#651828',
-            highlight: true,
-            hiddable: true
+            highlight: false,
+            hiddable: true,
+            name: "BOSS",
+            names: "BOSSES"
         };
         this.sharedHealthbar = new HealthBar(this.game, 0, this.healthBarParams);
         this.sharedHealthbar.hideHealthBar();
@@ -33,8 +35,6 @@
 
         addBosses: function(){
             this.addBoss();
-            this.bossesTimer = this.game.time.create(false);
-
         },
 
         addBoss: function(){
@@ -53,25 +53,25 @@
                     }
                     nbBossesAlive++;
                 }
-                return child;
+                //return child;
 
             }, true);
 
 
-            this.bossesTimer.add(Math.random() * (this.game.level.maxSpawnDelay - this.game.level.minSpawnDelay)+this.game.level.minSpawnDelay, this.addBoss, this);
 
-            if(boss !== null && nbBossesAlive < boss.maxBoss) {
+
+            if(boss !== null && nbBossesAlive <= boss.maxBoss) {
                 var location = boss.popLocation();
                 boss.reset(location.x,location.y);
                 boss.init(this.game.level.bossParameters[boss.type]);
             }else if(nbBossesAlive < this.game.level.maxBosses && this.game.level.bossParameters){
-                console.log(nbBossesAlive);
-                boss = this.createRandomBoss(Object.keys(this.game.level.bossParameters));
+                this.createRandomBoss(Object.keys(this.game.level.bossParameters));
             }else{
                 return;
             }
 
 
+            this.bossesTimer.add(Math.random() * (this.game.level.maxSpawnDelay - this.game.level.minSpawnDelay)+this.game.level.minSpawnDelay, this.addBoss, this);
 
 
         },
@@ -90,7 +90,6 @@
                 //add a new boss to the entities
                 var boss = this.game.bosses.getBoss(boss, this.game, this.game.level.bossParameters);
                 this.game.entities.add(boss);
-                return boss;
             }else{
                 //In case, we have reach the limit of the picked one, we to look for an another one
                 var index = bosses.indexOf(boss);

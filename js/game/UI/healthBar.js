@@ -7,6 +7,12 @@ var HealthBar = function (game, health, parameters) {
     this.percentHealth = 0;
     this.params = parameters;
     this.highlighting = false;
+    if(this.health == 0){
+        this.numberOfEntity = 0;
+    }
+    else{
+        this.numberOfEntity = 1;
+    }
     this.create();
 };
 
@@ -32,15 +38,22 @@ HealthBar.prototype.create = function(){
     bmd.ctx.fill();
 
     this.healthBarSprite = this.game.add.sprite(this.params.x, this.params.y, bmd);
+
+    //Health text
     this.healthText = this.game.add.bitmapText(this.params.width+this.params.x, this.params.y-this.params.height/2, 'gem', this.health.toString() + "/" + this.defaultHealth.toString(), 16);
     this.healthText.anchor.x = 1;
     this.healthText.anchor.y = .5;
+
+    //Name text
+    this.nameText = this.game.add.bitmapText(this.params.x, this.params.y-this.params.height/2, 'gem', this.params.name, 16);
+    this.nameText.anchor.x = 0;
+    this.nameText.anchor.y = .5;
+
 
     this.updateHealthBar();
     if(this.params.highlight)
         this.game.time.events.loop(250, this.highlightHealth, this);
 
-    console.log(this.game.ui);
     this.game.ui.add(this.healthBarBgSprite);
     this.game.ui.add(this.healthBarSprite);
     this.game.ui.add(this.healthText);
@@ -55,14 +68,18 @@ HealthBar.prototype.updateHealth = function(health){
     this.health = health;
 };
 
-HealthBar.prototype.addEntity = function(defaultHealth, health){
+HealthBar.prototype.addEntity = function(defaultHealth, health, name){
     health = health || defaultHealth;
+    name = name || "Boss";
+    this.params.name = name;
+    this.numberOfEntity++;
     this.updateHealth(this.health + health);
     this.updateDefaultHealth(this.defaultHealth + defaultHealth);
     this.updateHealthBar();
 };
 
 HealthBar.prototype.removeEntity = function(defaultHealth){
+    this.numberOfEntity--;
     this.updateDefaultHealth(this.defaultHealth - defaultHealth);
     this.updateHealthBar();
 };
@@ -85,6 +102,10 @@ HealthBar.prototype.updateHealthBar = function(damage){
     if(this.health <= 0) this.health = 0;
 
     this.healthText.setText(Math.round(this.health).toString() + "/" + this.defaultHealth.toString());
+
+    var name = this.params.name;
+    if(this.numberOfEntity > 1) name = this.params.names;
+    this.nameText.setText(name);
 
     //Graphic bug fix -> Cause : Textures overlaping
     this.healthBarBgSprite.width = this.params.width;
@@ -124,6 +145,7 @@ HealthBar.prototype.hideHealthBar = function(){
         this.healthBarSprite.visible = false;
         this.healthBarBgSprite.visible = false;
         this.healthText.visible = false;
+        this.nameText.visible = false;
     }
 };
 HealthBar.prototype.showHealthBar = function(){
@@ -131,6 +153,7 @@ HealthBar.prototype.showHealthBar = function(){
         this.healthBarSprite.visible = true;
         this.healthBarBgSprite.visible = true;
         this.healthText.visible = true;
+        this.nameText.visible = true;
     }
 };
 
