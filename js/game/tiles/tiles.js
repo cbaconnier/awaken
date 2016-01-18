@@ -46,7 +46,6 @@
                  }
             });
             if(tile){
-                console.log(tile.type);
                 if(!x || !y){
                     var pos = this.getUniqueLocation();
                     if(!pos) return null;
@@ -55,19 +54,29 @@
                 }
                 tile.reset(x, y);
                 return tile;
-            }else if(this.game.tiles.length < 3000) {
+            }else if(this.game.tiles.length < 3000) { // 3000
                 if(!x || !y){
                     var pos = this.getUniqueLocation();
                     if(!pos) return null;
                    x = pos.x*128;
                    y = pos.y*128;
                 }
-                tile = this.getTile(type, x, y, parameters);
-                this.game.tiles.add(tile);
-                return tile;
+                if(
+                    (window['awaken'].Boot.lowPerf && (type != 'blood'))
+                        ||
+                    (!window['awaken'].Boot.lowPerf )
+                  ){
+                    tile = this.getTile(type, x, y, parameters);
+                    this.game.tiles.add(tile);
+                    return tile;
+                }
             }
 
+            return null;
+
+
         },
+
 
 
         addTiles: function(){

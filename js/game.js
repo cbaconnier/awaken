@@ -82,9 +82,14 @@
             this.game.entities.add(this.game.ken);
 
 
-            this.game.dialogues = new Dialogue(this.game);
+            this.game.notification = new Notification(this.game);
+            this.lowPerf = new LowPerf(this.game);
+            this.game.ui.add(this.game.notification);
+            this.game.ui.add(this.lowPerf);
             this.game.ui.add(new Score(this.game));
-            this.game.ui.add(new Gear(this.game));
+            this.game.ui.add(new Debug(this.game));
+            this.game.ui.add(new Fullscreen(this.game));
+            this.game.dialogues = new Dialogue(this.game);
 
 
             this.game.tilesf.addTiles();
@@ -103,6 +108,8 @@
             this.game.events.update();
             this.game.entities.sort("yy");
             this.objectivesComplete();
+            if(this.game.time.fps < 45 && !ns.Boot.lowPerf) this.lowPerf.togglePerf();
+
         },
 
         render: function (){

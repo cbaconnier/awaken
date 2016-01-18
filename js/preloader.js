@@ -42,6 +42,9 @@
 
             //ui
             this.load.image('gear', 'assets/ui/gear.png');
+            this.load.spritesheet('debug', 'assets/ui/debug.png', 32, 32, 2);
+            this.load.spritesheet('lowPerf', 'assets/ui/lowPerf.png', 64, 64, 2);
+            this.load.spritesheet('fullscreen', 'assets/ui/fullscreen.png', 32, 32, 2);
             this.load.spritesheet('button', 'assets/ui/button.png', 64, 16, 3);
 
             //fonts
@@ -85,6 +88,7 @@
             window['awaken'].Boot.fxMusic.volume = .5 ;
             window['awaken'].Boot.cheater = false ;
             window['awaken'].Boot.score = 0 ;
+            window['awaken'].Boot.lowPerf = false;
         },
 
         update: function () {

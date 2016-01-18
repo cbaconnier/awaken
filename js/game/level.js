@@ -20,7 +20,7 @@
          */
 
         getFirstLevel: function () {
-            return this.getLevels().level_1;
+            return this.getLevels().level_7;
         },
 
 
@@ -446,7 +446,7 @@
                     description: "HO NO",
                     bossesToKill: 1,
                     maxEnemies: 50,
-                    maxBosses: 1,
+                    maxBosses: 4,
                     minSpawnDelay: 100,
                     maxSpawnDelay: 250,
                     nextLevel: function () {
@@ -462,7 +462,7 @@
 
                     bossParameters: {
                         david: {
-                            maxBoss: 1,
+                            maxBoss: 7,
                             health: 5000000,
                             dmg: 6000,
                             score: 10000000000
