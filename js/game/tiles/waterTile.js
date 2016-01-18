@@ -1,9 +1,6 @@
 
 var WaterTile = function (game, x, y, parameters) {
 
-   // x = 150;
-   // y = 150;
-
 
     Tile.call(this, game, x, y, 'water', parameters);
 

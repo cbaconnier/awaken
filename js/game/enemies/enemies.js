@@ -25,7 +25,7 @@
 
         addEnemy: function(){
 
-            if(this.game.entities.length < this.game.level.maxEnemies) {
+            if(this.game.entities.length-1 < this.game.level.maxEnemies) {
                 this.createRandomEnemy(Object.keys(this.game.level.enemyParameters));
             }else{
 
@@ -49,7 +49,7 @@
                     return child;
                 }, false);
 
-                if(enemy !== null && nbEnemyAlive <= enemy.maxEnemy){
+                if(enemy !== null && nbEnemyAlive < enemy.maxEnemy){
                     var location = enemy.popLocation();
                     enemy.reset(location.x,location.y);
                     enemy.init(this.game.level.enemyParameters[enemy.type]);

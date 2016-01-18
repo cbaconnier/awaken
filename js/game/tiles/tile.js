@@ -10,12 +10,18 @@ var Tile = function (game, x, y, type, parameters) {
     this.anchor.set(0.5);
     this.init(parameters);
 
+
+    //when the scale is 1 we need to adjust the bottom to -40
+    //when the scale is 4 we need to adjust the bottom to -10
+    // So.. : scale / (0.025 * scale ^ 2)
+    var bottomAdjustment = this.scale.y / (0.025 * Math.pow(this.scale.y, 2));
     this.collisions = {
-        left: this.left + (this.left * .4),
-        right: this.right - (this.right * .1),
-        top: this.top + (this.top * 0.03),
-        bottom: this.bottom - (this.bottom * 0.1)
-    }
+        left: this.left + this.scale.x*5,
+        right: this.right - this.scale.x*5,
+        top: this.top + this.scale.y*2,
+        bottom: this.bottom - bottomAdjustment
+    };
+
 
 };
 
@@ -26,6 +32,7 @@ Tile.prototype.init = function(parameters) {
 
     this.damage = parameters.dmg || null;
     this.speedDecrease = parameters.speedDecrease || null;
+    this.speedIncrease = parameters.speedIncrease || null;
     this.frame = parameters.frame || 0;
 
     var scaleX = parameters.scale || Math.round(Math.random() * (3 - 1) + 1);
@@ -58,12 +65,13 @@ Tile.prototype.init = function(parameters) {
 
 
 Tile.prototype.update = function() {
-    if(this.speedDecrease || this.damage){
+    if(this.speedDecrease || this.damage || this.speedIncrease){
         this.bringToTop();
         var self = this;
         this.game.entities.forEachAlive(function(entity){
             if(self.checkOverlap(self.collisions, entity)){
                 if(self.speedDecrease) entity.decreaseSpeed(self.speedDecrease);
+                if(self.speedIncrease) entity.increaseSpeed(self.speedIncrease);
                 if(self.damage) entity.poisonHit(self.damage);
             }
         });

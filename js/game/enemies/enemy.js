@@ -8,7 +8,6 @@ var WorstEnemyEver = function (game, parameters, type) {
     this.type = type;
 
 
-    this.factor = Math.round(Math.random() * (4-1)+1);
     this.poisoned = {
         value : false
     };
@@ -23,6 +22,7 @@ WorstEnemyEver.prototype.constructor = WorstEnemyEver;
 
 WorstEnemyEver.prototype.init = function(parameters){
 
+    this.factor = Math.round(Math.random() * (4-1)+1);
 
     this.maxEnemy = parameters.maxEnemy;
 
@@ -39,6 +39,10 @@ WorstEnemyEver.prototype.init = function(parameters){
     this.blocked = false;
     this.isMovable = true;
     this.poisoned.value = false;
+
+
+    this.scale.x = this.factor;
+    this.scale.y = this.factor;
 
 };
 
@@ -60,8 +64,6 @@ WorstEnemyEver.prototype.create = function(){
 
     /** animations **/
 
-    this.scale.x *= this.factor;
-    this.scale.y *= this.factor;
 
 
 
@@ -120,6 +122,12 @@ WorstEnemyEver.prototype.decreaseSpeed = function(speed){
     if(this.speed == this.defaultSpeed)
         this.speed -= speed;
 };
+
+WorstEnemyEver.prototype.increaseSpeed = function(speed){
+    if(this.speed == this.defaultSpeed)
+        this.speed += speed*2.5;
+};
+
 
 WorstEnemyEver.prototype.resetSpeed = function(){
     this.speed = this.defaultSpeed;

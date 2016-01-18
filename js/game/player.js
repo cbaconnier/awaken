@@ -289,8 +289,15 @@ Ken.prototype.update = function () {
 
 Ken.prototype.decreaseSpeed = function(speed){
     if(this.speed == this.defaultSpeed)
-        this.speed -= speed;
+        this.speed -= speed*2.5;
 };
+
+
+Ken.prototype.increaseSpeed = function(speed){
+    if(this.speed == this.defaultSpeed)
+        this.speed += speed*2.5;
+};
+
 
 Ken.prototype.resetSpeed = function(){
     this.speed = this.defaultSpeed;
@@ -523,6 +530,7 @@ Ken.prototype.attack = function () {
 Ken.prototype.poisonHit = function(damage){
     if(!this.poisoned.value && !this.invulnerability.value){
         this.poisoned.value = true;
+
         this.highlight(0x0d7200, this.poisoned);
         if (this.messagesIsAvailable) {
             this.game.dialogues.create(this.x, this.y, this.messages_hit[Math.floor(Math.random() * this.messages_hit.length)]);
@@ -542,7 +550,7 @@ Ken.prototype.poisonEffect = function(damage, i){
     if(!ns.Boot.cheater) this.health -= damage;
     if(this.health < 0) this.health = 0;
 
-    this.healthBar.updateHealthBar(damage);
+    if(!ns.Boot.cheater) this.healthBar.updateHealthBar(damage);
     this.game.dialogues.create(this.x, this.y, damage.toString(), 16, null, null, 0x0d7200);
     if (this.health <= 0) {
        this.die();
@@ -569,7 +577,7 @@ Ken.prototype.hit = function (damage) {
             this.messagesIsAvailable = false;
         }
 
-        this.healthBar.updateHealthBar(damage);
+        if(!ns.Boot.cheater) this.healthBar.updateHealthBar(damage);
         if (this.health <= 0) {
             this.die();
         }

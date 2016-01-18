@@ -24,6 +24,7 @@
         getTile: function (tile, x, y, parameters) {
             if(tile == 'poison') return new PoisonTile(this.game, x, y, parameters);
             if(tile == 'water') return new WaterTile(this.game, x, y, parameters);
+            if(tile == 'ice') return new IceTile(this.game, x, y, parameters);
             if(tile == 'blood') return new BloodTile(this.game, x, y, parameters);
             if(tile == 'grass') return new GrassTile(this.game, x, y, parameters);
             if(tile == 'shadow') return new ShadowTile(this.game, x, y, parameters);

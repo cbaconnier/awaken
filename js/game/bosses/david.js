@@ -104,6 +104,7 @@ David.prototype.create = function(){
 
 
 David.prototype.decreaseSpeed = function(speed){};
+David.prototype.increaseSpeed = function(speed){};
 David.prototype.resetSpeed = function(){};
 
 

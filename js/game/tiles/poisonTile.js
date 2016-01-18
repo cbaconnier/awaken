@@ -1,7 +1,6 @@
 
 var PoisonTile = function (game, x, y, parameters) {
-    // 250;
-    //y = 250;
+
 
     Tile.call(this, game, x, y, 'poison', parameters);
 

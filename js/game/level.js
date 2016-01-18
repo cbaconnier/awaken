@@ -20,7 +20,7 @@
          */
 
         getFirstLevel: function () {
-            return this.getLevels().level_7;
+            return this.getLevels().level_1;
         },
 
 
@@ -121,6 +121,9 @@
 
             return levels = {
 
+
+
+
                 /********************************************************
                  *  Level 1
                  *
@@ -163,7 +166,7 @@
                         },
                         water: {
                             maxTiles: 0,
-                            speedDecrease: 150
+                            speedDecrease: 50
                         },
                         grass:{
                             maxTiles: 0
@@ -292,7 +295,7 @@
                     tiles: {
                         water: {
                             maxTiles: 4,
-                            speedDecrease: 100
+                            speedDecrease: 50
                         }
                     }
                 },
@@ -355,7 +358,7 @@
                     title: "Level 5",
                     short: "The train",
                     description: "HO NO",
-                    timeLimit: 5,
+                    timeLimit: 45,
                     maxEnemies: 100,
                     maxBosses: 0,
                     minSpawnDelay: 100,
@@ -397,7 +400,7 @@
                  *********************************************************/
                 level_6: {
                     title: "Level 6",
-                    short: "The city",
+                    short: "Santa Cruz",
                     description: "HO NO",
                     enemiesToKill: 150,
                     maxEnemies: 100,
@@ -428,7 +431,15 @@
                         snow: {},
                         wind: {},
                         fog: {}
+                    },
+
+                    tiles: {
+                        ice:{
+                            maxTiles: 4,
+                            speedIncrease: 50
+                        }
                     }
+
 
                 },
 

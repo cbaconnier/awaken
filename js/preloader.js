@@ -28,7 +28,7 @@
             //ennemies
             this.load.spritesheet('worm', 'assets/enemies/worm.png', 32, 32, 20);
             this.load.spritesheet('spider', 'assets/enemies/spider.png', 32, 32, 32);
-            this.load.spritesheet('cockroach', 'assets/enemies/cockroach.png', 32, 32, 27);
+            this.load.spritesheet('cockroach', 'assets/enemies/cockroach.png', 32, 32, 24);
 
             //boss
             //this.load.spritesheet('david', 'assets/bosses/david.png', 32, 64, 4);
@@ -61,6 +61,7 @@
             this.load.spritesheet('poison', 'assets/tiles/poison.png', 32, 32, 3);
             this.load.spritesheet('water', 'assets/tiles/water.png', 32, 32, 3);
             this.load.spritesheet('grass', 'assets/tiles/grass.png', 32, 32, 3);
+            this.load.spritesheet('ice', 'assets/tiles/ice.png', 32, 32, 3);
             this.load.spritesheet('shadow', 'assets/tiles/shadow.png', 32, 32, 3);
 
             //filters
