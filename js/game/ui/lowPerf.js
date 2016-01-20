@@ -11,6 +11,8 @@ var LowPerf = function (game) {
     this.text = this.game.add.bitmapText(this.game.width*0.5, 64, 'gem', '', 32);
     this.text.anchor.set(0.5);
 
+    if(window['awaken'].Boot.lowPerf) this.frame = 1;
+
 
 };
 
