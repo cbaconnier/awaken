@@ -20,7 +20,7 @@
          */
 
         getFirstLevel: function () {
-            return this.getLevels().level_1;
+            return this.getLevels().level_4;
         },
 
 
@@ -135,9 +135,9 @@
                     title: "Level 1",
                     short: "The house",
                     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n" +
-                                "Suspendisse posuere augue aliquam risus elementum, eu accumsan orci ullamcorper. \n" +
-                                "Suspendisse malesuada ante sem, at ultrices nunc pellentesque quis. \n" +
-                                "Vestibulum suscipit accumsan lorem, sit amet pharetra sem. Vivamus sed elementum risus",
+                    "Suspendisse posuere augue aliquam risus elementum, eu accumsan orci ullamcorper. \n" +
+                    "Suspendisse malesuada ante sem, at ultrices nunc pellentesque quis. \n" +
+                    "Vestibulum suscipit accumsan lorem, sit amet pharetra sem. Vivamus sed elementum risus",
 
                     enemiesToKill: 30,
                     //timeLimit: 10,
@@ -184,7 +184,7 @@
 
 
                     enemyParameters: {
-                        cockroach: {
+                        spider: {
                             maxEnemy: 10,
                             health: 5,
                             dmg: 5,
@@ -192,7 +192,6 @@
                         }
                     }
                 },
-
 
 
 
@@ -274,12 +273,6 @@
                     },
 
                     enemyParameters: {
-                        worm: {
-                            maxEnemy: 30,
-                            health: 500,
-                            dmg: 35,
-                            score: 200
-                        },
                         spider:{
                             maxEnemy: 30,
                             health: 400,
@@ -314,11 +307,11 @@
                     title: "Level 4",
                     short: "The sewers",
                     description: "HO NO",
-                    enemiesToKill: 120,
-                    maxEnemies: 100,
-                    maxBosses: 0,
-                    minSpawnDelay: 100,
-                    maxSpawnDelay: 250,
+                    bossesToKill: 2,
+                    maxEnemies: 25,
+                    maxBosses: 2,
+                    minSpawnDelay: 450,
+                    maxSpawnDelay: 750,
                     nextLevel: function () {
                         return levels.level_5;
                     },
@@ -330,8 +323,18 @@
                         attackSize: 3
                     },
 
+
+                    bossParameters: {
+                        rat: {
+                            maxBoss: 2,
+                            health: 100000,
+                            dmg: 200,
+                            score: 1404545
+                        }
+                    },
+
                     enemyParameters: {
-                        worm: {
+                        cockroach: {
                             maxEnemy: 75,
                             health: 3000,
                             dmg: 100,
@@ -375,7 +378,7 @@
                     },
 
                     enemyParameters: {
-                        worm: {
+                        cockroach: {
                             maxEnemy: 75,
                             health: 3000,
                             dmg: 100,
@@ -423,6 +426,12 @@
                             maxEnemy: 100,
                             health: 4500,
                             dmg: 250,
+                            score: 20000
+                        },
+                        worm: {
+                            maxEnemy: 100,
+                            health: 5000,
+                            dmg: 200,
                             score: 20000
                         }
                     },
@@ -492,7 +501,13 @@
                             health: 50000,
                             dmg: 1000,
                             score: 200000
-                        }
+                        },
+                        cockroach: {
+                            maxEnemy: 50,
+                            health: 50000,
+                            dmg: 1000,
+                            score: 200000
+                        },
                     }
 
                 }

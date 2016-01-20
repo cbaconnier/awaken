@@ -30,10 +30,11 @@
             this.load.spritesheet('spider', 'assets/enemies/spider.png', 32, 32, 32);
             this.load.spritesheet('cockroach', 'assets/enemies/cockroach.png', 32, 32, 24);
 
-            //boss
+            //bosses
             //this.load.spritesheet('david', 'assets/bosses/david.png', 32, 64, 4);
             this.load.spritesheet('david_foot', 'assets/bosses/david_foot.png', 32, 16, 4);
             this.load.spritesheet('david_leg', 'assets/bosses/david_leg.png', 32, 64, 2);
+            this.load.spritesheet('rat', 'assets/bosses/rat.png', 64, 64, 16);
 
 
             //Blood particles

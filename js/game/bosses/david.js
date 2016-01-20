@@ -323,7 +323,7 @@ David.prototype.hit = function(damage){
         this.bleed();
 
         this.game.dialogues.create(this.x, this.y, damage.toString(), 30, 350, -96);
-        var maxDamage = ((this.health-damage) < 0) ? maxDamage = this.health : damage;
+        var maxDamage = ((this.health-damage) < 0) ? this.health : damage;
         this.game.bosses.sharedHealthbar.updateHealthBar(maxDamage);
         this.health -= damage;
         if(this.health <= 0){

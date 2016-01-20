@@ -1,72 +1,76 @@
 
 
-var WorstEnemyEver = function (game, parameters, type) {
+var Rat = function (game, parameters) {
 
     this.game = game;
     var location = this.popLocation();
-    Phaser.Sprite.call(this, game, location.x, location.y, type);
-    this.type = type;
-
+    Phaser.Sprite.call(this, game, location.x, location.y, 'rat');
+    this.type = 'rat';
 
     this.poisoned = {
         value : false
     };
-    this.init(parameters[type]);
+
+    this.init(parameters[this.type]);
     this.create();
 };
 
-WorstEnemyEver.prototype = Object.create(Phaser.Sprite.prototype);
-WorstEnemyEver.prototype.constructor = WorstEnemyEver;
+Rat.prototype = Object.create(Phaser.Sprite.prototype);
+Rat.prototype.constructor = Rat;
 
 
 
-WorstEnemyEver.prototype.init = function(parameters){
-
-    this.factor = Math.round(Math.random() * (4-1)+1);
+Rat.prototype.init = function(parameters){
 
     this.maxEnemy = parameters.maxEnemy;
-
-    this.damage = parameters.dmg * this.factor  ;
-    this.health = parameters.health * this.factor  ;
-    this.scoreGiven = parameters.score *this.factor ;
-
-    this.speed = 130 - (10*this.factor);
+    this.damage = parameters.dmg;
+    this.health = parameters.health ;
+    this.defaultHealth = this.health;
+    this.scoreGiven = parameters.score;
+    this.speed = 200;
     this.defaultSpeed = this.speed;
-    this.dir = 0;
-    this.animating = false;
-    this.attacking = false;
-    this.attackIsAvailable = false;
-    this.blocked = false;
-    this.isMovable = true;
-    this.poisoned.value = false;
 
-
-    this.scale.x = this.factor;
-    this.scale.y = this.factor;
+    this.game.bosses.sharedHealthbar.addEntity(this.health, this.health, " THE RAT");
 
 };
 
-WorstEnemyEver.prototype.create = function(){
+Rat.prototype.create = function(){
 
-    /** collisions **/
-    this.enableBody = true;
-    this.physicsBodyType = Phaser.Physics.P2JS;
-    this.game.physics.p2.enable(this, false);
-    this.body.setRectangle(4*(this.factor));
-    this.body.fixedRotation = true;
-    this.body.setCollisionGroup(this.game.entitiesCollisions);
-    this.body.collides(this.game.entitiesCollisions);
-    this.yy = this.y;
 
-    this.sensor = true;
-    this.body.onBeginContact.add(this.attack, this);
-
+    this.animationSpeed = 6;
 
     /** animations **/
+        //walking animations
+    this.animations.add('walk_down', [1,0,2,0], this.animationSpeed, false);
+    this.animations.add('walk_up', [5,4,6,4], this.animationSpeed, false);
+    this.animations.add('walk_right', [9,8,10,8], this.animationSpeed, false);
+    this.animations.add('walk_left', [13,12,14,12], this.animationSpeed, false);
+
+    //attacking animations
+    this.animations.add('attack_down', [0,3,0], this.animationSpeed, false);
+    this.animations.add('attack_up', [0,7,0], this.animationSpeed, false);
+    this.animations.add('attack_right', [0,11,0], this.animationSpeed, false);
+    this.animations.add('attack_left', [0,15,0], this.animationSpeed, false);
+
+    this.scale.x = 2.5;
+    this.scale.y = 2.5;
+
+    /** collisions **/
+
+    this.enableBody = true;
+    this.physicsBodyType = Phaser.Physics.P2JS;
+    this.game.physics.p2.enable(this, false); // true = debug
+    this.body.fixedRotation = true;
+    this.body.setCircle(32);
+    this.body.setCollisionGroup(this.game.entitiesCollisions);
+    //this.body.collides(this.game.entitiesCollisions);
+    this.smoothed = false;
+
+    this.body.collideWorldBounds = false;
 
 
-
-
+    this.destX = null;
+    this.destY = null;
 
     /** Blood particles **/
     this.blood = this.game.add.emitter(0, 0, 10);
@@ -94,73 +98,91 @@ WorstEnemyEver.prototype.create = function(){
     }, this);
 
     /*** Timers ***/
-    //Attack
+        //Attack
     this.game.time.events.loop(250, this.setAttackAvailable, this); //1 second
-
-
+    this.destinationTimer = this.game.time.create(false);
+    this.destinationTimer.start();
+    this.destinationTimer.add(Math.random() * (3000-1000)+1000 , this.updateDestination, this);
 };
 
 
-WorstEnemyEver.prototype.update = function(){
+Rat.prototype.update = function(){
     if(this.alive) {
-        if(!this.blocked){
-            if (this.isMovable) this.moveTo({x: this.game.ken.x, y: this.game.ken.y});
-            this.attack();
-        }else{
-            this.body.velocity.x = 0;
-            this.body.velocity.y = 0;
-        }
-
+        this.move();
+        this.attack();
         this.debugCollisions();
         this.animate();
-        this.yy = this.y;
         this.resetSpeed();
+        this.yy = this.y;
     }
 };
 
-WorstEnemyEver.prototype.decreaseSpeed = function(speed){
+Rat.prototype.decreaseSpeed = function(speed){
     if(this.speed == this.defaultSpeed)
         this.speed -= speed;
 };
 
-WorstEnemyEver.prototype.increaseSpeed = function(speed){
+Rat.prototype.increaseSpeed = function(speed){
     if(this.speed == this.defaultSpeed)
         this.speed += speed*2.5;
 };
 
 
-WorstEnemyEver.prototype.resetSpeed = function(){
+Rat.prototype.resetSpeed = function(){
     this.speed = this.defaultSpeed;
 };
 
-WorstEnemyEver.prototype.moveTo = function(destination, speed){
+Rat.prototype.updateDestination = function(){
+
+    this.destX = this.game.ken.x;
+    this.destY = this.game.ken.y;
+
+
+
+
+};
+
+Rat.prototype.move = function(destination){
 
 
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
 
-    speed = speed || this.speed;
+    if(this.destX && this.destY){
+        var radians = Math.atan2(this.destY - this.y, this.destX - this.x);
+
+        //sprite direction
+        if(radians <= -0.79 || radians <=  0.79) this.dir = 1; //east
+        if(radians <= -2.4  || radians >=  2.4 ) this.dir = 3; //west
+        if(radians <=  2.4  && radians >=  0.79) this.dir = 2; //south
+        if(radians >= -2.4  && radians <= -0.79) this.dir = 0; //north
 
 
+        //velocity direction
+        this.body.velocity.x = this.speed * Math.cos(radians);
+        this.body.velocity.y = this.speed * Math.sin(radians);
 
-    var radians = Math.atan2(destination.y - this.y, destination.x - this.x);
+    }
 
-    if(radians <= -0.79 || radians <=  0.79) this.dir = 1; //east
-    if(radians <= -2.4  || radians >=  2.4 ) this.dir = 3; //west
-    if(radians <=  2.4  && radians >=  0.79) this.dir = 2; //south
-    if(radians >= -2.4  && radians <= -0.79) this.dir = 0; //north
+    if(
+        this.destY <= this.y+2 &&
+        this.destY >= this.y-2 &&
+        this.destX <= this.x+2 &&
+        this.destX >= this.x-2
+        )
+    {
 
+        this.destX = null;
+        this.destY = null;
+        this.destinationTimer.add(2000, this.updateDestination, this);
+    }
 
-    if(this.dir==0)this.body.moveUp(speed);
-    if(this.dir==2)this.body.moveDown(speed);
-    if(this.dir==1)this.body.moveRight(speed);
-    if(this.dir==3)this.body.moveLeft(speed);
 
 };
 
 
-WorstEnemyEver.prototype.animate = function(){
-    if(!this.animating && this.isMovable){ //play if he has finished the previous animation
+Rat.prototype.animate = function(){
+    if(!this.animating){ //play if he has finished the previous animation
         if(this.dir == 0){ // north
             if(this.attacking){
                 this.animations.play("attack_up");
@@ -192,7 +214,7 @@ WorstEnemyEver.prototype.animate = function(){
     }
 };
 
-WorstEnemyEver.prototype.attack = function(){
+Rat.prototype.attack = function(){
     if(this.attackIsAvailable) {
         this.game.ken.hit(this.damage);
         //this.sprite.tint = Math.random() * 0xfffff;
@@ -203,7 +225,7 @@ WorstEnemyEver.prototype.attack = function(){
 
 
 
-WorstEnemyEver.prototype.poisonHit = function(damage){
+Rat.prototype.poisonHit = function(damage){
     if(!this.poisoned.value){
         this.poisoned.value = true;
         this.highlight(0x0d7200, this.poisoned);
@@ -211,17 +233,20 @@ WorstEnemyEver.prototype.poisonHit = function(damage){
     }
 };
 
-WorstEnemyEver.prototype.poisonEffect = function(damage, i){
+Rat.prototype.poisonEffect = function(damage, i){
     i--;
     if(i <= 0 || !this.poisoned.value){
         this.poisoned.value = false;
         return;
     }
 
+    var maxDamage = ((this.health-damage) < 0) ? this.health : damage;
+    this.game.bosses.sharedHealthbar.updateHealthBar(maxDamage);
+
     this.health -= damage;
     this.game.dialogues.create(this.x, this.y, damage.toString(), 16, null, null, 0x0d7200);
     if (this.health <= 0) {
-       this.die();
+        this.die();
     }
 
     var poisonTimer = this.game.time.create(false);
@@ -231,7 +256,7 @@ WorstEnemyEver.prototype.poisonEffect = function(damage, i){
 };
 
 
-WorstEnemyEver.prototype.highlight = function(tint, callback){
+Rat.prototype.highlight = function(tint, callback){
     if(callback.value){
         this.tint =  (this.tint == 0xffffff) ? tint : 0xffffff;
 
@@ -246,7 +271,7 @@ WorstEnemyEver.prototype.highlight = function(tint, callback){
 
 
 
-WorstEnemyEver.prototype.hit = function(damage){
+Rat.prototype.hit = function(damage){
 
     //blood
     this.bleed();
@@ -263,9 +288,10 @@ WorstEnemyEver.prototype.hit = function(damage){
     if(this.dir==1)xx = dist;
     if(this.dir==3)xx = -dist;
 
-    this.isMovable = false; // Update can't use the moveTo function
-    this.moveTo({x: this.x - xx, y: this.y - yy}, 300, 150);
-    this.game.time.events.add(150, this.setMovable, this); // After 150ms update use the moveTo function
+
+
+    var maxDamage = ((this.health-damage) < 0) ? this.health : damage;
+    this.game.bosses.sharedHealthbar.updateHealthBar(maxDamage);
 
     this.health -= damage;
     if(this.health <= 0){
@@ -274,7 +300,7 @@ WorstEnemyEver.prototype.hit = function(damage){
 
 };
 
-WorstEnemyEver.prototype.bleed = function(){
+Rat.prototype.bleed = function(){
     this.blood.x = this.x;
     this.blood.y = this.y;
 
@@ -302,45 +328,41 @@ WorstEnemyEver.prototype.bleed = function(){
 };
 
 
-WorstEnemyEver.prototype.setAttackAvailable = function(){
+Rat.prototype.setAttackAvailable = function(){
     //overlaping
     if(this.objectsDistance(this, this.game.ken) < 64)
         this.attackIsAvailable = true;
 
 };
 
-WorstEnemyEver.prototype.setMovable = function(){
-    this.isMovable = true;
-};
 
-WorstEnemyEver.prototype.setWindForce = function(force){
-    if(!this.blocked) this.body.x+=force;
-};
+Rat.prototype.setWindForce = function(force){};
 
-WorstEnemyEver.prototype.die = function(){
-    this.game.enemiesKilled++;
+Rat.prototype.die = function(){
+    this.game.bossesKilled++;
     var parameters = {
         dir: this.dir,
         scaleX: this.scale.x,
         scaleY: this.scale.y
     };
     this.game.tilesf.addTile('blood', this.x, this.y, parameters);
+    this.game.bosses.sharedHealthbar.removeEntity(this.defaultHealth);
     this.kill();
 };
 
-WorstEnemyEver.prototype.objectsDistance = function(object, destination){
+Rat.prototype.objectsDistance = function(object, destination){
     var dx = object.x - destination.x;
     var dy = object.y - destination.y;
     var dist = Math.sqrt(dx * dx + dy * dy);     //pythagoras (get the distance to each other)
     return dist
 };
 
-WorstEnemyEver.prototype.resetCollisions = function (){
+Rat.prototype.resetCollisions = function (){
     this.body.setCollisionGroup(this.game.entitiesCollisions);
     this.body.collides(this.game.entitiesCollisions);
 };
 
-WorstEnemyEver.prototype.debugCollisions = function(){
+Rat.prototype.debugCollisions = function(){
     if(this.game.debugCollisions){
         this.filters = [this.filterDebug];
     }else{
@@ -349,7 +371,7 @@ WorstEnemyEver.prototype.debugCollisions = function(){
 };
 
 
-WorstEnemyEver.prototype.checkOverlap = function (body1, body2) {
+Rat.prototype.checkOverlap = function (body1, body2) {
 
     return (
         body1.left < body2.right &&
@@ -360,7 +382,7 @@ WorstEnemyEver.prototype.checkOverlap = function (body1, body2) {
 
 };
 
-WorstEnemyEver.prototype.popLocation = function(){
+Rat.prototype.popLocation = function(){
     var x = Math.random() * (this.game.world.width * 3) - this.game.world.width;
     var y = (x < 0 || x > this.game.world.height) ?
     Math.random()* (this.game.world.height) :  // X is outside of the screen -> random on the Y axe

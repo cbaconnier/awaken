@@ -26,11 +26,12 @@
     Bosses.prototype = {
 
         getBossesList: function(){
-            return ['david'];
+            return ['david', 'rat'];
         },
 
         getBoss: function (entity, game, parameters) {
             if(entity == 'david') return new David(game, parameters);
+            if(entity == 'rat') return new Rat(game, parameters);
         },
 
         addBosses: function(){
