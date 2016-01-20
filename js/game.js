@@ -76,6 +76,7 @@
             this.game.enemiesKilled = 0;
             this.game.bossesKilled = 0;
             this.game.over = false;
+            this.game.elapsedTime = 0;
 
 
             this.game.ken = new Ken(this.game, this.game.level.playerParameters);
@@ -101,6 +102,10 @@
             this.game.events = new ns.Events(this.game);
             this.game.events.setEvents(this.game.level.events);
 
+
+            this.timer = this.game.time.create(false);
+            this.timer.loop(1000, this.updateElapsedTime, this);
+            this.timer.start();
         },
 
 
@@ -120,6 +125,10 @@
 
         },
 
+        updateElapsedTime: function(){
+            this.game.elapsedTime++;
+        },
+
         objectivesComplete: function(){
 
             if(this.game.over) this.gameOver();
@@ -127,7 +136,7 @@
               if(
                   (this.game.level.enemiesToKill != null && this.game.enemiesKilled >= this.game.level.enemiesToKill) //Number of enemies to kill
                     ||
-                  (this.game.level.timeLimit != null && this.game.time.totalElapsedSeconds() > this.game.level.timeLimit)  //Time elapsed in the level
+                  (this.game.level.timeLimit != null && this.game.elapsedTime > this.game.level.timeLimit)  //Time elapsed in the level
                     ||
                   (this.game.level.bossesToKill != null && this.game.bossesKilled >= this.game.level.bossesToKill)
               ){
