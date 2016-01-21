@@ -38,6 +38,7 @@
             this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.onNext, this);
             this.input.keyboard.addKey(Phaser.Keyboard.F).onDown.add(this.goFullscreen, this);
 
+            this.textLoaded = false;
 
             this.game.input.gamepad.start();
             this.pad = this.game.input.gamepad.pad1;
@@ -49,7 +50,10 @@
 
 
         nextChar: function(){
-            if(this.charIndex >= this.level.description.length) return;
+            if(this.charIndex >= this.level.description.length){
+                this.textLoaded = true;
+                return;
+            }
             var char = this.level.description[this.charIndex];
             this.description.text = this.description.text.concat(char);
             if(this.mutedChars.indexOf(char) == -1) this.fxText.play();
@@ -64,13 +68,13 @@
 
         addButtons: function(){
             this.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.add(this.onNext, this);
-            //this.pad.getButton(Phaser.Gamepad.XBOX360_Y).onDown.add(this.goFullscreen, this);
         },
 
         onNext: function(){
             if(this.textLoaded) {
                 this.onDown();
             }else{
+                console.log("Loaded");
                 this.timer.stop();
                 this.description.text = '';
                 this.description.text = this.level.description;
@@ -81,7 +85,14 @@
 
         onDown: function () {
             this.resetButtons();
-            this.game.state.start('game', true, false, this.level);
+
+            if(this.level.nextLevel() === null) {
+                console.log("menu");
+                this.game.state.start('menu');
+            }else{
+                console.log("game");
+                this.game.state.start('game', true, false, this.level);
+            }
         },
 
         goFullscreen: function(){

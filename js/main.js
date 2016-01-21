@@ -8,7 +8,5 @@ window.addEventListener('load', function () {
     game.state.add('menu', ns.Menu);
     game.state.add('transition', ns.Transition);
     game.state.add('game', ns.Game);
-    game.state.add('end', ns.End);
-    game.state.add('over', ns.Over);
     game.state.start('boot');
 }, false);

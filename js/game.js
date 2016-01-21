@@ -178,8 +178,7 @@
         gameOverState: function(){
 
             this.resetButtons();
-            this.game.state.start('over', true, false, this.game.level.nextLevel());
-
+            this.game.state.start('transition', true, false, new ns.Level().getGameOver());
         },
 
         nextLevel: function(){
@@ -187,8 +186,6 @@
 
             if(this.game.level.nextLevel()){
                 this.game.state.start('transition', true, false, this.game.level.nextLevel());
-            }else{
-                this.game.state.start('end');
             }
         },
 

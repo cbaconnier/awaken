@@ -23,6 +23,9 @@
             return this.getLevels().level_1;
         },
 
+        getGameOver: function(){
+            return this.getLevels().over;
+        },
 
         /**
          *
@@ -134,10 +137,10 @@
                 level_1: {
                     title: "Level 1",
                     short: "The house",
-                    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n" +
-                    "Suspendisse posuere augue aliquam risus elementum, eu accumsan orci ullamcorper. \n" +
-                    "Suspendisse malesuada ante sem, at ultrices nunc pellentesque quis. \n" +
-                    "Vestibulum suscipit accumsan lorem, sit amet pharetra sem. Vivamus sed elementum risus",
+                    description: "It's 7am and Ken just woke up! He will miss his train for the school. He must hurry! \n" +
+                    "Because of his small size, Ken have to fight against multiple dangers. \n" +
+                    "So, he picked his toothpick to defend himself. \n" +
+                    "Now.. He have to cross the kitchen full of spiders to go out...",
 
                     enemiesToKill: 30,
                     //timeLimit: 10,
@@ -206,7 +209,10 @@
                 level_2: {
                     title: "Level 2",
                     short: "The garden",
-                    description: "blablabla",
+                    description: "Ken is now out. As soon he laid his foot in the garden, a big worm tried to eat him ! \n" +
+                    "Quickly, ken dodge it and hit the worm right in his face. The worm died. \n" +
+                    "Sadly for Ken, the sound of the dead worm has called all the worms of the garden. \n" +
+                    "Ken must fight back if he want to survive.",
                     enemiesToKill: 60,
                     maxEnemies: 20,
                     minSpawnDelay: 750,
@@ -256,7 +262,9 @@
                 level_3: {
                     title: "Level 3",
                     short: "The city",
-                    description: "mouhahahaha",
+                    description: "Damn! The rain just started and to top it all off, the wind has risen. \n" +
+                    "To take the train, Ken will have to survive the elements. \n" +
+                    "It would be so much easier if the spiders would let him take the train.",
                     enemiesToKill: 75,
                     maxEnemies: 100,
                     minSpawnDelay: 350,
@@ -306,7 +314,9 @@
                 level_4: {
                     title: "Level 4",
                     short: "The sewers",
-                    description: "HO NO",
+                    description: "Oh no!! What bad luck! The wind carried off Ken into the sewers. \n" +
+                    "This place is full of toxic products and cockroach. Ken must find a way to get out. \n" +
+                    "Some rumors say that there are rats in the sewers...",
                     bossesToKill: 2,
                     maxEnemies: 25,
                     maxBosses: 2,
@@ -360,7 +370,10 @@
                 level_5: {
                     title: "Level 5",
                     short: "The train",
-                    description: "HO NO",
+                    description: "Fuck yes! Ken finally took the train! He did it! \n" +
+                    "But it seems that the cockroach aren't that died.\n" +
+                    "It looks like they needed a new place for their home and the train was a perfect place.\n" +
+                    "He wanted so hard to revise his math exam before the school. Seems that will not be today.",
                     timeLimit: 45,
                     maxEnemies: 100,
                     maxBosses: 0,
@@ -404,7 +417,10 @@
                 level_6: {
                     title: "Level 6",
                     short: "Santa Cruz",
-                    description: "HO NO",
+                    description: "Ken is so close to the school! Sadly, the fog, the wind and the snow are there. \n" +
+                    "Ken is desperate. He feels like the whole world want to kill him. \n" +
+                    "Even in this place, cold, windy and lost in the mountains, a bunch of spiders and\n" +
+                    "worms want kill him. From where they come, by the way?",
                     enemiesToKill: 150,
                     maxEnemies: 100,
                     maxBosses: 0,
@@ -463,14 +479,18 @@
                 level_7: {
                     title: "Level 7",
                     short: "The school",
-                    description: "HO NO",
+                    description: "He did it! Ken is at the school! *Boom* But what is that noise? *Boom* \n" +
+                    "Ken felt a earthquake *Boom*, he didn't need to look behind him. *Boom* He knew. *Boom* \n" +
+                    "He knew that David was there...  \n" +
+                    "David opened the insectarium of the science class and started to threw insects on Ken. \n" +
+                    "Ken who doesn't want that anyone let him rot his day, decided this time, to fight back!",
                     bossesToKill: 1,
                     maxEnemies: 50,
                     maxBosses: 1,
                     minSpawnDelay: 100,
                     maxSpawnDelay: 250,
                     nextLevel: function () {
-                        return null;
+                        return levels.final;
                     },
 
                     playerParameters: {
@@ -507,7 +527,31 @@
                             health: 50000,
                             dmg: 1000,
                             score: 200000
-                        },
+                        }
+                    }
+
+                },
+
+                over: {
+                    title: "GAME OVER",
+                    short: "",
+                    description: "",
+                    nextLevel: function () {
+                        return null;
+                    }
+                },
+
+                final: {
+                    title: "YOU BEAT THE GAME",
+                    short: "Thank you for playing",
+                    description: "Ken have finally win of his bully. \n" +
+                    "He feels stronger than before and very proud of himself. \n" +
+                    "\n" +
+                    "Has soon he took his place on his desk, a chill ran down his spine causing him to shiver. \n" +
+                    "Ken saw his worst nightmare show up. \n" +
+                    "He didn't had the time to revise and the math exam has started.",
+                    nextLevel: function () {
+                        return null;
                     }
 
                 }
