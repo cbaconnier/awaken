@@ -30,16 +30,7 @@ Rain.prototype.create = function(){
 
 };
 
-Rain.prototype.update = function(){
-    /*this.i++;
-
-    if (this.i === this.update_interval)
-    {
-        this.changeWindDirection();
-        this.update_interval = Math.floor(Math.random() * 20) * 60; // 0 - 20sec @ 60fps
-        this.i = 0;
-    }*/
-};
+Rain.prototype.update = function(){};
 
 Rain.prototype.changeWindDirection = function(max){
     var max = max || this.max;

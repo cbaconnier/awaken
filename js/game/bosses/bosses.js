@@ -1,10 +1,25 @@
+/**
+ *
+ *  Bosses is a factory who seed the entities group with the given bosses of the level
+ *
+ *
+ *
+ *  @params Game
+ *
+ */
+
 (function() {
     'use strict';
 
+
     function Bosses(game) {
         this.game = game;
+
+        // Spawn timer
         this.bossesTimer = this.game.time.create(false);
         this.bossesTimer.start();
+
+        // Shared health bar initialisation
         this.healthBarParams = {
             x: this.game.width/2-150,
             y: this.game.height-40,
@@ -25,60 +40,64 @@
 
     Bosses.prototype = {
 
+        /** Return la list of thes bosses **/
         getBossesList: function(){
             return ['david', 'rat'];
         },
 
+        /** Return a boss **/
         getBoss: function (entity, game, parameters) {
             if(entity == 'david') return new David(game, parameters);
             if(entity == 'rat') return new Rat(game, parameters);
         },
 
+        /** Add bosses to boss group **/
         addBosses: function(){
             this.addBoss();
         },
 
+        /** Add boss to the boss group **/
         addBoss: function(){
 
             var self = this;
             var boss = null;
             var nbBossesAlive = 0;
 
+
+            // Before create a new boss, we try to get one from the deads bosses
             this.game.entities.filter(function(child) {
-
                 if(self.game.bosses.getBossesList().indexOf(child.type) != -1){
-
                     //retrive the first boss dead
                     if (boss === null  && !child.alive) {
                         boss = child;
                     }
                     nbBossesAlive++;
                 }
-                //return child;
-
             }, true);
 
 
-
-
             if(boss !== null && nbBossesAlive <= boss.maxBoss) {
+                // Reset the dead boss that we got
                 var location = boss.popLocation();
                 boss.reset(location.x,location.y);
                 boss.init(this.game.level.bossParameters[boss.type]);
             }else if(nbBossesAlive < this.game.level.maxBosses && this.game.level.bossParameters){
+                // Create a new random boss from the available boss parameters list
                 this.createRandomBoss(Object.keys(this.game.level.bossParameters));
             }else{
                 return;
             }
 
-
+            // Create a new boss in X seconds
             this.bossesTimer.add(Math.random() * (this.game.level.maxSpawnDelay - this.game.level.minSpawnDelay)+this.game.level.minSpawnDelay, this.addBoss, this);
 
 
         },
 
+        /** Create a new random boss from the parameters list **/
         createRandomBoss: function(bosses){
             if(bosses.length < 1) return null;
+
             //pick random boss
             var boss = bosses[ bosses.length * Math.random() << 0 ];
 
@@ -88,7 +107,7 @@
             });
 
             if (nbAlive < this.game.level.bossParameters[boss].maxBoss){
-                //add a new boss to the entities
+                //add a new boss to the entities group
                 var boss = this.game.bosses.getBoss(boss, this.game, this.game.level.bossParameters);
                 this.game.entities.add(boss);
             }else{

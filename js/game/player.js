@@ -151,8 +151,6 @@ Ken.prototype.create = function () {
 
 
 
-
-
     /** sprites
      *
      * Ken have currently 3 sprites actives but only 2 visible
@@ -736,7 +734,6 @@ Ken.prototype.resetCollisions = function (){
 
 /** Debug the collisions **/
 Ken.prototype.debugCollisions = function () {
-    /** Debug **/
     if (this.game.debugCollisions) {
         this.spriteAttack.filters = [this.filterDebugAtk];
         this.attackZone.filters = [this.filterDebugAtk];

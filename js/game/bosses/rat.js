@@ -1,15 +1,29 @@
-
+/**
+ *
+ *  Rat
+ *
+ *   Description :
+ *      Nothing special
+ *
+ *   Abilities :
+ *      Lock the player position
+ *      Charge this position
+ *      Wait a bit
+ *      Repeat
+ *
+ * @param game
+ * @param {Levels.level.bossParameters}
+ */
 
 var Rat = function (game, parameters) {
 
     this.game = game;
     var location = this.popLocation();
+
+    // Sprite
     Phaser.Sprite.call(this, game, location.x, location.y, 'rat');
     this.type = 'rat';
 
-    this.poisoned = {
-        value : false
-    };
 
     this.init(parameters[this.type]);
     this.create();
@@ -36,11 +50,16 @@ Rat.prototype.init = function(parameters){
 
 Rat.prototype.create = function(){
 
+    /** Sprite parameters **/
+    this.smoothed = false;
+    this.scale.x = 2.5;
+    this.scale.y = 2.5;
 
-    this.animationSpeed = 6;
 
     /** animations **/
-        //walking animations
+    this.animationSpeed = 6;
+
+    //walking animations
     this.animations.add('walk_down', [1,0,2,0], this.animationSpeed, false);
     this.animations.add('walk_up', [5,4,6,4], this.animationSpeed, false);
     this.animations.add('walk_right', [9,8,10,8], this.animationSpeed, false);
@@ -52,25 +71,27 @@ Rat.prototype.create = function(){
     this.animations.add('attack_right', [0,11,0], this.animationSpeed, false);
     this.animations.add('attack_left', [0,15,0], this.animationSpeed, false);
 
-    this.scale.x = 2.5;
-    this.scale.y = 2.5;
 
-    /** collisions **/
-
+    /** Physics **/
     this.enableBody = true;
     this.physicsBodyType = Phaser.Physics.P2JS;
-    this.game.physics.p2.enable(this, false); // true = debug
+    this.game.physics.p2.enable(this, false);
+
+    /** collisions **/
     this.body.fixedRotation = true;
     this.body.setCircle(32);
     this.body.setCollisionGroup(this.game.entitiesCollisions);
     //this.body.collides(this.game.entitiesCollisions);
-    this.smoothed = false;
-
     this.body.collideWorldBounds = false;
 
 
+    /** Actions **/
     this.destX = null;
     this.destY = null;
+
+    this.poisoned = {
+        value : false  // object because we need the reference of the value when we use them in callback
+    };
 
     /** Blood particles **/
     this.blood = this.game.add.emitter(0, 0, 10);
@@ -97,13 +118,22 @@ Rat.prototype.create = function(){
         this.animating = false;
     }, this);
 
+
     /*** Timers ***/
-        //Attack
+    // Set attack available
     this.game.time.events.loop(250, this.setAttackAvailable, this); //1 second
+
+    // Set a new charge destination
     this.destinationTimer = this.game.time.create(false);
     this.destinationTimer.start();
     this.destinationTimer.add(Math.random() * (3000-1000)+1000 , this.updateDestination, this);
 };
+
+
+
+/** Theses functions have to be empty. The boss don't react to theses events **/
+Rat.prototype.setWindForce = function(force){};
+
 
 
 Rat.prototype.update = function(){
@@ -112,38 +142,37 @@ Rat.prototype.update = function(){
         this.attack();
         this.debugCollisions();
         this.animate();
-        this.resetSpeed();
-        this.yy = this.y;
+        this.resetSpeed(); // Events/Tiles can change the speed of the player. When it's done, we reset his speed
+        this.yy = this.y;  // update the sort rendering
     }
 };
 
+/** Decrease the speed of the boss **/
 Rat.prototype.decreaseSpeed = function(speed){
     if(this.speed == this.defaultSpeed)
         this.speed -= speed;
 };
 
+/** Increase the speed of the boss **/
 Rat.prototype.increaseSpeed = function(speed){
     if(this.speed == this.defaultSpeed)
         this.speed += speed*2.5;
 };
 
-
+/** Reset the speed of the boss **/
 Rat.prototype.resetSpeed = function(){
     this.speed = this.defaultSpeed;
 };
 
+/** Update the next destination of the charge **/
 Rat.prototype.updateDestination = function(){
-
     this.destX = this.game.ken.x;
     this.destY = this.game.ken.y;
-
-
-
-
 };
 
-Rat.prototype.move = function(destination){
 
+/** Move (charge) to the destination **/
+Rat.prototype.move = function(){
 
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
@@ -171,7 +200,7 @@ Rat.prototype.move = function(destination){
         this.destX >= this.x-2
         )
     {
-
+        // The boss has reach the destination, 2in two seconds, we will look for a new destination
         this.destX = null;
         this.destY = null;
         this.destinationTimer.add(2000, this.updateDestination, this);
@@ -180,7 +209,7 @@ Rat.prototype.move = function(destination){
 
 };
 
-
+/** Animate the boss **/
 Rat.prototype.animate = function(){
     if(!this.animating){ //play if he has finished the previous animation
         if(this.dir == 0){ // north
@@ -214,25 +243,28 @@ Rat.prototype.animate = function(){
     }
 };
 
+
+
+/** Attack the player **/
 Rat.prototype.attack = function(){
     if(this.attackIsAvailable) {
         this.game.ken.hit(this.damage);
-        //this.sprite.tint = Math.random() * 0xfffff;
         this.attacking = true;
     }
     this.attackIsAvailable = false;
 };
 
 
-
+/** When the player is hit by poison **/
 Rat.prototype.poisonHit = function(damage){
     if(!this.poisoned.value){
         this.poisoned.value = true;
         this.highlight(0x0d7200, this.poisoned);
-        this.poisonEffect(damage, 10);
+        this.poisonEffect(damage, 10); // start the poison effect (damage, number of recursions)
     }
 };
 
+/** recursives effects of the poison (damage, number of recursions) **/
 Rat.prototype.poisonEffect = function(damage, i){
     i--;
     if(i <= 0 || !this.poisoned.value){
@@ -249,13 +281,14 @@ Rat.prototype.poisonEffect = function(damage, i){
         this.die();
     }
 
+    // we recursing this function again
     var poisonTimer = this.game.time.create(false);
     poisonTimer.start();
     poisonTimer.add(200, this.poisonEffect, this, damage, i);
 
 };
 
-
+/** Highlight the player while the given object is true **/
 Rat.prototype.highlight = function(tint, callback){
     if(callback.value){
         this.tint =  (this.tint == 0xffffff) ? tint : 0xffffff;
@@ -270,26 +303,16 @@ Rat.prototype.highlight = function(tint, callback){
 };
 
 
-
+/** When the boss get hit **/
 Rat.prototype.hit = function(damage){
 
     //blood
     this.bleed();
 
-    // dialogue
+    // damage dialogue
     this.game.dialogues.create(this.x, this.y, damage.toString(), 15, 350, -96);
 
-    // displacement due to the impact
-    var xx = 0;
-    var yy = 0;
-    var dist = 30;
-    if(this.dir==0)yy = -dist;
-    if(this.dir==2)yy = dist;
-    if(this.dir==1)xx = dist;
-    if(this.dir==3)xx = -dist;
-
-
-
+    // Update shared Health bar
     var maxDamage = ((this.health-damage) < 0) ? this.health : damage;
     this.game.bosses.sharedHealthbar.updateHealthBar(maxDamage);
 
@@ -300,6 +323,8 @@ Rat.prototype.hit = function(damage){
 
 };
 
+
+/** Make the boss bleeding **/
 Rat.prototype.bleed = function(){
     this.blood.x = this.x;
     this.blood.y = this.y;
@@ -327,29 +352,34 @@ Rat.prototype.bleed = function(){
 
 };
 
-
+/** Set attack available if the player is close to the boss **/
 Rat.prototype.setAttackAvailable = function(){
     //overlaping
     if(this.objectsDistance(this, this.game.ken) < 64)
         this.attackIsAvailable = true;
-
 };
 
 
-Rat.prototype.setWindForce = function(force){};
 
+/** Boss die **/
 Rat.prototype.die = function(){
     this.game.bossesKilled++;
+
+    //Blood tile parameters
     var parameters = {
         dir: this.dir,
         scaleX: this.scale.x,
         scaleY: this.scale.y
     };
     this.game.tilesf.addTile('blood', this.x, this.y, parameters);
+
+    //remove boss from the sharedHealthBar
     this.game.bosses.sharedHealthbar.removeEntity(this.defaultHealth);
+
     this.kill();
 };
 
+/** Return the distance between two objects **/
 Rat.prototype.objectsDistance = function(object, destination){
     var dx = object.x - destination.x;
     var dy = object.y - destination.y;
@@ -357,11 +387,13 @@ Rat.prototype.objectsDistance = function(object, destination){
     return dist
 };
 
+/** reset the collisions (when we toggle the fullscreen) **/
 Rat.prototype.resetCollisions = function (){
     this.body.setCollisionGroup(this.game.entitiesCollisions);
-    this.body.collides(this.game.entitiesCollisions);
+    //this.body.collides(this.game.entitiesCollisions);
 };
 
+/** Debug the collisions **/
 Rat.prototype.debugCollisions = function(){
     if(this.game.debugCollisions){
         this.filters = [this.filterDebug];
@@ -371,17 +403,7 @@ Rat.prototype.debugCollisions = function(){
 };
 
 
-Rat.prototype.checkOverlap = function (body1, body2) {
-
-    return (
-        body1.left < body2.right &&
-        body1.right > body2.left &&
-        body1.top < body2.bottom &&
-        body1.bottom > body2.top
-    );
-
-};
-
+/** Init the pop location (outside of the screen) **/
 Rat.prototype.popLocation = function(){
     var x = Math.random() * (this.game.world.width * 3) - this.game.world.width;
     var y = (x < 0 || x > this.game.world.height) ?
