@@ -1,3 +1,16 @@
+/**
+ *
+ * Menu state
+ *
+ * Menu have three features
+ *  Play the game : Launch game state
+ *  Cheater : Give immortality to the player
+ *  Fullscreen : Toggle the screen to fullscreen
+ *
+ */
+
+
+
 (function () {
     'use strict';
 
@@ -7,18 +20,30 @@
     }
 
     Menu.prototype = {
+
+
+        /** Create everything on the scene **/
         create: function () {
 
+            // (re)initialise the score to 0
             ns.Boot.score = 0;
 
+            /** Sounds **/
             this.fxButtonOver = this.game.add.audio('fx_button_over');
             this.fxButtonOver.allowMultiple = false;
             this.fxButtonOver.volume = .9;
 
-            this.fxButtonActived = this.game.add.audio('fx_button_actived');
-            this.fxButtonActived.allowMultiple = false;
-            this.fxButtonActived.volume = .9;
+            this.fxButtonActivated = this.game.add.audio('fx_button_activated');
+            this.fxButtonActivated.allowMultiple = false;
+            this.fxButtonActivated.volume = .9;
 
+            /** Music **/
+            if(!ns.Boot.fxMusic.isPlaying) ns.Boot.fxMusic.play();
+            if(!ns.Boot.fxMusic.paused) ns.Boot.fxMusic.resume();
+
+
+
+            /** Texts **/
             var title = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.3, 'gem', "AWAKEN", 42);
             title.anchor.set(0.5);
 
@@ -31,7 +56,8 @@
             this.cheatText = this.game.add.bitmapText(this.game.width-230, this.game.height * 0.55, 'gem', "", 14);;
             this.cheatText.anchor.set(0.5);
 
-            /** play button**/
+
+            /** buttons **/
             this.play = this.game.add.button(this.game.width * 0.5, this.game.height * 0.45, 'button', this.playAction, this, 0, 1, 2);
             this.play.smoothed = false;
             this.play.anchor.set(0.5);
@@ -42,7 +68,6 @@
             playText.anchor.set(0.5);
 
 
-            /** cheater button**/
             this.cheat = this.game.add.button(this.game.width * 0.5, this.game.height * 0.55, 'button', this.cheaterAction, this, 0, 1, 2);
             this.cheat.smoothed = false;
             this.cheat.anchor.set(0.5);
@@ -52,7 +77,7 @@
             var cheaterText = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.55, 'gem', "CHEATER", 16);
             cheaterText.anchor.set(0.5);
 
-            /** fullscreen button**/
+
             this.full = this.game.add.button(this.game.width * 0.5, this.game.height * 0.65, 'button', this.fullscreenAction, this, 0, 1, 2);
             this.full.smoothed = false;
             this.full.anchor.set(0.5);
@@ -62,62 +87,67 @@
             var fullscreenText = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.65, 'gem', "FULLSCREEN", 16);
             fullscreenText.anchor.set(0.5);
 
-
-            //this.input.onDown.add(this.onDown, this);
-            this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.onDown, this);
+            /** Input **/
+            //keyboard
+            this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.changeState, this);
             this.input.keyboard.addKey(Phaser.Keyboard.F).onDown.add(this.goFullscreen, this);
 
-
-            if(!ns.Boot.fxMusic.isPlaying) ns.Boot.fxMusic.play();
-            if(!ns.Boot.fxMusic.paused) ns.Boot.fxMusic.resume();
-
-
+            //gamepad
             this.input.gamepad.start();
             this.pad = this.input.gamepad.pad1;
             if (this.game.input.gamepad.supported && this.game.input.gamepad.active && this.pad.connected){
                 this.pad.addCallbacks(this, {onConnect: this.addButtons});
                 this.addButtons();
             }
+
+
+
         },
 
 
+        /** Play button action **/
         playAction: function(){
             if(this.play.input.pointerOver()){
-                this.fxButtonActived.play();
-                this.onDown();
+                this.fxButtonActivated.play();
+                // change the state
+                this.changeState();
             }
 
         },
 
+        /** Cheater button action **/
         cheaterAction: function(){
             if(this.cheat.input.pointerOver()){
-                this.fxButtonActived.play();
+                this.fxButtonActivated.play();
                 ns.Boot.cheater = !ns.Boot.cheater;
                 if(ns.Boot.cheater){
-                    this.cheatText.text = "Cheat actived !";
+                    this.cheatText.text = "Cheat activated !";
                 }else{
-                    this.cheatText.text = "Cheat desactived !";
+                    this.cheatText.text = "Cheat deactivated !";
                 }
             }
         },
 
+        /** Fullscreen button action **/
         fullscreenAction: function(){
             if(this.full.input.pointerOver()) {
-                this.fxButtonActived.play();
+                this.fxButtonActivated.play();
                 this.goFullscreen();
             }
         },
 
-        addButtons: function(){
-             this.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.add(this.onDown, this);
-        },
 
+        /** Change the state **/
+        changeState: function () {
 
-        onDown: function () {
+            // We have to reset the gamepad buttons otherwise they keep the action on the next state
             this.resetButtons();
-            this.game.state.start('transition', true, false, new ns.Level().getFirstLevel());
+
+            // Change to the transition state
+            this.game.state.start('transition', true, false, new ns.Levels().getFirstLevel());
         },
 
+        /** Switch the game to fullscreen / windowed **/
         goFullscreen: function(){
             if (this.game.scale.isFullScreen)
             {
@@ -131,6 +161,12 @@
 
         },
 
+        /** Add the buttons to the gamepad **/
+        addButtons: function(){
+            this.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.add(this.changeState, this);
+        },
+
+        /** Remove the buttons to the gamepad **/
         resetButtons: function(){
             if (this.game.input.gamepad.supported && this.game.input.gamepad.active && this.pad.connected){
                 this.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();

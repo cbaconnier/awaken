@@ -13,54 +13,46 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-title" content="Phaser App">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1,  target-densitydpi=device-dpi" />
-    <title>awaken</title>
-    <style>
-        html,body{
-            margin: 0;
-            padding: 0;
-            background: #000;
-        }
 
-        #container{
-        }
+    <title>Awaken</title>
 
-        #awaken-game{
-            padding: 0;
-            margin: auto;
-            display: block;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-    </style>
-
-    <!-- build:css main.min.css -->
     <link rel="stylesheet" href="css/main.css">
-    <!-- /build -->
+
 </head>
 
 <body>
+
+
+
 <div id="container">
     <div id="awaken-game" class="game"></div>
 </div>
 
-<!-- build:js phaser.min.js-->
-<script src="phaser/phaser.min.js"></script>
-<!-- /build -->
 
-<!-- build:js main.min.js -->
+
+
+<!-- Library -->
+<script src="phaser/phaser.min.js"></script>
+
+
+<!-- Helpers -->
 <script src="js/utils/geometry.js"></script>
 <script src="js/utils/array.js"></script>
+
+
+<!-- Game initialisation -->
 <script src="js/boot.js"></script>
 <script src="js/preloader.js"></script>
 
 
-<script src="js/game/level.js"></script>
+<!-- Game States -->
+<script src="js/game/levels.js"></script>
 <script src="js/transition.js"></script>
 <script src="js/menu.js"></script>
+<script src="js/game.js"></script>
 
+
+<!-- Game UI -->
 <script src="js/game/ui/notification.js"></script>
 <script src="js/game/ui/healthBar.js"></script>
 <script src="js/game/ui/dialogue.js"></script>
@@ -70,6 +62,8 @@
 <script src="js/game/ui/fullscreen.js"></script>
 <script src="js/game/ui/objective.js"></script>
 
+
+<!-- Game entities -->
 <script src="js/game/player.js"></script>
 
 <script src="js/game/enemies/enemies.js"></script>
@@ -82,12 +76,16 @@
 <script src="js/game/bosses/david.js"></script>
 <script src="js/game/bosses/rat.js"></script>
 
+
+<!-- Game events -->
 <script src="js/game/events/events.js"></script>
 <script src="js/game/events/snow.js"></script>
 <script src="js/game/events/rain.js"></script>
 <script src="js/game/events/wind.js"></script>
 <script src="js/game/events/fog.js"></script>
 
+
+<!-- Game tiles -->
 <script src="js/game/tiles/tiles.js"></script>
 <script src="js/game/tiles/tile.js"></script>
 <script src="js/game/tiles/bloodTile.js"></script>
@@ -98,13 +96,9 @@
 <script src="js/game/tiles/shadowTile.js"></script>
 
 
-<script src="js/game.js"></script>
-
-
-
-
+<!-- Game Main -->
 <script src="js/main.js"></script>
-<!-- /build -->
+
 
 </body>
 </html>

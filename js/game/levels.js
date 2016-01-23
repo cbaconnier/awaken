@@ -1,10 +1,153 @@
+/**
+ *
+ *
+ *
+ * Levels objects
+ *
+ *  getFirstLevel()
+ *  getGameOver()
+ *  getLevels()
+ *
+ * Each levels return the object of the nextLevel or null
+ *
+ *
+ *  Level configuration :
+ *
+ *
+ *
+ *
+
+    level_1: {
+        **************************************
+
+        //*** Levels transition
+
+         title: "Level 1",
+         short: "The house",
+         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n" +
+         "Suspendisse posuere augue aliquam risus elementum, eu accumsan orci ullamcorper.",
+
+        //*** Objectives possible
+
+         enemiesToKill: 30,
+         bossesToKill: 2,
+         timeLimit: 10,
+
+        //*** Maximum enemies, bosses showed on the screen
+
+         maxEnemies: 10,
+         maxBosses: 1,
+
+        //*** Delay of spawn between each enemies or bosses
+
+         minSpawnDelay: 250,
+         maxSpawnDelay: 500,
+
+        //*** Parameters of player
+
+         playerParameters: {
+                            health: 100,
+                            minDmg: 3,
+                            maxDmg: 7,
+                            attackSize: 1
+                            },
+
+        //*** Parameters of bosses [david, rat]
+
+         bossParameters: {
+                                david: {
+                                    maxBoss: 1, // number max of this type of boss in the same time
+                                    health: 100000,
+                                    dmg: 5000,
+                                    score: 4242424242
+                                },
+                                rat: {
+                                    maxBoss: 2, // number max of this type of boss in the same time
+                                    health: 100000,
+                                    dmg: 5000,
+                                    score: 4242424242
+                                }
+
+                            },
+
+         **************************************
+
+        //*** Parameters of enemies [spider, worm, cockroach]
+
+         enemyParameters: {
+                                spider:{
+                                    maxEnemy: 10, // number max of this type of enemy in the same time
+                                    health: 20,
+                                    dmg: 50,
+                                    score: 200
+                                },
+                                worm:{
+                                    maxEnemy: 10, // number max of this type of enemy in the same time
+                                    health: 20,
+                                    dmg: 50,
+                                    score: 200
+                                }
+                            },
+
+         **************************************
+
+        //*** Parameters of tiles [poison, water, grass, ice]
+
+         tiles: {
+                                poison: {
+                                    maxTiles: 0, // number max of this type of tile
+                                    scale:4, // fixed size: random size if not specified (recommendation: scale 6 should be the max)
+                                    dmg: 5
+                                },
+                                water: {
+                                    maxTiles: 0,
+                                    speedDecrease: 150
+                                },
+                                grass:{
+                                    maxTiles: 0
+                                },
+                                ice:{
+                                    maxTiles: 4,
+                                    speedIncrease: 50
+                                }
+                            },
+
+         **************************************
+
+            //*** Parameters of events [wind, snow, rain, fog]
+            // work well all in the same time. Don't have parameters for now
+         events: {
+                                wind: {},
+                                snow: {},
+                                rain: {},
+                                fog: {}
+                            },
+
+         **************************************
+     }
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+
+
 (function() {
     'use strict';
 
-    function Level() {
+    function Levels() {
     }
 
-    Level.prototype = {
+    Levels.prototype = {
 
 
         /*
@@ -26,96 +169,6 @@
         getGameOver: function(){
             return this.getLevels().over;
         },
-
-        /**
-         *
-         *
-         *
-         *
-         *
-         *
-         *
-                     title: "Level 1",
-                     short: "The house",
-                     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n" +
-                                    "Suspendisse posuere augue aliquam risus elementum, eu accumsan orci ullamcorper.",
-
-                     --enemiesToKill: 30,
-                     --bossesToKill: 2,
-                     --timeLimit: 10,
-                     maxEnemies: 10,
-                     maxBosses: 0,
-                     minSpawnDelay: 250,
-                     maxSpawnDelay: 500,
-
-                    playerParameters: {
-                        health: 100,
-                        minDmg: 3,
-                        maxDmg: 7,
-                        attackSize: 1
-                    },
-
-                    bossParameters: {
-                        david: {
-                            maxBoss: 1,
-                            health: 100000,
-                            dmg: 5000,
-                            score: 4242424242
-                        }
-                    },
-
-                     **************************************
-
-                    enemyParameters: {
-                        spider:{
-                            maxEnemy: 10,
-                            health: 20,
-                            dmg: 50,
-                            score: 200
-                        },
-                        worm:{
-                            maxEnemy: 10,
-                            health: 20,
-                            dmg: 50,
-                            score: 200
-                        }
-                    },
-
-                    **************************************
-
-                    tiles: {
-                        poison: {
-                            maxTiles: 0,
-                            scale:4,
-                            dmg: 5
-                        },
-                        water: {
-                            maxTiles: 0,
-                            speedDecrease: 150
-                        },
-                        grass:{
-                            maxTiles: 0
-                        }
-                    },
-
-                    **************************************
-
-                    events: {
-                        //wind: {},
-                        //snow: {},
-                        //rain: {},
-                        //fog: {}
-                    },
-
-                    **************************************
-         *
-         *
-         *
-         *
-         *
-         *
-         */
-
 
 
         getLevels: function () {
@@ -571,5 +624,5 @@
     };
 
     window['awaken'] = window['awaken'] || {};
-    window['awaken'].Level = Level;
+    window['awaken'].Levels = Levels;
 }());

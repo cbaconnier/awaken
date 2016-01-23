@@ -47184,7 +47184,7 @@ Phaser.Button.prototype.setStateFrame = function (state, frame, switchImmediatel
 
         if (switchImmediately)
         {
-            this.changeStateFrame(state);
+            this.onDownFrame(state);
         }
     }
     else
@@ -47197,12 +47197,12 @@ Phaser.Button.prototype.setStateFrame = function (state, frame, switchImmediatel
 /**
 * Change the frame to that of the given state, _if_ the state has a frame assigned _and_ if the frames are not currently "frozen".
 *
-* @method Phaser.Button#changeStateFrame
+* @method Phaser.Button#onDownFrame
 * @private
 * @param {object} state - See `STATE_*`
 * @return {boolean} True only if the frame was assigned a value, possibly the same one it already had.
 */
-Phaser.Button.prototype.changeStateFrame = function (state) {
+Phaser.Button.prototype.onDownFrame = function (state) {
 
     if (this.freezeFrames)
     {
@@ -47404,7 +47404,7 @@ Phaser.Button.prototype.onInputOverHandler = function (sprite, pointer) {
         return;
     }
 
-    this.changeStateFrame(STATE_OVER);
+    this.onDownFrame(STATE_OVER);
 
     if (this.onOverMouseOnly && !pointer.isMouse)
     {
@@ -47430,7 +47430,7 @@ Phaser.Button.prototype.onInputOverHandler = function (sprite, pointer) {
 */
 Phaser.Button.prototype.onInputOutHandler = function (sprite, pointer) {
 
-    this.changeStateFrame(STATE_OUT);
+    this.onDownFrame(STATE_OUT);
 
     this.playStateSound(STATE_OUT);
 
@@ -47450,7 +47450,7 @@ Phaser.Button.prototype.onInputOutHandler = function (sprite, pointer) {
 */
 Phaser.Button.prototype.onInputDownHandler = function (sprite, pointer) {
 
-    this.changeStateFrame(STATE_DOWN);
+    this.onDownFrame(STATE_DOWN);
 
     this.playStateSound(STATE_DOWN);
 
@@ -47485,21 +47485,21 @@ Phaser.Button.prototype.onInputUpHandler = function (sprite, pointer, isOver) {
 
     if (this.forceOut === true || (this.forceOut & pointer.pointerMode) === pointer.pointerMode)
     {
-        this.changeStateFrame(STATE_OUT);
+        this.onDownFrame(STATE_OUT);
     }
     else
     {
-        var changedUp = this.changeStateFrame(STATE_UP);
+        var changedUp = this.onDownFrame(STATE_UP);
         if (!changedUp)
         {
             //  No Up frame to show..
             if (isOver)
             {
-                this.changeStateFrame(STATE_OVER);
+                this.onDownFrame(STATE_OVER);
             }
             else
             {
-                this.changeStateFrame(STATE_OUT);
+                this.onDownFrame(STATE_OUT);
             }
         }
     }
