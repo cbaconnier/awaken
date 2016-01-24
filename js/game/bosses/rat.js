@@ -259,6 +259,7 @@ Rat.prototype.attack = function(){
 
 /** When the player is hit by poison **/
 Rat.prototype.poisonHit = function(damage){
+    if (!this.alive) return;
     if(!this.poisoned.value){
         this.poisoned.value = true;
         this.highlight(0x0d7200, this.poisoned);
@@ -268,6 +269,8 @@ Rat.prototype.poisonHit = function(damage){
 
 /** recursives effects of the poison (damage, number of recursions) **/
 Rat.prototype.poisonEffect = function(damage, i){
+    if (!this.alive) return;
+
     i--;
     if(i <= 0 || !this.poisoned.value){
         this.poisoned.value = false;
@@ -307,6 +310,7 @@ Rat.prototype.highlight = function(tint, callback){
 
 /** When the boss get hit **/
 Rat.prototype.hit = function(damage){
+    if (!this.alive) return;
 
     //blood
     this.bleed();
@@ -315,11 +319,11 @@ Rat.prototype.hit = function(damage){
     this.game.dialogues.create(this.x, this.y, damage.toString(), 15, 350, -96);
 
     // Update shared Health bar
-    var maxDamage = ((this.health-damage) < 0) ? this.health : damage;
+    var maxDamage = ((this.health - damage) < 0) ? this.health : damage;
     this.game.bosses.sharedHealthbar.updateHealthBar(maxDamage);
 
     this.health -= damage;
-    if(this.health <= 0){
+    if (this.health <= 0) {
         this.die();
     }
 
@@ -365,6 +369,8 @@ Rat.prototype.setAttackAvailable = function(){
 
 /** Boss die **/
 Rat.prototype.die = function(){
+    if (!this.alive) return;
+
     this.game.bossesKilled++;
 
     //Blood tile parameters

@@ -386,6 +386,7 @@ David.prototype.bleed = function(){
 
 /** When the boss get hit **/
 David.prototype.hit = function(damage){
+    if (!this.alive) return;
 
     if(this.canTakeDamage){
         //blood particles
@@ -405,6 +406,8 @@ David.prototype.hit = function(damage){
 
 /** Boss die **/
 David.prototype.die = function(){
+    if (!this.alive) return;
+
     this.game.bossesKilled++;
 
     //Blood tile parameters

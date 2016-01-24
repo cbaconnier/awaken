@@ -581,6 +581,8 @@ Ken.prototype.attack = function () {
 
 /** When the player is hit by poison **/
 Ken.prototype.poisonHit = function(damage){
+    if (!this.alive) return;
+
     if(!this.poisoned.value && !this.invulnerability.value){ // needs to not be already poisoned and not invulnerable to be poisoned
         this.poisoned.value = true;
 
@@ -598,6 +600,7 @@ Ken.prototype.poisonHit = function(damage){
 
 /** recursives effects of the poison (damage, number of recursions) **/
 Ken.prototype.poisonEffect = function(damage, i){
+    if (!this.alive) return;
     i--;
 
     if(i <= 0){
@@ -629,6 +632,8 @@ Ken.prototype.poisonEffect = function(damage, i){
 
 /** player is hit **/
 Ken.prototype.hit = function (damage) {
+    if (!this.alive) return;
+
     if(!this.invulnerability.value){
 
         this.setInvulnerable(1000);
@@ -657,6 +662,7 @@ Ken.prototype.hit = function (damage) {
 
 /** The player die **/
 Ken.prototype.die = function() {
+    if (!this.alive) return;
 
     // blood tile parameters
     var parameters = {

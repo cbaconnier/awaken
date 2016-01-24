@@ -235,6 +235,7 @@ WorstEnemyEver.prototype.attack = function(){
 
 /** When the player is hit by poison **/
 WorstEnemyEver.prototype.poisonHit = function(damage){
+    if (!this.alive) return;
     if(!this.poisoned.value){
         this.poisoned.value = true;
         this.highlight(0x0d7200, this.poisoned);
@@ -244,6 +245,7 @@ WorstEnemyEver.prototype.poisonHit = function(damage){
 
 /** recursives effects of the poison (damage, number of recursions) **/
 WorstEnemyEver.prototype.poisonEffect = function(damage, i){
+    if (!this.alive) return;
     i--;
     if(i <= 0 || !this.poisoned.value){
         this.poisoned.value = false;
@@ -280,7 +282,7 @@ WorstEnemyEver.prototype.highlight = function(tint, callback){
 
 /** When the enemy get hit **/
 WorstEnemyEver.prototype.hit = function(damage){
-
+    if (!this.alive) return;
     //blood
     this.bleed();
 
@@ -356,6 +358,8 @@ WorstEnemyEver.prototype.setWindForce = function(force){
 
 /** Enemy die **/
 WorstEnemyEver.prototype.die = function(){
+    if (!this.alive) return;
+
     this.game.enemiesKilled++;
 
     // blood tile parameters
