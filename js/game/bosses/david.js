@@ -20,6 +20,7 @@
  * @param {Levels.level.bossParameters}
  *
  */
+
 var David = function (game, parameters) {
 
     var type = 'david';
@@ -50,7 +51,9 @@ David.prototype.constructor = David;
 
 /** Initialise the boss **/
 David.prototype.init = function(parameters) {
+    // We keep a trace of the max boss of this type for the factory
     this.maxEnemy = parameters.maxEnemy;
+
     this.damage = parameters.dmg;
     this.health = parameters.health ;
     this.defaultHealth = this.health;
@@ -143,7 +146,7 @@ David.prototype.poisonHit = function(damage){};
 David.prototype.setWindForce = function(force){};
 
 
-
+/** Update of the entity logic **/
 David.prototype.update = function(){
 if(this.alive){
     if(!this.blocked){
@@ -191,12 +194,6 @@ if(this.alive){
             if(this.shadow.scale.y >= 0)this.shadow.scale.y -= .1;
         }
 
-        //if(this.phase1){
-         //   if(this.game.ken.x > this.x)
-        //        this.body.velocity.x = 100;
-        //    if(this.game.ken.x < this.x)
-        //        this.body.velocity.x = -100;
-       // }
     }else{
         // foot is blocked by a event (like game over), we stop the movement
         this.body.velocity.x = 0;
@@ -424,7 +421,7 @@ David.prototype.die = function(){
     //remove boss from the sharedHealthBar
     this.game.bosses.sharedHealthbar.removeEntity(this.defaultHealth);
 
-    //Kill the entities
+    //Kill the boos and his shadow
     this.shadow.kill();
     this.kill();
 };

@@ -1,46 +1,41 @@
-
+/**
+ *
+ * Extend WorstEnemyEver (enemy.js)
+ *  cockroach has a specificity : The sprite don't has the right size with the front and back view
+ *  So I had to override the animate function and adjust the size in it
+ *
+ * @param game
+ * @param {Levels.level.EnemyParameters}
+ *
+ */
 var Cockroach = function (game, parameters) {
 
+    /** Sprite **/
     WorstEnemyEver.call(this, game, parameters, 'cockroach');
-
-    this.animationSpeed = 6; //frame rate
     this.smoothed = false;
 
 
-    ////walking animations
-    //this.animations.add('walk_down', [1,0,2,0], this.animationSpeed, false);
-    //this.animations.add('walk_up', [8,7,9,7], this.animationSpeed, false);
-    //this.animations.add('walk_right', [16,15,17,15], this.animationSpeed, false);
-    //this.animations.add('walk_left', [22,21,23,21], this.animationSpeed, false);
-
-    //attacking animations
-    //this.animations.add('attack_down', [4,5,6], this.animationSpeed, false);
-    //this.animations.add('attack_up', [12,13,14], this.animationSpeed, false);
-    //this.animations.add('attack_right', [18,19,20], this.animationSpeed, false);
-    //this.animations.add('attack_left', [24,25,26], this.animationSpeed, false);
-    //
-
-
+    /** Sprites animations**/
+    this.animationSpeed = 6; //frame rate
+    // walking
     this.animations.add('walk_down', [1,0,2,0], this.animationSpeed, false);
     this.animations.add('walk_up', [7,6,8,6], this.animationSpeed, false);
     this.animations.add('walk_right', [13,12,14,12], this.animationSpeed, false);
     this.animations.add('walk_left', [19,18,20,18], this.animationSpeed, false);
 
+    // attacking
     this.animations.add('attack_down', [3,4,5], this.animationSpeed, false);
     this.animations.add('attack_up', [9,10,11], this.animationSpeed, false);
     this.animations.add('attack_right', [15,16,17], this.animationSpeed, false);
     this.animations.add('attack_left', [21,22,23], this.animationSpeed, false);
 
-    //this.factor = Math.round(Math.random() * (4-1)+1);
-    //this.init(parameters.spider);
-    //this.create();
 
 };
 
 Cockroach.prototype = Object.create(WorstEnemyEver.prototype);
 Cockroach.prototype.constructor = Cockroach;
 
-
+/** Override : Cockroach doesn't react like other enemies. Poison hit only 1 damage **/
 Cockroach.prototype.poisonHit = function(damage){
     if(!this.poisoned.value){
         this.poisoned.value = true;
@@ -50,9 +45,8 @@ Cockroach.prototype.poisonHit = function(damage){
 };
 
 
-//override
+/** Override : Adjust the front and back size of the sprite  **/
 Cockroach.prototype.animate = function(){
-
 
     if(!this.animating && this.isMovable){ //play if he has finished the previous animation
         if(this.dir == 0){ // north

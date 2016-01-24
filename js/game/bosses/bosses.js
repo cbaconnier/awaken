@@ -40,23 +40,23 @@
 
     Bosses.prototype = {
 
-        /** Return la list of thes bosses **/
+        /** Return the list of the bosses **/
         getBossesList: function(){
             return ['david', 'rat'];
         },
 
-        /** Return a boss **/
+        /** Return a new boss **/
         getBoss: function (entity, game, parameters) {
             if(entity == 'david') return new David(game, parameters);
             if(entity == 'rat') return new Rat(game, parameters);
         },
 
-        /** Add bosses to boss group **/
+        /** Add bosses to entities group **/
         addBosses: function(){
             this.addBoss();
         },
 
-        /** Add boss to the boss group **/
+        /** Add boss to the entities group **/
         addBoss: function(){
 
             var self = this;
@@ -64,7 +64,7 @@
             var nbBossesAlive = 0;
 
 
-            // Before create a new boss, we try to get one from the deads bosses
+            // Before create a new boss, we try to get one from the dead bosses
             this.game.entities.filter(function(child) {
                 if(self.game.bosses.getBossesList().indexOf(child.type) != -1){
                     //retrive the first boss dead

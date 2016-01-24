@@ -64,7 +64,7 @@ Ken.prototype.create = function () {
     this.attacking = false; // player is currently attacking
     this.walking = false; // player is currently walking
     this.animating = false; // player is currently animated
-    this.attackIsAvailable = true; // Action attacking is availaible
+    this.attackIsAvailable = true; // Attacking action is available
     this.messagesIsAvailable = true; // Message when hit is available
 
     // objects because we need the reference of the value when we use them in callback
@@ -339,7 +339,7 @@ Ken.prototype.resetSpeed = function(){
     this.speed = this.defaultSpeed;
 };
 
-/** Simule the wind force on the player -- see ns.Wind **/
+/** Simulates the wind force on the player -- see ns.Wind **/
 Ken.prototype.setWindForce = function(force){
     if(!this.blocked) this.body.x+=force;
 };

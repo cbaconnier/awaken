@@ -35,8 +35,10 @@ Rat.prototype.constructor = Rat;
 
 
 Rat.prototype.init = function(parameters){
-
+    // We keep a trace of the max boss of this type for the factory
     this.maxEnemy = parameters.maxEnemy;
+
+
     this.damage = parameters.dmg;
     this.health = parameters.health ;
     this.defaultHealth = this.health;
@@ -90,7 +92,7 @@ Rat.prototype.create = function(){
     this.destY = null;
 
     this.poisoned = {
-        value : false  // object because we need the reference of the value when we use them in callback
+        value : false  // object because we need the reference of the value when we use it in callback
     };
 
     /** Blood particles **/
@@ -288,7 +290,7 @@ Rat.prototype.poisonEffect = function(damage, i){
 
 };
 
-/** Highlight the player while the given object is true **/
+/** Highlight the rat while the given object is true **/
 Rat.prototype.highlight = function(tint, callback){
     if(callback.value){
         this.tint =  (this.tint == 0xffffff) ? tint : 0xffffff;
