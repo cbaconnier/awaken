@@ -18,22 +18,28 @@ var GrassTile = function (game, x, y, parameters) {
     // Sprite
     Tile.call(this, game, x, y, 'grass', parameters);
 
+    //Randomize the start of the sprite
+    //var animOrder = this.randomStart([0,1,2,1]);
 
-    //randomize the order of sprites
-    var animOrder = [0,1,2].sort(function() {
-                                return .5 - Math.random();
-                            });
-
-    // Animations
-    this.animations.add('tile_animation', animOrder, 3, true);
+    this.animations.add('tile_animation', [0,1,2,1], 2, true);
     this.animations.play("tile_animation");
 
 
 };
 
+
+
 GrassTile.prototype = Object.create(Tile.prototype);
 GrassTile.prototype.constructor = GrassTile;
 
+/** Randomize the animation but keep the same order **/
+GrassTile.prototype.randomStart = function(animOrder){
+    var l = Math.random() * animOrder.length;
+    for(var i=0; i<l; i++)
+        animOrder.unshift(animOrder.pop());
+
+    return animOrder;
+};
 
 GrassTile.prototype.update = function() {
     this.bringToTop();
