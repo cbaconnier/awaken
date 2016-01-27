@@ -40,7 +40,7 @@ Cockroach.prototype.poisonHit = function(damage){
     if(!this.poisoned.value){
         this.poisoned.value = true;
         this.highlight(0x0d7200, this.poisoned);
-        this.poisonEffect(1, 2);
+        this.poisonEffect(1, 10);
     }
 };
 
