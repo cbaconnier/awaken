@@ -93,7 +93,9 @@
             this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.actionButton, this);
             this.input.keyboard.addKey(Phaser.Keyboard.F).onDown.add(this.goFullscreen, this);
             this.input.keyboard.addKey(Phaser.Keyboard.W).onDown.add(this.goUp, this);
+            this.input.keyboard.addKey(Phaser.Keyboard.UP).onDown.add(this.goUp, this);
             this.input.keyboard.addKey(Phaser.Keyboard.S).onDown.add(this.goDown, this);
+            this.input.keyboard.addKey(Phaser.Keyboard.DOWN).onDown.add(this.goDown, this);
 
             /** Selection position**/
             this.position = null;
