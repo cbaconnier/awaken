@@ -53,12 +53,12 @@
             var music = this.game.add.bitmapText(this.game.width-25, this.game.height * 0.93, 'gem', "Music by ParagonX9", 12);
             music.anchor.set(1);
 
-            this.cheatText = this.game.add.bitmapText(this.game.width-230, this.game.height * 0.55, 'gem', "", 14);;
+            this.cheatText = this.game.add.bitmapText(this.game.width-230, this.game.height * 0.55, 'gem', "", 14);
             this.cheatText.anchor.set(0.5);
-
 
             /** buttons **/
             this.play = this.game.add.button(this.game.width * 0.5, this.game.height * 0.45, 'button', this.playAction, this, 0, 1, 2);
+            this.play.events.onInputOver.add(this.resetFrames, this);
             this.play.smoothed = false;
             this.play.anchor.set(0.5);
             this.play.scale.x = 3;
@@ -69,6 +69,7 @@
 
 
             this.cheat = this.game.add.button(this.game.width * 0.5, this.game.height * 0.55, 'button', this.cheaterAction, this, 0, 1, 2);
+            this.cheat.events.onInputOver.add(this.resetFrames, this);
             this.cheat.smoothed = false;
             this.cheat.anchor.set(0.5);
             this.cheat.scale.x = 3;
@@ -79,6 +80,7 @@
 
 
             this.full = this.game.add.button(this.game.width * 0.5, this.game.height * 0.65, 'button', this.fullscreenAction, this, 0, 1, 2);
+            this.full.events.onInputOver.add(this.resetFrames, this);
             this.full.smoothed = false;
             this.full.anchor.set(0.5);
             this.full.scale.x = 3;
@@ -87,12 +89,18 @@
             var fullscreenText = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.65, 'gem', "FULLSCREEN", 16);
             fullscreenText.anchor.set(0.5);
 
-            /** Input **/
-            //keyboard
-            this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.changeState, this);
+            /** Keyboard **/
+            this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.actionButton, this);
             this.input.keyboard.addKey(Phaser.Keyboard.F).onDown.add(this.goFullscreen, this);
+            this.input.keyboard.addKey(Phaser.Keyboard.W).onDown.add(this.goUp, this);
+            this.input.keyboard.addKey(Phaser.Keyboard.S).onDown.add(this.goDown, this);
 
-            //gamepad
+            /** Selection position**/
+            this.position = null;
+            this.buttons = [this.play, this.cheat, this.full];
+
+
+            /** Gamepad **/
             this.input.gamepad.start();
             this.pad = this.input.gamepad.pad1;
             if (this.game.input.gamepad.supported && this.game.input.gamepad.active && this.pad.connected){
@@ -107,7 +115,7 @@
 
         /** Play button action **/
         playAction: function(){
-            if(this.play.input.pointerOver()){
+            if(this.play.input.pointerOver() || this.position == 0){
                 this.fxButtonActivated.play();
                 // change the state
                 this.changeState();
@@ -117,7 +125,7 @@
 
         /** Cheater button action **/
         cheaterAction: function(){
-            if(this.cheat.input.pointerOver()){
+            if(this.cheat.input.pointerOver() || this.position == 1){
                 this.fxButtonActivated.play();
                 ns.Boot.cheater = !ns.Boot.cheater;
                 if(ns.Boot.cheater){
@@ -130,7 +138,7 @@
 
         /** Fullscreen button action **/
         fullscreenAction: function(){
-            if(this.full.input.pointerOver()) {
+            if(this.full.input.pointerOver()  || this.position == 2) {
                 this.fxButtonActivated.play();
                 this.goFullscreen();
             }
@@ -145,6 +153,70 @@
 
             // Change to the transition state
             this.game.state.start('transition', true, false, new ns.Levels().getFirstLevel());
+        },
+
+        /** Change the position with up key **/
+        goUp: function(){
+
+            if(this.position == null){
+                this.position = 0;
+            } else {
+                this.position--;
+                if(this.position < 0){
+                    this.position=this.buttons.length-1;
+                }
+            }
+
+            this.selectButton();
+        },
+
+        /** Change the position with down key **/
+        goDown: function(){
+
+            if (this.position == null) {
+                this.position = 0;
+            }else{
+                this.position++;
+                if(this.position % this.buttons.length == 0){
+                    this.position=0;
+                }
+            }
+
+            this.selectButton();
+
+        },
+
+        /** Active the frame of the button when we select them with the keyboard **/
+        selectButton: function(){
+            if(this.position == null) this.position = 0;
+
+            this.buttons.forEach(function(button){
+                button.frame = 1;
+            });
+
+            if(this.position != null){
+                this.buttons[this.position].frame = 2;
+            }
+
+        },
+
+        /** Reset all the frames of the buttons **/
+        resetFrames: function(sprite, event){
+            this.buttons.forEach(function(button){
+                button.frame = 1;
+            });
+
+            this.position = null;
+            sprite.frame = 0;
+        },
+
+        /** Execute event of the selected button **/
+        actionButton: function(){
+
+            if(this.position == 0)  this.playAction();
+            if(this.position == 1)  this.cheaterAction();
+            if(this.position == 2)  this.fullscreenAction();
+
         },
 
         /** Switch the game to fullscreen / windowed **/
