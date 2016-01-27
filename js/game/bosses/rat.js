@@ -202,10 +202,10 @@ Rat.prototype.move = function(){
         this.destX >= this.x-2
         )
     {
-        // The boss has reach the destination, 2in two seconds, we will look for a new destination
+        // The boss has reach the destination, wait between 1.5 and 3 seconds, then looks for a new destination
         this.destX = null;
         this.destY = null;
-        this.destinationTimer.add(2000, this.updateDestination, this);
+        this.destinationTimer.add(Math.random() * (3000-1500)+1500, this.updateDestination, this);
     }
 
 
