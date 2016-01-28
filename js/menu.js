@@ -117,7 +117,7 @@
 
         /** Play button action **/
         playAction: function(){
-            if(this.play.input.pointerOver() || this.position == 0){
+            if(this.play.input.pointerOver() || this.position == 0 || this.position == null){
                 this.fxButtonActivated.play();
                 // change the state
                 this.changeState();
@@ -242,7 +242,8 @@
         /** Execute event of the selected button **/
         actionButton: function(){
 
-            if(this.position == null || this.position == 0)  this.playAction();
+            console.log(this.position);
+            if(this.position === null || this.position == 0)  this.playAction();
             if(this.position == 1)  this.cheaterAction();
             if(this.position == 2)  this.fullscreenAction();
 
