@@ -19,7 +19,7 @@ Game framework : Phaser [here](http://phaser.io)
 Music from ParagonX9 [here](http://www.newgrounds.com/audio/listen/189826)
 
 ### Sounds
-Sounds effects made with Bfxr [here](http://www.bfxr.net)
+Sound effects made with Bfxr [here](http://www.bfxr.net)
 
 ### Sprites
 Sprites made with Piskel [here](http://www.piskelapp.com)
