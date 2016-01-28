@@ -25,7 +25,7 @@ Objective.prototype.update = function(){
     if(this.game.level.enemiesToKill){
         // Number of ennemies to kill before next level
         var enemiesToGo = ((this.game.level.enemiesToKill - this.game.enemiesKilled)>=0) ? (this.game.level.enemiesToKill - this.game.enemiesKilled) : 0 ;
-        this.text = "ENEMIES REMAINING : " + enemiesToGo;
+        this.text = "ENEMIES TO KILL : " + enemiesToGo;
     }else if(this.game.level.timeLimit){
         // Time to survive before next level
         var timeToGo = ((this.game.level.timeLimit - this.game.elapsedTime) >= 0 ) ? (this.game.level.timeLimit - this.game.elapsedTime) : 0;
@@ -33,6 +33,8 @@ Objective.prototype.update = function(){
     }else if(this.game.level.bossesToKill){
         // Bosses to kill
         this.text = "KILL THE BOSS !";
+        if(this.game.level.bossesToKill > 1)
+            this.text = "KILL THE BOSSES !";
     }
 
 };
