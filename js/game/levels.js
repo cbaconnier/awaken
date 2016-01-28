@@ -401,7 +401,7 @@
                         cockroach: {
                             maxEnemy: 75,
                             health: 3000,
-                            dmg: 20,
+                            dmg: 10,
                             score: 20000
                         }
                     },
@@ -475,7 +475,7 @@
                     "Ken is desperate. He feels like the whole world want to kill him. \n" +
                     "Even in this place, cold, windy and lost in the mountains, a bunch of spiders and\n" +
                     "worms want kill him. From where they come, by the way?",
-                    enemiesToKill: 150,
+                    enemiesToKill: 200,
                     maxEnemies: 100,
                     maxBosses: 0,
                     minSpawnDelay: 100,
@@ -495,7 +495,7 @@
                         spider: {
                             maxEnemy: 100,
                             health: 4500,
-                            dmg: 250,
+                            dmg: 75,
                             score: 20000
                         },
                         worm: {
