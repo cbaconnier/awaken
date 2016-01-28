@@ -243,7 +243,7 @@
                         spider: {
                             maxEnemy: 10,
                             health: 5,
-                            dmg: 5,
+                            dmg: 3,
                             score: 20
                         }
                     }
@@ -290,14 +290,15 @@
                         worm:{
                             maxEnemy: 20,
                             health: 35,
-                            dmg: 15,
+                            dmg: 5,
                             score: 200
                         }
                     },
 
                     tiles: {
                         grass:{
-                            maxTiles: 7
+                            maxTiles: 12,
+                            scale: 5
                         }
                     }
 
@@ -337,7 +338,7 @@
                         spider:{
                             maxEnemy: 30,
                             health: 400,
-                            dmg: 45,
+                            dmg: 30,
                             score: 2000
                         }
                     },
@@ -371,7 +372,7 @@
                     "This place is full of toxic products and cockroach. Ken must find a way to get out. \n" +
                     "Some rumors say that there are rats in the sewers...",
                     bossesToKill: 2,
-                    maxEnemies: 25,
+                    maxEnemies: 15,
                     maxBosses: 2,
                     minSpawnDelay: 450,
                     maxSpawnDelay: 750,
@@ -390,8 +391,8 @@
                     bossParameters: {
                         rat: {
                             maxBoss: 2,
-                            health: 100000,
-                            dmg: 200,
+                            health: 200000,
+                            dmg: 150,
                             score: 1404545
                         }
                     },
@@ -400,7 +401,7 @@
                         cockroach: {
                             maxEnemy: 75,
                             health: 3000,
-                            dmg: 100,
+                            dmg: 20,
                             score: 20000
                         }
                     },
