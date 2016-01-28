@@ -100,7 +100,7 @@
             /** Selection position**/
             this.position = null;
             this.buttons = [this.play, this.cheat, this.full];
-
+            this.nextSelectionAvailable = true; // The selection with the pad use instant
 
             /** Gamepad **/
             this.input.gamepad.start();
@@ -156,6 +156,33 @@
             // Change to the transition state
             this.game.state.start('transition', true, false, new ns.Levels().getFirstLevel());
         },
+
+        /** Update is called {fps} times per seconds  **/
+        update: function(){
+
+            /** Gamepad support control in the menu for the stick **/
+            /**
+             * We have to done this in the update because the stick don't have an event listener
+             * Instead we have to check what's the position of the stick to perform what we want
+             * And because of the update, the function will be called every fps, so we have to release
+             * the stick to make "nextSelectionAvailable" true and authorize the to call the next function
+             * **/
+            if (this.input.gamepad.supported && this.input.gamepad.active && this.pad.connected) {
+                var padY = this.pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y);
+
+                if (this.nextSelectionAvailable && padY < -0.1) {
+                    this.goUp();
+                    this.nextSelectionAvailable = false;
+                } else if (this.nextSelectionAvailable && padY > 0.1) {
+                    this.goDown();
+                    this.nextSelectionAvailable = false;
+                }else if(padY == 0){
+                    this.nextSelectionAvailable = true;
+                }
+            }
+
+        },
+
 
         /** Change the position with up key **/
         goUp: function(){
@@ -215,7 +242,7 @@
         /** Execute event of the selected button **/
         actionButton: function(){
 
-            if(this.position == 0)  this.playAction();
+            if(this.position == null || this.position == 0)  this.playAction();
             if(this.position == 1)  this.cheaterAction();
             if(this.position == 2)  this.fullscreenAction();
 
@@ -237,7 +264,7 @@
 
         /** Add the buttons to the gamepad **/
         addButtons: function(){
-            this.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.add(this.changeState, this);
+            this.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.add(this.actionButton, this);
         },
 
         /** Remove the buttons to the gamepad **/
