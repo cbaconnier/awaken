@@ -41,7 +41,8 @@
             if(!ns.Boot.fxMusic.isPlaying) ns.Boot.fxMusic.play();
             if(!ns.Boot.fxMusic.paused) ns.Boot.fxMusic.resume();
 
-
+            /** Background color **/
+            this.game.stage.backgroundColor = '#333';
 
             /** Texts **/
             var title = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.3, 'gem', "AWAKEN", 42);
