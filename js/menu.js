@@ -58,16 +58,20 @@
             this.cheatText.anchor.set(0.5);
 
             /** Keyboard UI **/
-            this.game.add.bitmapText(300, 485, 'gem', "MOVE :", 16).anchor.set(1);
-            var wasd = this.game.add.sprite(340, 450, 'keyboard');
+            this.game.add.bitmapText(300-200, 485-450, 'gem', "MOVE :", 16).anchor.set(1);
+            var wasd = this.game.add.sprite(340-200, 450-450, 'keyboard');
             wasd.frame = 0;
 
-            var arrows = this.game.add.sprite(400, 450, 'keyboard');
+            var arrows = this.game.add.sprite(400-200, 450-450, 'keyboard');
             arrows.frame = 1;
 
-            this.game.add.bitmapText(300, 537, 'gem', "ATTACK :", 16).anchor.set(1);
-            var spaceBar = this.game.add.sprite(370, 500, 'keyboard');
+            this.game.add.bitmapText(300-200, 537-450, 'gem', "ATTACK :", 16).anchor.set(1);
+            var spaceBar = this.game.add.sprite(370-200, 500-450, 'keyboard');
             spaceBar.frame = 2;
+
+            var pad = this.game.add.sprite(30, 140, 'keyboard');
+            pad.frame = 3;
+            pad.angle = -30;
 
 
             /** buttons **/
