@@ -35,14 +35,8 @@ var Cockroach = function (game, parameters) {
 Cockroach.prototype = Object.create(WorstEnemyEver.prototype);
 Cockroach.prototype.constructor = Cockroach;
 
-/** Override : Cockroach doesn't react like other enemies. Poison hit only 1 damage **/
-Cockroach.prototype.poisonHit = function(damage){
-    if(!this.poisoned.value){
-        this.poisoned.value = true;
-        this.highlight(0x0d7200, this.poisoned);
-        this.poisonEffect(1, 10);
-    }
-};
+/** Override : Cockroach is immune to poison**/
+Cockroach.prototype.poisonHit = function(damage){};
 
 
 /** Override : Adjust the front and back size of the sprite  **/

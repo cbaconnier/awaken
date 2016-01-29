@@ -267,6 +267,11 @@ WorstEnemyEver.prototype.poisonEffect = function(damage, i){
 
 /** Highlight the enemy while the given object is true **/
 WorstEnemyEver.prototype.highlight = function(tint, callback){
+    if(!this.alive){
+        this.tint = 0xffffff;
+        return;
+    }
+
     if(callback.value){
         this.tint =  (this.tint == 0xffffff) ? tint : 0xffffff;
 
