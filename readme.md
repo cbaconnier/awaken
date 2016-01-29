@@ -2,7 +2,7 @@
 # Awaken
 Awaken is a Hack 'n' Slash game made with Phaser
 
-![Awaken](/images/http://clementbaconnier.com/awaken/game.png)
+![Awaken](http://clementbaconnier.com/awaken/game.png)
 
 ## How to play
 ### Online
