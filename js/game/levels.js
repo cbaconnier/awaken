@@ -163,7 +163,7 @@
          */
 
         getFirstLevel: function () {
-            return this.getLevels().level_7;
+            return this.getLevels().level_1;
         },
 
         getGameOver: function(){
@@ -540,7 +540,7 @@
                     "Ken felt an earthquake *BOOM*, he didn't need to look behind him. *BOOM* He knew. *BOOM* \n" +
                     "He knew that David was there...  \n" +
                     "David opened the insectarium of the science class and started to throw insects at Ken. \n" +
-                    "Ken doesn't want anyone to poison this day, so he decides to fight back this time!",
+                    "Ken didn't want anyone to poison this day, so he decided to fight back this time!",
                     bossesToKill: 1,
                     maxEnemies: 50,
                     maxBosses: 1,
