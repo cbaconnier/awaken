@@ -53,16 +53,22 @@
             this.textLoaded = false; //To know if the text as finished to be displayed
 
             /** Audio **/
+            // Text
             this.fxText = this.game.add.audio('fx_text');
             this.fxText.allowMultiple = false;
             this.fxText.volume = .6;
             this.mutedChars = [" ", "\n"];
-
+            // Text events
+            this.fxBoom = this.game.add.audio('fx_david');
+            this.fxBoom.allowMultiple = false;
+            this.fxBoom.volume = 0.6;
 
             /** Timers **/
+
             //Timer to create the story letters by letters
             this.timer = this.game.time.create(false);
             this.timer.start();
+
 
             this.nextChar();
 
@@ -90,13 +96,31 @@
                 return;
             }
             var char = this.level.description[this.charIndex];
-            this.description.text = this.description.text.concat(char);
-            if(this.mutedChars.indexOf(char) == -1) this.fxText.play();
+            if(char === "*"){
+               this.charEvent();
+            }else{
+                this.description.text = this.description.text.concat(char);
+                if(this.mutedChars.indexOf(char) == -1) this.fxText.play();
 
-            this.charIndex++;
-            this.timer.add(this.charDelay, this.nextChar, this);
+                this.charIndex++;
+                this.timer.add(this.charDelay, this.nextChar, this);
+            }
         },
 
+        charEvent:function(){
+            this.newCharIndex = this.level.description.indexOf("*", this.charIndex+1);
+            var event = this.level.description.substring(this.charIndex+1, this.newCharIndex);
+            this.timer.add(400, this.playEvent, this, event);
+        },
+
+        playEvent: function(event){
+            if(event == "BOOM") this.fxBoom.play();
+
+            this.charIndex = this.newCharIndex+1;
+            this.description.text = this.description.text.concat("*"+event+"*");
+            this.timer.add(400, this.nextChar, this);
+
+        },
 
         /** When the input/gamepad is pressed, we load the full story OR we change the state **/
         onNext: function(){

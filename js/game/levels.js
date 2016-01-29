@@ -163,7 +163,7 @@
          */
 
         getFirstLevel: function () {
-            return this.getLevels().level_1;
+            return this.getLevels().level_7;
         },
 
         getGameOver: function(){
@@ -536,11 +536,11 @@
                 level_7: {
                     title: "Level 7",
                     short: "The school",
-                    description: "He did it! Ken is at the school! *Boom* But what is that noise? *Boom* \n" +
-                    "Ken felt an earthquake *Boom*, he didn't need to look behind him. *Boom* He knew. *Boom* \n" +
-                    "He knew that David was there...   \n" +
+                    description: "He did it! Ken is at the school! *BOOM* But what is that noise? *BOOM* \n" +
+                    "Ken felt an earthquake *BOOM*, he didn't need to look behind him. *BOOM* He knew. *BOOM* \n" +
+                    "He knew that David was there...  \n" +
                     "David opened the insectarium of the science class and started to throw insects at Ken. \n" +
-                    "Ken doesn't want anyone to poison his day, so he decides to fight back this time!",
+                    "Ken doesn't want anyone to poison this day, so he decides to fight back this time!",
                     bossesToKill: 1,
                     maxEnemies: 50,
                     maxBosses: 1,
