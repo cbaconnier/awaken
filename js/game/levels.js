@@ -151,14 +151,14 @@
 
 
         /*
-
-        level 1 : House -- spiders
-        level 2 : Garden -- worms + grass
-        level 3 : City -- cockroaches, worms + rain + water
-        level 4 : Sewers -- rat, cockroaches + poison
-        level 5 : Train -- ??, ~wind, + poison
-        level 6 : City -- spiders, worms, cockroaches + snow + wind + fog
-        level 7 : School -- boss, spiders, worms, cockroaches
+                                Bosses    Enemies                       Events           Tiles
+        level 1 : House    --           | spiders                     |                 |
+        level 2 : Garden   --           | worms                       |                 | grass
+        level 3 : City     --           | spiders                     | rain            | water
+        level 4 : Sewers   --   rat     | cockroaches                 |                 | poison
+        level 5 : Train    --           | cockroaches                 |                 | poison
+        level 6 : City     --           | spiders, worms              | snow, wind, fog | ice
+        level 7 : School   --   david   | spiders, worms, cockroaches |                 |
 
          */
 
@@ -190,10 +190,10 @@
                 level_1: {
                     title: "Level 1",
                     short: "The house",
-                    description: "It's 7am and Ken just woke up! He will miss his train for the school. He must hurry! \n" +
-                    "Because of his small size, Ken have to fight against multiple dangers. \n" +
-                    "So, he picked his toothpick to defend himself. \n" +
-                    "Now.. He have to cross the kitchen full of spiders to go out...",
+                    description: "It's 7 am and Ken has just woken up! He will miss his train to school. He must hurry up! \n" +
+                    "Because of his small size, Ken has to fight against multiple dangers. \n" +
+                    "So, he picks up his toothpick to defend himself. \n" +
+                    "Now.. He has to cross the kitchen full of spiders to be able to leave the house...",
 
                     enemiesToKill: 30,
                     //timeLimit: 10,
@@ -262,10 +262,11 @@
                 level_2: {
                     title: "Level 2",
                     short: "The garden",
-                    description: "Ken is now out. As soon he laid his foot in the garden, a big worm tried to eat him ! \n" +
-                    "Quickly, ken dodge it and hit the worm right in his face. The worm died. \n" +
-                    "Sadly for Ken, the sound of the dead worm has called all the worms of the garden. \n" +
-                    "Ken must fight back if he want to survive.",
+                    description: "Ken has now managed to get out. \n" +
+                    "As soon as he puts a foot in the garden, a big worm tries to eat him! \n" +
+                    "Quickly, Ken dodges it and hits the worm right in the face. The worm dies. \n" +
+                    "Sadly for Ken, the sound of the dead worm has warned all the worms of the garden. \n" +
+                    "Ken must fight back if he wants to survive.",
                     enemiesToKill: 60,
                     maxEnemies: 20,
                     minSpawnDelay: 750,
@@ -316,7 +317,7 @@
                 level_3: {
                     title: "Level 3",
                     short: "The city",
-                    description: "Damn! The rain just started and to top it all off, the wind has risen. \n" +
+                    description: "Damn! The rain has just started to fall and on the top of that, the wind has risen. \n" +
                     "To take the train, Ken will have to survive the elements. \n" +
                     "It would be so much easier if the spiders would let him take the train.",
                     enemiesToKill: 75,
@@ -368,8 +369,8 @@
                 level_4: {
                     title: "Level 4",
                     short: "The sewers",
-                    description: "Oh no!! What bad luck! The wind carried off Ken into the sewers. \n" +
-                    "This place is full of toxic products and cockroach. Ken must find a way to get out. \n" +
+                    description: "Oh no!! What a bad luck! The wind carried off Ken into the sewers. \n" +
+                    "This place is full of toxic products and cockroaches. Ken must find a way to get out. \n" +
                     "Some rumors say that there are rats in the sewers...",
                     bossesToKill: 2,
                     maxEnemies: 15,
@@ -424,10 +425,11 @@
                 level_5: {
                     title: "Level 5",
                     short: "The train",
-                    description: "Fuck yes! Ken finally took the train! He did it! \n" +
-                    "But it seems that the cockroach aren't that died.\n" +
-                    "It looks like they needed a new place for their home and the train was a perfect place.\n" +
-                    "He wanted so hard to revise his math exam before the school. Seems that will not be today.",
+                    description: "Yesss! Ken finally took the train! He did it! \n" +
+                    "But it seems that the cockroaches aren't that dead. It looks as if they needed \n" +
+                    "a new place for their home and the train was a perfect place. \n" +
+                    "He wanted so hard to revise his math exam before school. It seems that it will \n" +
+                    "not happen today. \n",
                     timeLimit: 45,
                     maxEnemies: 100,
                     maxBosses: 0,
@@ -471,10 +473,11 @@
                 level_6: {
                     title: "Level 6",
                     short: "Santa Cruz",
-                    description: "Ken is so close to the school! Sadly, the fog, the wind and the snow are there. \n" +
-                    "Ken is desperate. He feels like the whole world want to kill him. \n" +
-                    "Even in this place, cold, windy and lost in the mountains, a bunch of spiders and\n" +
-                    "worms want kill him. From where they come, by the way?",
+                    description: "Ken is so close to school! Sadly, he needs to fight against all the elements: \n" +
+                    "the fog, the wind and the snow. \n" +
+                    "Ken is desperate. He feels as if the whole world wants to kill him. \n" +
+                    "Even in this place, where it is cold, windy and lost in the mountains, a bunch of spiders and \n" +
+                    "worms want to kill him. Where do they come from, by the way ?",
                     enemiesToKill: 150,
                     maxEnemies: 100,
                     maxBosses: 0,
@@ -534,10 +537,10 @@
                     title: "Level 7",
                     short: "The school",
                     description: "He did it! Ken is at the school! *Boom* But what is that noise? *Boom* \n" +
-                    "Ken felt a earthquake *Boom*, he didn't need to look behind him. *Boom* He knew. *Boom* \n" +
-                    "He knew that David was there...  \n" +
-                    "David opened the insectarium of the science class and started to threw insects on Ken. \n" +
-                    "Ken who doesn't want that anyone let him rot his day, decided this time, to fight back!",
+                    "Ken felt an earthquake *Boom*, he didn't need to look behind him. *Boom* He knew. *Boom* \n" +
+                    "He knew that David was there...   \n" +
+                    "David opened the insectarium of the science class and started to throw insects at Ken. \n" +
+                    "Ken doesn't want anyone to poison his day, so he decides to fight back this time!",
                     bossesToKill: 1,
                     maxEnemies: 50,
                     maxBosses: 1,
@@ -598,12 +601,12 @@
                 final: {
                     title: "YOU BEAT THE GAME",
                     short: "Thank you for playing",
-                    description: "Ken have finally win of his bully. \n" +
+                    description: "Ken has finally won the battle over his bully.  \n" +
                     "He feels stronger than before and very proud of himself. \n" +
                     "\n" +
-                    "Has soon he took his place on his desk, a chill ran down his spine causing him to shiver. \n" +
-                    "Ken saw his worst nightmare show up. \n" +
-                    "He didn't had the time to revise and the math exam has started.",
+                    "As soon as he sits down at his desk, a chill runs down on his spine causing him to shiver. \n" +
+                    "Ken's worst nightmare comes to life. \n" +
+                    "He didn't have time to revise and the math exam has started. ",
                     nextLevel: function () {
                         return null;
                     }
