@@ -163,7 +163,7 @@
          */
 
         getFirstLevel: function () {
-            return this.getLevels().level_1;
+            return this.getLevels().level_7;
         },
 
         getGameOver: function(){
@@ -402,7 +402,7 @@
                         cockroach: {
                             maxEnemy: 75,
                             health: 3000,
-                            dmg: 20,
+                            dmg: 10,
                             score: 20000
                         }
                     },
@@ -498,7 +498,7 @@
                         spider: {
                             maxEnemy: 100,
                             health: 4500,
-                            dmg: 250,
+                            dmg: 75,
                             score: 20000
                         },
                         worm: {
