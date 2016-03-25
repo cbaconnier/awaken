@@ -243,7 +243,7 @@
                         spider: {
                             maxEnemy: 10,
                             health: 5,
-                            dmg: 3,
+                            dmg: 1,
                             score: 20
                         }
                     }
