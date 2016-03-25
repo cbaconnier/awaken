@@ -671,7 +671,7 @@ Ken.prototype.die = function() {
         scaleY: 2
     };
 
-    this.game.tilesf.addTile('blood', this.x, this.y, parameters);
+    this.game.tilesFactory.addTile('blood', this.x, this.y, parameters);
     this.kill();
     this.game.over = true;
 };

@@ -46,7 +46,7 @@ Rat.prototype.init = function(parameters){
     this.speed = 200;
     this.defaultSpeed = this.speed;
 
-    this.game.bosses.sharedHealthbar.addEntity(this.health, this.health, " THE RAT");
+    this.game.bossesFactory.sharedHealthbar.addEntity(this.health, this.health, " THE RAT");
 
 };
 
@@ -278,7 +278,7 @@ Rat.prototype.poisonEffect = function(damage, i){
     }
 
     var maxDamage = ((this.health-damage) < 0) ? this.health : damage;
-    this.game.bosses.sharedHealthbar.updateHealthBar(maxDamage);
+    this.game.bossesFactory.sharedHealthbar.updateHealthBar(maxDamage);
 
     this.health -= damage;
     this.game.dialogues.create(this.x, this.y, damage.toString(), 16, null, null, 0x0d7200);
@@ -320,7 +320,7 @@ Rat.prototype.hit = function(damage){
 
     // Update shared Health bar
     var maxDamage = ((this.health - damage) < 0) ? this.health : damage;
-    this.game.bosses.sharedHealthbar.updateHealthBar(maxDamage);
+    this.game.bossesFactory.sharedHealthbar.updateHealthBar(maxDamage);
 
     this.health -= damage;
     if (this.health <= 0) {
@@ -379,10 +379,10 @@ Rat.prototype.die = function(){
         scaleX: this.scale.x,
         scaleY: this.scale.y
     };
-    this.game.tilesf.addTile('blood', this.x, this.y, parameters);
+    this.game.tilesFactory.addTile('blood', this.x, this.y, parameters);
 
     //remove boss from the sharedHealthBar
-    this.game.bosses.sharedHealthbar.removeEntity(this.defaultHealth);
+    this.game.bossesFactory.sharedHealthbar.removeEntity(this.defaultHealth);
 
     this.kill();
 };

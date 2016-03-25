@@ -59,7 +59,7 @@ David.prototype.init = function(parameters) {
     this.defaultHealth = this.health;
     this.scoreGiven = parameters.score;
 
-    this.game.bosses.sharedHealthbar.addEntity(this.health, this.health, "DAVID");
+    this.game.bossesFactory.sharedHealthbar.addEntity(this.health, this.health, "DAVID");
 
 
 };
@@ -101,7 +101,7 @@ David.prototype.create = function(){
 
     /** Child sprites **/
     // Shadow
-    this.shadow = this.game.tilesf.addTile('shadow', this.game.ken.x, this.game.ken.y, {dir: this.dir, scaleX:1, scaleY:1});
+    this.shadow = this.game.tilesFactory.addTile('shadow', this.game.ken.x, this.game.ken.y, {dir: this.dir, scaleX:1, scaleY:1});
 
     // Leg
     var leg = this.game.make.sprite(0, -8, 'david_leg');
@@ -395,7 +395,7 @@ David.prototype.hit = function(damage){
         this.game.dialogues.create(this.x, this.y, damage.toString(), 30, 350, -96);
 
         var maxDamage = ((this.health-damage) < 0) ? this.health : damage;
-        this.game.bosses.sharedHealthbar.updateHealthBar(maxDamage);
+        this.game.bossesFactory.sharedHealthbar.updateHealthBar(maxDamage);
 
         this.health -= damage;
         if(this.health <= 0){
@@ -416,13 +416,13 @@ David.prototype.die = function(){
         scaleX: this.scale.x,
         scaleY: this.scale.y
     };
-    this.game.tilesf.addTile('blood', this.x, this.y, parameters);
+    this.game.tilesFactory.addTile('blood', this.x, this.y, parameters);
 
 
     this.shadow.visible = false;
 
     //remove boss from the sharedHealthBar
-    this.game.bosses.sharedHealthbar.removeEntity(this.defaultHealth);
+    this.game.bossesFactory.sharedHealthbar.removeEntity(this.defaultHealth);
 
     //Kill the boos and his shadow
     this.shadow.kill();

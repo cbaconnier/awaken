@@ -19,14 +19,20 @@
 
     Events.prototype = {
 
-        /** Update manual all the events **/
-        update: function(){
-            if(this.fog !== undefined) this.fog.update();
-            if(this.snow !== undefined) this.snow.update();
-            if(this.rain !== undefined) this.rain.update();
-            if(this.wind !== undefined) this.wind.update([this.snow, this.rain], this.game.entities); // wind can affects others events and entities too
+        /** Create the event (For now, events don't have parameters) **/
+        getEvent: function (event, params) {
+            if(event == 'snow') return new Snow(this.game);
+            if(event == 'rain') return new Rain(this.game);
+            if(event == 'wind') return new Wind(this.game);
+            if(event == 'fog') return new Fog(this.game);
         },
 
+        /** Update manual all the events **/
+        update: function(){
+           this.game.events.forEach(function(evt){
+               evt.update();
+           });
+        },
 
         /** Create all the events **/
         setEvents: function(){
@@ -35,17 +41,11 @@
             var l = Object.keys(this.game.level.events); // Get an array of the events
 
             for(var i=0; i< l.length;i++){
-                this.setEvent(l[i], this.game.level.events);  //create the event
+                this.game.events.push(this.getEvent(l[i], this.game.level.events));  //create the event
             }
-        },
-
-        /** Create the event (For now, events don't have parameters) **/
-        setEvent: function (event, params) {
-            if(event == 'snow') this.snow = new Snow(this.game);
-            if(event == 'rain') this.rain = new Rain(this.game);
-            if(event == 'wind') this.wind = new Wind(this.game);
-            if(event == 'fog') this.fog = new Fog(this.game);
         }
+
+
 
     };
 

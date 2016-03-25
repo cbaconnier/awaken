@@ -56,7 +56,7 @@
 
                 // retrieve a dead enemy
                 this.game.entities.filter(function(child) {
-                    if (self.game.enemies.getEnemiesList().indexOf(child.type) != -1 ){
+                    if (self.getEnemiesList().indexOf(child.type) != -1 ){
                         // retrive the first enemy dead
                         if (enemy === null  && !child.alive) {
                             enemy = child;
@@ -97,7 +97,7 @@
 
             if (nbAlive < this.game.level.enemyParameters[enemy].maxEnemy){
                 //add a new enemy to the entities
-                this.game.entities.add(this.game.enemies.getEnemy(enemy, this.game, this.game.level.enemyParameters));
+                this.game.entities.add(this.getEnemy(enemy, this.game, this.game.level.enemyParameters));
             }else{
                 //In case, we have reach the limit of the picked one, we to look for an another one
                 var index = enemies.indexOf(enemy);

@@ -89,13 +89,14 @@
             this.game.effects = this.game.add.group();
             this.game.entities = this.game.add.group(); // We can't separate each type of entities into different groups because of the sort. The sort on Y axe can only affect his own group
             this.game.ui = this.game.add.group();
+            this.game.events = [];  // Events are'nt extended from sprites or an another components. They can't be in a group
 
 
             /** Instantiation of the Entities/events/tiles factory **/
-            this.game.enemies = new ns.Enemies(this.game);
-            this.game.bosses = new ns.Bosses(this.game);
-            this.game.tilesf = new ns.Tiles(this.game);
-            this.game.events = new ns.Events(this.game);
+            this.game.enemiesFactory = new ns.Enemies(this.game);
+            this.game.bossesFactory = new ns.Bosses(this.game);
+            this.game.tilesFactory = new ns.Tiles(this.game);
+            this.game.eventsFactory = new ns.Events(this.game);
 
 
             /** Objectives **/
@@ -123,10 +124,10 @@
 
 
             /** Generation of the tiles, bosses, ennemies and events **/
-            this.game.tilesf.addTiles();
-            this.game.bosses.addBosses();
-            this.game.enemies.addEnemies();
-            this.game.events.setEvents(this.game.level.events);
+            this.game.tilesFactory.addTiles();
+            this.game.bossesFactory.addBosses();
+            this.game.enemiesFactory.addEnemies();
+            this.game.eventsFactory.setEvents(this.game.level.events);
 
 
             /** Timer to count the elapsed time (used for the objective using time) **/
@@ -140,7 +141,7 @@
         update: function () {
 
             // Events are'nt extended from sprites or an another components. So we have to update them manually
-            this.game.events.update();
+            this.game.eventsFactory.update();
 
             // Phaser isn't really compatible with game in 2.5D view, so we have
             // to sort the entites group with the y axe

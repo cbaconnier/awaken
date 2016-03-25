@@ -66,7 +66,7 @@
 
             // Before create a new boss, we try to get one from the dead bosses
             this.game.entities.filter(function(child) {
-                if(self.game.bosses.getBossesList().indexOf(child.type) != -1){
+                if(self.getBossesList().indexOf(child.type) != -1){
                     //retrive the first boss dead
                     if (boss === null  && !child.alive) {
                         boss = child;
@@ -108,7 +108,7 @@
 
             if (nbAlive < this.game.level.bossParameters[boss].maxBoss){
                 //add a new boss to the entities group
-                var boss = this.game.bosses.getBoss(boss, this.game, this.game.level.bossParameters);
+                var boss = this.getBoss(boss, this.game, this.game.level.bossParameters);
                 this.game.entities.add(boss);
             }else{
                 //In case, we have reach the limit of the picked one, we to look for an another one

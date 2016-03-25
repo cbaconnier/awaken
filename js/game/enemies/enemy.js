@@ -373,7 +373,7 @@ WorstEnemyEver.prototype.die = function(){
         scaleX: this.scale.x,
         scaleY: this.scale.y
     };
-    this.game.tilesf.addTile('blood', this.x, this.y, parameters);
+    this.game.tilesFactory.addTile('blood', this.x, this.y, parameters);
     this.kill();
 };
 

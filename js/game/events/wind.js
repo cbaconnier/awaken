@@ -70,15 +70,17 @@ Wind.prototype.changeWind = function(){
     this.windTimer.add(Math.random() * (4000 - 3000)+3000, this.changeWind, this);
 };
 
+Wind.prototype.changeWindDirection = function(){};
+
+
 /** Update logic if the wind **/
-Wind.prototype.update = function(events, entities){
+Wind.prototype.update = function(){
 
     /** Trigger the wind effect on the others events **/
     var self = this;
-    events.forEach(function(evt){
+    this.game.events.forEach(function(evt){
         if(evt !== undefined && self.windChanged){
             evt.changeWindDirection(self.windForce);
-            self.windChanged = false;
         }
     });
 
@@ -88,7 +90,7 @@ Wind.prototype.update = function(events, entities){
         /** Update the wind force on the entities **/
         var force = Math.round(this.windForce/100);
 
-        entities.forEachAlive(function(entity){
+        this.game.entities.forEachAlive(function(entity){
             entity.setWindForce(force);
         });
 
