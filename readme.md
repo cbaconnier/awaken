@@ -1,5 +1,5 @@
 
-# Awaken
+# Awaken (Academic Work)
 Awaken is a Hack 'n' Slash game made with Phaser
 
 ![Awaken](http://clementbaconnier.com/awaken/game.png)
