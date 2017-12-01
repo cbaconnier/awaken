@@ -2,11 +2,11 @@
 # Awaken (Academic Work)
 Awaken is a Hack 'n' Slash game made with Phaser
 
-![Awaken](http://clementbaconnier.com/awaken/game.png)
+![Awaken](http://awaken.ch/game.png)
 
 ## How to play
 ### Online
-- Open [Demo](http://clementbaconnier.com/awaken)
+- Open [Demo](http://awaken.ch)
 
 ### Offline
 - Run `php -S localhost:8080` in `/`
