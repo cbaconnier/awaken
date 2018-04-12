@@ -125,7 +125,7 @@ David.prototype.create = function(){
     /** Audio **/
     this.fxAttack = this.game.add.audio('fx_david');
     this.fxAttack.allowMultiple = false;
-    this.fxAttack.volume = 0.6;
+    this.fxAttack.volume = ns.Boot.fxVolume *1.5;
 
 
 

@@ -31,11 +31,11 @@
             /** Sounds **/
             this.fxButtonOver = this.game.add.audio('fx_button_over');
             this.fxButtonOver.allowMultiple = false;
-            this.fxButtonOver.volume = .9;
+            this.fxButtonOver.volume = ns.Boot.fxVolume*2.25;
 
             this.fxButtonActivated = this.game.add.audio('fx_button_activated');
             this.fxButtonActivated.allowMultiple = false;
-            this.fxButtonActivated.volume = .9;
+            this.fxButtonActivated.volume = ns.Boot.fxVolume*2.25;
 
             /** Music **/
             if(!ns.Boot.fxMusic.isPlaying) ns.Boot.fxMusic.play();

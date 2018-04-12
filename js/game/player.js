@@ -284,12 +284,12 @@ Ken.prototype.create = function () {
     // When hit an entity
     this.fxHit = this.game.add.audio('fx_hit');
     this.fxHit.allowMultiple = false;
-    this.fxHit.volume = 0.4;
+    this.fxHit.volume = ns.Boot.fxVolume;
 
     //When attack but don't hit
     this.fxAttack = this.game.add.audio('fx_attack');
     this.fxAttack.allowMultiple = false;
-    this.fxAttack.volume = 0.4;
+    this.fxAttack.volume = ns.Boot.fxVolume;
 
 
 };

@@ -104,10 +104,14 @@
         create: function () {
             window['awaken'].Boot.fxMusic = this.game.add.audio('music_game_1');
 
-            // musique configuration
+            window['awaken'].Boot.musicVolume = .5;
+            window['awaken'].Boot.fxVolume = .4;
+
+
+            // music configuration
             window['awaken'].Boot.fxMusic.allowMultiple = false;
             window['awaken'].Boot.fxMusic.loop = true;
-            window['awaken'].Boot.fxMusic.volume = .5;
+            window['awaken'].Boot.fxMusic.volume = ns.Boot.musicVolume;
 
 
             window['awaken'].Boot.cheater = false; // immortality

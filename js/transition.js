@@ -56,12 +56,12 @@
             // Text
             this.fxText = this.game.add.audio('fx_text');
             this.fxText.allowMultiple = false;
-            this.fxText.volume = .6;
+            this.fxText.volume = ns.Boot.fxVolume * 1.5;
             this.mutedChars = [" ", "\n"];
             // Text events
             this.fxBoom = this.game.add.audio('fx_david');
             this.fxBoom.allowMultiple = false;
-            this.fxBoom.volume = 0.6;
+            this.fxBoom.volume = ns.Boot.fxVolume * 1.5;
 
             /** Timers **/
 
