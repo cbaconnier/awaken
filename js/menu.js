@@ -31,15 +31,15 @@
             /** Sounds **/
             this.fxButtonOver = this.game.add.audio('fx_button_over');
             this.fxButtonOver.allowMultiple = false;
-            this.fxButtonOver.volume = ns.Boot.fxVolume*2.25;
+            this.fxButtonOver.volume = ns.Boot.fxVolume * 2.25; // todo: [sound] move the magic value
 
             this.fxButtonActivated = this.game.add.audio('fx_button_activated');
             this.fxButtonActivated.allowMultiple = false;
-            this.fxButtonActivated.volume = ns.Boot.fxVolume*2.25;
+            this.fxButtonActivated.volume = ns.Boot.fxVolume * 2.25; // todo: [sound] move the magic value
 
             /** Music **/
-            if(!ns.Boot.fxMusic.isPlaying) ns.Boot.fxMusic.play();
-            if(!ns.Boot.fxMusic.paused) ns.Boot.fxMusic.resume();
+            if (!ns.Boot.fxMusic.isPlaying) ns.Boot.fxMusic.play();
+            if (!ns.Boot.fxMusic.paused) ns.Boot.fxMusic.resume();
 
             /** Background color **/
             this.game.stage.backgroundColor = '#333';
@@ -48,25 +48,25 @@
             var title = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.3, 'gem', "AWAKEN", 42);
             title.anchor.set(0.5);
 
-            var author = this.game.add.bitmapText(this.game.width-25, this.game.height * 0.9, 'gem', "Developed by Clement Baconnier", 12);
+            var author = this.game.add.bitmapText(this.game.width - 25, this.game.height * 0.9, 'gem', "Developed by Clement Baconnier", 12);
             author.anchor.set(1);
 
-            var music = this.game.add.bitmapText(this.game.width-25, this.game.height * 0.93, 'gem', "Music by ParagonX9", 12);
+            var music = this.game.add.bitmapText(this.game.width - 25, this.game.height * 0.93, 'gem', "Music by ParagonX9", 12);
             music.anchor.set(1);
 
-            this.cheatText = this.game.add.bitmapText(this.game.width-230, this.game.height * 0.55, 'gem', "", 14);
+            this.cheatText = this.game.add.bitmapText(this.game.width - 230, this.game.height * 0.55, 'gem', "", 14);
             this.cheatText.anchor.set(0.5);
 
             /** Keyboard UI **/
-            this.game.add.bitmapText(300-200, 485-450, 'gem', "MOVE :", 16).anchor.set(1);
-            var wasd = this.game.add.sprite(340-200, 450-450, 'keyboard');
+            this.game.add.bitmapText(300 - 200, 485 - 450, 'gem', "MOVE :", 16).anchor.set(1);
+            var wasd = this.game.add.sprite(340 - 200, 450 - 450, 'keyboard');
             wasd.frame = 0;
 
-            var arrows = this.game.add.sprite(400-200, 450-450, 'keyboard');
+            var arrows = this.game.add.sprite(400 - 200, 450 - 450, 'keyboard');
             arrows.frame = 1;
 
-            this.game.add.bitmapText(300-200, 537-450, 'gem', "ATTACK :", 16).anchor.set(1);
-            var spaceBar = this.game.add.sprite(370-200, 500-450, 'keyboard');
+            this.game.add.bitmapText(300 - 200, 537 - 450, 'gem', "ATTACK :", 16).anchor.set(1);
+            var spaceBar = this.game.add.sprite(370 - 200, 500 - 450, 'keyboard');
             spaceBar.frame = 2;
 
             var pad = this.game.add.sprite(30, 140, 'keyboard');
@@ -107,6 +107,44 @@
             var fullscreenText = this.game.add.bitmapText(this.game.width * 0.5, this.game.height * 0.65, 'gem', "FULLSCREEN", 16);
             fullscreenText.anchor.set(0.5);
 
+
+            /** Volume Control **/
+
+            var musicIcon = this.game.add.sprite( this.game.width - 128 - 50 - 16, 25, 'sliderIcons');
+            musicIcon.frame = 0;
+            musicIcon.scale.set(.5 , .5);
+
+            var fxIcon = this.game.add.sprite(this.game.width - 128 - 50 - 16, 55, 'sliderIcons');
+            fxIcon.frame = 1;
+            fxIcon.scale.set(.5 , .5);
+
+            // todo: [sound] move the magic values
+            new VolumeSlider(this.game, ns.Boot.fxMusic.volume, function (volume) {
+                ns.Boot.fxMusic.volume = volume;
+            }, {
+                rect: {x: this.game.width - 128 - 25, y: 30, w: 128, h: 16},
+                barTexture: 'sliderBar',
+                sliderTile: 'sliderButton',
+                testables: []
+            });
+
+            new VolumeSlider(this.game, ns.Boot.fxVolume, function (volume) {
+                ns.Boot.fxVolume = volume;
+            }, {
+                rect: {x: this.game.width - 128 - 25, y: 60, w: 128, h: 16},
+                barTexture: 'sliderBar',
+                sliderTile: 'sliderButton',
+                testables: [
+                    {name: 'fx_hit', factor: 1},
+                    {name: 'fx_attack', factor: 1},
+                    {name: 'fx_text', factor: 1.5},
+                    {name: 'fx_david', factor: 1.5},
+                    {name: 'fx_button_over', factor: 2.25},
+                    {name: 'fx_button_activated', factor: 2.25}
+                ]
+            });
+
+
             /** Keyboard **/
             this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR).onDown.add(this.actionButton, this);
             this.input.keyboard.addKey(Phaser.Keyboard.F).onDown.add(this.goFullscreen, this);
@@ -123,19 +161,18 @@
             /** Gamepad **/
             this.input.gamepad.start();
             this.pad = this.input.gamepad.pad1;
-            if (this.game.input.gamepad.supported && this.game.input.gamepad.active && this.pad.connected){
+            if (this.game.input.gamepad.supported && this.game.input.gamepad.active && this.pad.connected) {
                 this.pad.addCallbacks(this, {onConnect: this.addButtons});
                 this.addButtons();
             }
-
 
 
         },
 
 
         /** Play button action **/
-        playAction: function(){
-            if(this.play.input.pointerOver() || this.position == 0 || this.position == null){
+        playAction: function () {
+            if (this.play.input.pointerOver() || this.position == 0 || this.position == null) {
                 this.fxButtonActivated.play();
                 // change the state
                 this.changeState();
@@ -144,21 +181,21 @@
         },
 
         /** Cheater button action **/
-        cheaterAction: function(){
-            if(this.cheat.input.pointerOver() || this.position == 1){
+        cheaterAction: function () {
+            if (this.cheat.input.pointerOver() || this.position == 1) {
                 this.fxButtonActivated.play();
                 ns.Boot.cheater = !ns.Boot.cheater;
-                if(ns.Boot.cheater){
+                if (ns.Boot.cheater) {
                     this.cheatText.text = "Cheat activated !";
-                }else{
+                } else {
                     this.cheatText.text = "Cheat deactivated !";
                 }
             }
         },
 
         /** Fullscreen button action **/
-        fullscreenAction: function(){
-            if(this.full.input.pointerOver()  || this.position == 2) {
+        fullscreenAction: function () {
+            if (this.full.input.pointerOver() || this.position == 2) {
                 this.fxButtonActivated.play();
                 this.goFullscreen();
             }
@@ -176,7 +213,7 @@
         },
 
         /** Update is called {fps} times per seconds  **/
-        update: function(){
+        update: function () {
 
             /** Gamepad support control in the menu for the stick **/
             /**
@@ -194,7 +231,7 @@
                 } else if (this.nextSelectionAvailable && padY > 0.1) {
                     this.goDown();
                     this.nextSelectionAvailable = false;
-                }else if(padY == 0){
+                } else if (padY == 0) {
                     this.nextSelectionAvailable = true;
                 }
             }
@@ -203,14 +240,14 @@
 
 
         /** Change the position with up key **/
-        goUp: function(){
+        goUp: function () {
 
-            if(this.position == null){
+            if (this.position == null) {
                 this.position = 0;
             } else {
                 this.position--;
-                if(this.position < 0){
-                    this.position=this.buttons.length-1;
+                if (this.position < 0) {
+                    this.position = this.buttons.length - 1;
                 }
             }
 
@@ -218,14 +255,14 @@
         },
 
         /** Change the position with down key **/
-        goDown: function(){
+        goDown: function () {
 
             if (this.position == null) {
                 this.position = 0;
-            }else{
+            } else {
                 this.position++;
-                if(this.position % this.buttons.length == 0){
-                    this.position=0;
+                if (this.position % this.buttons.length == 0) {
+                    this.position = 0;
                 }
             }
 
@@ -234,22 +271,22 @@
         },
 
         /** Active the frame of the button when we select them with the keyboard **/
-        selectButton: function(){
-            if(this.position == null) this.position = 0;
+        selectButton: function () {
+            if (this.position == null) this.position = 0;
 
-            this.buttons.forEach(function(button){
+            this.buttons.forEach(function (button) {
                 button.frame = 1;
             });
 
-            if(this.position != null){
+            if (this.position != null) {
                 this.buttons[this.position].frame = 2;
             }
 
         },
 
         /** Reset all the frames of the buttons **/
-        resetFrames: function(sprite, event){
-            this.buttons.forEach(function(button){
+        resetFrames: function (sprite, event) {
+            this.buttons.forEach(function (button) {
                 button.frame = 1;
             });
 
@@ -258,23 +295,21 @@
         },
 
         /** Execute event of the selected button **/
-        actionButton: function(){
+        actionButton: function () {
 
             console.log(this.position);
-            if(this.position === null || this.position == 0)  this.playAction();
-            if(this.position == 1)  this.cheaterAction();
-            if(this.position == 2)  this.fullscreenAction();
+            if (this.position === null || this.position == 0) this.playAction();
+            if (this.position == 1) this.cheaterAction();
+            if (this.position == 2) this.fullscreenAction();
 
         },
 
         /** Switch the game to fullscreen / windowed **/
-        goFullscreen: function(){
-            if (this.game.scale.isFullScreen)
-            {
+        goFullscreen: function () {
+            if (this.game.scale.isFullScreen) {
                 this.game.scale.stopFullScreen();
             }
-            else
-            {
+            else {
                 this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
                 this.game.scale.startFullScreen(false);
             }
@@ -282,13 +317,13 @@
         },
 
         /** Add the buttons to the gamepad **/
-        addButtons: function(){
+        addButtons: function () {
             this.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.add(this.actionButton, this);
         },
 
         /** Remove the buttons to the gamepad **/
-        resetButtons: function(){
-            if (this.game.input.gamepad.supported && this.game.input.gamepad.active && this.pad.connected){
+        resetButtons: function () {
+            if (this.game.input.gamepad.supported && this.game.input.gamepad.active && this.pad.connected) {
                 this.pad.getButton(Phaser.Gamepad.XBOX360_A).onDown.dispose();
             }
         }

@@ -64,6 +64,9 @@
             this.load.spritesheet('fullscreen', 'assets/ui/fullscreen.png', 32, 32, 2);
             this.load.spritesheet('button', 'assets/ui/button.png', 64, 16, 3);
             this.load.spritesheet('keyboard', 'assets/ui/keyboard.png', 64, 64, 4);
+            this.load.spritesheet('sliderButton', 'assets/ui/sliderButton.png', 16, 16, 3);
+            this.load.spritesheet('sliderBar', 'assets/ui/sliderBar.png', 128, 16, 2);
+            this.load.spritesheet('sliderIcons', 'assets/ui/sliderIcons.png', 64, 64, 2);
 
             // fonts
             this.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');

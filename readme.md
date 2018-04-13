@@ -14,7 +14,7 @@ Awaken is a Hack 'n' Slash game made with Phaser
 
 ## Resources
 ### Framework
-Game framework : Phaser [here](http://phaser.io)
+Game framework : Phaser 2.2.4 [here](http://phaser.io)
 
 ### Music
 Music from ParagonX9 [here](http://www.newgrounds.com/audio/listen/189826)
